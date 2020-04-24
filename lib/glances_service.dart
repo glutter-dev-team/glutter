@@ -2,14 +2,8 @@ import 'package:http/http.dart';
 
 class GlancesService {
   String serverAddress;
-
   String glcsResponse;
   String statusCodeStr;
-
-  sendCommand(String params) async {
-    print("trying to get response from: " + "http://"+serverAddress+"/control?"+params);
-    Response commandRes = await get("http://"+serverAddress+"/control?"+params);
-  }
 
   getServerStatus(String params) async {
     Response rawResp;
@@ -24,7 +18,7 @@ class GlancesService {
 
       this.statusCodeStr = "Status code " + statusCode.toString();
 
-      print(" ### getPinStatus logging: ###");
+      print(" ### http response logging: ###");
       print("Status code: " + statusCode.toString());
       print("headers: " + headers.toString());
       print("contentType: " + contentType.toString());

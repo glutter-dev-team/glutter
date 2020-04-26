@@ -14,7 +14,7 @@ samples, guidance on mobile development, and a full API reference.
 https://github.com/nicolargo/glances/wiki/The-Glances-RESTFULL-JSON-API
 
 ## Coding-Conventions
-
-- Klassennamen im Camel-Case, Beginn groß
-- Dateinamen entsprechen den Klassennamen, auch im Camel-Case, Beginn groß
+- Klassennamen im Upper-Camel-Case
+- Dateinamen entsprechen den Klassennamen, auch im Upper-Camel-Case
 - Instanzvariablen klein
+- Geschweifte öffnende Klammern in der selben Zeile

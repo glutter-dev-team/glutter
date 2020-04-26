@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Services/glances_service.dart';
+import 'Monitoring/Services/glances_service.dart';
 
 void main() {
   runApp(MyApp());

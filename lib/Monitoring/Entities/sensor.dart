@@ -1,4 +1,4 @@
-import "unit.dart";
+import 'unit.dart';
 
 /// Represents values from Glances-API for Sensors.
 class Sensor {

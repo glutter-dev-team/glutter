@@ -12,3 +12,9 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Glances API docs
 https://github.com/nicolargo/glances/wiki/The-Glances-RESTFULL-JSON-API
+
+## Coding-Conventions
+
+- Klassennamen im Camel-Case, Beginn groß
+- Dateinamen entsprechen den Klassennamen, auch im Camel-Case, Beginn groß
+- Instanzvariablen klein

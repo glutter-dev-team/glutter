@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 
 class GlancesService {
-  String serverAddress;
+  String serverAddress = "seafileserver:61208";
   String glcsResponse;
   String statusCodeStr;
 
@@ -9,7 +9,7 @@ class GlancesService {
     Response rawResp;
 
     try {
-      rawResp = await get("http://"+serverAddress+"/api/3/"+params);
+      rawResp = await get("http://"+serverAddress+"/api/2/"+params);
 
       int statusCode = rawResp.statusCode;
       Map<String, String> headers = rawResp.headers;
@@ -22,6 +22,7 @@ class GlancesService {
       print("Status code: " + statusCode.toString());
       print("headers: " + headers.toString());
       print("contentType: " + contentType.toString());
+      print("content:" + rawResp.body.toString());
     } catch(_) {
       print("http get attempt error");
     }

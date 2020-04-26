@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'glances_service.dart';
+import 'Services/GlancesService.dart';
 
 void main() {
   runApp(MyApp());
@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
               textColor: Colors.white,
               onPressed: () {
                 setState(() {
-                  glancesService.getServerStatus("sensors");
+                  glancesService.getServerStatus("cpu");
                 });
               },
               child: Text(

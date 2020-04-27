@@ -31,6 +31,33 @@ class Memory {
   /// BSD: Memory that may be simultaneously accessed by multiple processes.
   double shared;
 
-  /// BSD: Memory that may be simultaneously accessed by multiple processes.
-  double wired;
+  /// Constructor for Memory-Object.
+  Memory(double total, double available, double usagePercent, double used, double free, double active, double inactive, double buffers, double cached, double shared) {
+    this.total = total;
+    this.available = available;
+    this.usagePercent = usagePercent;
+    this.used = used;
+    this.free = free;
+    this.active = active;
+    this.inactive = inactive;
+    this.buffers = buffers;
+    this.cached = cached;
+    this.shared = shared;
+  }
+
+  /// For deserialization of JSON and conversion to Memory-Object.
+  factory Memory.fromJson(dynamic json) {
+    return Memory(
+        json['total'] as double,
+        json['available'] as double,
+        json['percent'] as double,
+        json['used'] as double,
+        json['free'] as double,
+        json['active'] as double,
+        json['inactive'] as double,
+        json['buffers'] as double,
+        json['cached'] as double,
+        json['shared'] as double
+    );
+  }
 }

@@ -14,6 +14,8 @@ class CPU {
   /// Percent time occupied by user level processes with a positive nice value
   double nice;
 
+  double guestNice;
+
   /// Linux: Percent time spent by the CPU waiting for I/O operations to complete.
   double ioWait;
 
@@ -45,4 +47,47 @@ class CPU {
 
   /// Number of available CPU-Cores.
   int cpuCore;
+
+  /// Constructor for JSON-Decoding.
+  CPU(double total, double user, double system, double idle, double nice, double ioWait, double irq, double softIrq, double steal, double guest, double guestNice, double ctxSwitches, double interrupts, double softInterrupts, double sysCalls, double timeSinceUpdate, int cpuCore) {
+    this.totalLoad = total;
+    this.user = user;
+    this.system = system;
+    this.idle = idle;
+    this.nice = nice;
+    this.ioWait = ioWait;
+    this.interruptRequest = irq;
+    this.softInterruptRequest = softIrq;
+    this.steal = steal;
+    this.guest = guest;
+    this.guestNice = guestNice;
+    this.ctxSwitches = ctxSwitches;
+    this.interrupts = interrupts;
+    this.softwareInterrupts = softInterrupts;
+    this.systemCalls = sysCalls;
+    this.timeSinceUpdate = timeSinceUpdate;
+    this.cpuCore = cpuCore;
+  }
+
+  factory CPU.fromJson(dynamic json) {
+    return CPU(
+        json['total'] as double,
+        json['user'] as double,
+        json['system'] as double,
+        json['idle'] as double,
+        json['nice'] as double,
+        json['iowait'] as double,
+        json['irq'] as double,
+        json['softirq'] as double,
+        json['steal'] as double,
+        json['guest'] as double,
+        json['guest_nice'] as double,
+        json['ctx_switches'] as double,
+        json['interrupts'] as double,
+        json['soft_interrupts'] as double,
+        json['syscalls'] as double,
+        json['time_since_update'] as double,
+        json['cpucore'] as int
+    );
+  }
 }

@@ -10,74 +10,74 @@ import '../Entities/sensor.dart';
 
 class GlancesService {
 
-  Profile server;
+    Profile server;
 
-  /// Constructur for GlancesService-Objects.
-  GlancesService(Profile server) {
-    this.server = server;
-  }
-
-  /// Returns the CPU-Object of the current Server.
-  Future<CPU> getCpu() async {
-    Response rawResponse;
-    CPU cpu;
-
-    try {
-      rawResponse = await get(server.getFullServerAddress() + "/cpu");
-    } catch(_) {
-      throw IOException;
+    /// Constructur for GlancesService-Objects.
+    GlancesService(Profile server) {
+        this.server = server;
     }
 
-    cpu = CPU.fromJson(rawResponse.body);
+    /// Returns the CPU-Object of the current Server.
+    Future<CPU> getCpu() async {
+        Response rawResponse;
+        CPU cpu;
 
-    return cpu;
-  }
+        try {
+            rawResponse = await get(server.getFullServerAddress() + "/cpu");
+        } catch(_) {
+            throw IOException;
+        }
 
-  /// Returns the Memory-Object of the current Server.
-  Future<Memory> getMemory() async {
-    Response rawResponse;
-    Memory memory;
+        cpu = CPU.fromJson(rawResponse.body);
 
-    try {
-      rawResponse = await get(server.getFullServerAddress() + "/mem");
-    } catch (_) {
-      throw IOException;
+        return cpu;
     }
 
-    memory = Memory.fromJson(rawResponse.body);
+    /// Returns the Memory-Object of the current Server.
+    Future<Memory> getMemory() async {
+        Response rawResponse;
+        Memory memory;
 
-    return memory;
-  }
+        try {
+            rawResponse = await get(server.getFullServerAddress() + "/mem");
+        } catch (_) {
+            throw IOException;
+        }
 
-  /// Returns list of Network-Objects from Glances for the current server.
-  Future<List<Network>> getNetworks() async {
-    Response rawResponse;
+        memory = Memory.fromJson(rawResponse.body);
 
-    try {
-      rawResponse = await get(server.getFullServerAddress() + "/network");
-    } catch (_) {
-      throw IOException;
+        return memory;
     }
-    var networkObjectsJson = jsonDecode(rawResponse.body)[''] as List;
 
-    List<Network> networkObjects = networkObjectsJson.map((networkJson) => Network.fromJson(networkJson)).toList();
+    /// Returns list of Network-Objects from Glances for the current server.
+    Future<List<Network>> getNetworks() async {
+        Response rawResponse;
 
-    return networkObjects;
-  }
+        try {
+            rawResponse = await get(server.getFullServerAddress() + "/network");
+        } catch (_) {
+            throw IOException;
+        }
+        var networkObjectsJson = jsonDecode(rawResponse.body)[''] as List;
 
-  /// Returns list of Sensor-Objects from Glances for the current server.
-  Future<List<Sensor>> getSensors() async {
-    Response rawResponse;
+        List<Network> networkObjects = networkObjectsJson.map((networkJson) => Network.fromJson(networkJson)).toList();
 
-    try {
-      rawResponse = await get(server.getFullServerAddress() + "/sensors");
-    } catch (_) {
-      throw IOException;
+        return networkObjects;
     }
-    var sensorObjectsJson = jsonDecode(rawResponse.body)[''] as List;
 
-    List<Sensor> sensorObjects = sensorObjectsJson.map((sensorJson) => Sensor.fromJson(sensorJson)).toList();
+    /// Returns list of Sensor-Objects from Glances for the current server.
+    Future<List<Sensor>> getSensors() async {
+        Response rawResponse;
 
-    return sensorObjects;
-  }
+        try {
+            rawResponse = await get(server.getFullServerAddress() + "/sensors");
+        } catch (_) {
+            throw IOException;
+        }
+        var sensorObjectsJson = jsonDecode(rawResponse.body)[''] as List;
+
+        List<Sensor> sensorObjects = sensorObjectsJson.map((sensorJson) => Sensor.fromJson(sensorJson)).toList();
+
+        return sensorObjects;
+    }
 }

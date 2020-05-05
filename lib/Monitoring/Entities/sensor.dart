@@ -4,7 +4,7 @@ class Sensor {
     String label;
 
     /// Value of the specified sensor.
-    double value;
+    int value;
 
     /// Unit of the value.
     String unit;
@@ -14,8 +14,8 @@ class Sensor {
 
     String key;
 
-    /// Constructor for Sensor-Objects.
-    Sensor(String label, double value, String unit, String type, String key) {
+    /// Constructor for Sensor-Objects, commonly used by Factory .fromJson.
+    Sensor(String label, int value, String unit, String type, String key) {
         this.label = label;
         this.value = value;
         this.unit = unit;
@@ -27,7 +27,7 @@ class Sensor {
     factory Sensor.fromJson(dynamic json) {
         return Sensor(
             json['label'] as String,
-            json['value'] as double,
+            json['value'] as int,
             json['unit'] as String,
             json['type'] as String,
             json['key'] as String

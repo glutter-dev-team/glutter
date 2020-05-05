@@ -1,3 +1,4 @@
+/// Represents the CPU-Values from the Glances-API.
 class CPU {
     /// Percent of total CPU-Load.
     double totalLoad;
@@ -31,16 +32,16 @@ class CPU {
     double guest;
 
     /// Number of context switches (voluntary + involuntary) per second
-    double ctxSwitches;
+    int ctxSwitches;
 
     /// Number of interrupts per second
-    double interrupts;
+    int interrupts;
 
     /// Number of software interrupts per second. Always set to 0 on Windows and SunOS.
-    double softwareInterrupts;
+    int softwareInterrupts;
 
     /// Number of system calls per second. Do not displayed on Linux (always 0).
-    double systemCalls;
+    int systemCalls;
 
     /// Time passed by since last update.
     double timeSinceUpdate;
@@ -49,7 +50,7 @@ class CPU {
     int cpuCore;
 
     /// Constructor for JSON-Decoding.
-    CPU(double total, double user, double system, double idle, double nice, double ioWait, double irq, double softIrq, double steal, double guest, double guestNice, double ctxSwitches, double interrupts, double softInterrupts, double sysCalls, double timeSinceUpdate, int cpuCore) {
+    CPU(double total, double user, double system, double idle, double nice, double ioWait, double irq, double softIrq, double steal, double guest, double guestNice, int ctxSwitches, int interrupts, int softInterrupts, int sysCalls, double timeSinceUpdate, int cpuCore) {
         this.totalLoad = total;
         this.user = user;
         this.system = system;
@@ -69,7 +70,8 @@ class CPU {
         this.cpuCore = cpuCore;
     }
 
-    factory CPU.fromJson(dynamic json) {
+    /// For deserialization of JSON and conversion to CPU-Object.
+    factory CPU.fromJson(Map json) {
         return CPU(
             json['total'] as double,
             json['user'] as double,
@@ -82,10 +84,10 @@ class CPU {
             json['steal'] as double,
             json['guest'] as double,
             json['guest_nice'] as double,
-            json['ctx_switches'] as double,
-            json['interrupts'] as double,
-            json['soft_interrupts'] as double,
-            json['syscalls'] as double,
+            json['ctx_switches'] as int,
+            json['interrupts'] as int,
+            json['soft_interrupts'] as int,
+            json['syscalls'] as int,
             json['time_since_update'] as double,
             json['cpucore'] as int
         );

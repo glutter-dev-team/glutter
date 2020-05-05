@@ -19,6 +19,7 @@ class Profile {
         return fullServerAddress;
     }
 
+    /// Constructor for Profile.
     Profile(String serverAddress, String port, String caption, String apiVersion) {
         this.serverAddress = serverAddress;
         this.port = port;

@@ -1,28 +1,29 @@
+/// Represents the Network-Values from the Glances-API.
 class Network {
     String interfaceName;
 
     double timeSinceUpdate;
 
-    double cumulativeReceive;
+    int cumulativeReceive;
 
-    double receive;
+    int receive;
 
-    double cumulativeTx;
+    int cumulativeTx;
 
-    double tx;
+    int tx;
 
-    double cumulativeCx;
+    int cumulativeCx;
 
-    double cx;
+    int cx;
 
     bool isUp;
 
-    double speed;
+    int speed;
 
     String key;
 
     /// Constructor for Network-Objects.
-    Network(String interfaceName, double timeSinceUpdate, double cumulativeReceive, double receive, double cumulativeTx, double tx, double cumulativeCx, double cx, bool isUp, double speed, String key) {
+    Network(String interfaceName, double timeSinceUpdate, int cumulativeReceive, int receive, int cumulativeTx, int tx, int cumulativeCx, int cx, bool isUp, int speed, String key) {
         this.interfaceName = interfaceName;
         this.timeSinceUpdate = timeSinceUpdate;
         this.cumulativeReceive = cumulativeReceive;
@@ -39,14 +40,14 @@ class Network {
         return Network(
             json['interface_name'] as String,
             json['time_since_update'] as double,
-            json['cumulative_rx'] as double,
-            json['rx'] as double,
-            json['cumulative_tx'] as double,
-            json['tx'] as double,
-            json['cumulative_cx'] as double,
-            json['cx'] as double,
+            json['cumulative_rx'] as int,
+            json['rx'] as int,
+            json['cumulative_tx'] as int,
+            json['tx'] as int,
+            json['cumulative_cx'] as int,
+            json['cx'] as int,
             json['is_up'] as bool,
-            json['speed'] as double,
+            json['speed'] as int,
             json['key'] as String
         );
     }

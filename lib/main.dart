@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Monitoring/Services/glances_service.dart';
 import 'Monitoring/Entities/profile.dart';
+import 'dart:async';
 
 void main() {
     runApp(MyApp());
@@ -45,8 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
     @override
     void initState() {
         this.defaultProfile = new Profile("192.168.1.220", "61208", "default profile", "3");
-        this.glances = new GlancesService(defaultProfile);
-
+        this.glances = new GlancesService(this.defaultProfile);
+        print("output of this.glances.getMemory(): ");
+        print(this.glances.getMemory());
         // print('Async done');
         //});
         super.initState();
@@ -130,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(
                                 children: <Widget>[
                                     FutureBuilder(
-                                        future: this.glances.getCpu(),
+                                        future: this.glances.getMemory(), // TODO: Future Memory anlegen, eigene Funktion, auslagern, etc... (https://www.youtube.com/watch?v=LYN46233cws)
                                         builder: (BuildContext context, AsyncSnapshot snapshot){
                                             if(snapshot.data == null){
                                                 return Container(
@@ -143,8 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     itemCount: snapshot.data.length,
                                                     itemBuilder: (BuildContext context, int index){
                                                         return ListTile(
-                                                            title: Text("CPU Total"),
-                                                            subtitle: Text(snapshot.data[index].totalLoad),
+                                                            title: Text("Mem Total"),
+                                                            subtitle: Text(snapshot.data[index].total),
                                                         );
                                                     }
                                                 );

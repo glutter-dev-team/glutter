@@ -12,7 +12,7 @@ class GlancesService {
 
     Profile server;
 
-    /// Constructur for GlancesService-Objects.
+    /// Constructor for GlancesService-Objects.
     GlancesService(Profile server) {
         this.server = server;
     }
@@ -28,7 +28,7 @@ class GlancesService {
             throw IOException;
         }
 
-        cpu = CPU.fromJson(rawResponse.body);
+        cpu = CPU.fromJson(jsonDecode(rawResponse.body));
 
         return cpu;
     }
@@ -44,7 +44,7 @@ class GlancesService {
             throw IOException;
         }
 
-        memory = Memory.fromJson(rawResponse.body);
+        memory = Memory.fromJson(jsonDecode(rawResponse.body));
 
         return memory;
     }
@@ -58,9 +58,11 @@ class GlancesService {
         } catch (_) {
             throw IOException;
         }
-        var networkObjectsJson = jsonDecode(rawResponse.body)[''] as List;
+        var networkObjectsJson = jsonDecode(rawResponse.body);
 
-        List<Network> networkObjects = networkObjectsJson.map((networkJson) => Network.fromJson(networkJson)).toList();
+        List<Network> networkObjects = new List<Network>();
+
+        networkObjectsJson.forEach((networkJson) => networkObjects.add(Network.fromJson(networkJson)));
 
         return networkObjects;
     }
@@ -74,9 +76,11 @@ class GlancesService {
         } catch (_) {
             throw IOException;
         }
-        var sensorObjectsJson = jsonDecode(rawResponse.body)[''] as List;
+        var sensorObjectsJson = jsonDecode(rawResponse.body);
 
-        List<Sensor> sensorObjects = sensorObjectsJson.map((sensorJson) => Sensor.fromJson(sensorJson)).toList();
+        List<Sensor> sensorObjects = new List<Sensor>();
+
+        sensorObjectsJson.forEach((sensorJson) => sensorObjects.add(Sensor.fromJson(sensorJson)));
 
         return sensorObjects;
     }

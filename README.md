@@ -18,3 +18,4 @@ https://github.com/nicolargo/glances/wiki/The-Glances-RESTFULL-JSON-API
 - Dateinamen entsprechen den Klassennamen, auch im Upper-Camel-Case
 - Instanzvariablen klein
 - Geschweifte öffnende Klammern in der selben Zeile
+- Einzug: 4 Leerzeichen 

@@ -46,7 +46,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     @override
     void initState() {
-        this.defaultProfile = new Profile("192.168.1.220", "61208", "default profile", "3");
+        // hier wird ein Default-Profil festgelegt, das beim Laden der App angewandt wird (solange, bis ein funktionierendes System für das Speichern der eigenen Profile haben, mit DB)
+        this._serverAddressController.text = "pi0w1";
+        this._serverPortController.text = "61208";
+        this._serverApiVersionController.text = "3";
+
+        this.defaultProfile = new Profile(this._serverAddressController.text, this._serverPortController.text , "default profile", this._serverApiVersionController.text);
         this.glances = new GlancesService(this.defaultProfile);
 
         super.initState();
@@ -169,9 +174,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                         padding: EdgeInsets.only(left:1.0),
                                         child: RaisedButton(
                                             onPressed: () {
-                                                this.tempProfile = new Profile(_serverAddressController.text,_serverPortController.text,"temporary profile",_serverApiVersionController.text);
-                                                this.glances = new GlancesService(tempProfile);
-                                                _showToast(context, "Generated address: "+tempProfile.getFullServerAddress());
+                                                // bei jedem Klick auf den "Set"-Button wird das Profil abhängig von den eingebenen Werten aktualisiert und es werden die aktuellsten Daten geladen
+                                                setState(() {
+                                                    this.tempProfile = new Profile(_serverAddressController.text,_serverPortController.text,"temporary profile",_serverApiVersionController.text);
+                                                    this.glances = new GlancesService(tempProfile);
+                                                    _showToast(context, "Generated address: "+tempProfile.getFullServerAddress());
+                                                    memoryFuture = this.glances.getMemory();
+                                                });
+
                                             },
                                             child: Text(
                                                 "Set",

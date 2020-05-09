@@ -33,8 +33,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-    //final GlancesService glancesService = GlancesService();
-
     TextEditingController _serverAddressController = new TextEditingController();
     TextEditingController _serverPortController = new TextEditingController();
     TextEditingController _serverApiVersionController = new TextEditingController();
@@ -43,16 +41,69 @@ class _MyHomePageState extends State<MyHomePage> {
     GlancesService glances;
     Profile tempProfile;
 
+    Future memoryFuture;
+    List<Map> memoryList = new List();
+
     @override
     void initState() {
         this.defaultProfile = new Profile("192.168.1.220", "61208", "default profile", "3");
         this.glances = new GlancesService(this.defaultProfile);
-        print("output of this.glances.getMemory(): ");
-        print(this.glances.getMemory());
-        // print('Async done');
-        //});
+
         super.initState();
-        //_setServerController.text = this.glancesService.serverAddress;
+
+        memoryFuture = this.glances.getMemory();
+        //print(memoryFuture);
+    }
+
+    void memoryListBuilder(AsyncSnapshot snapshot) {
+        memoryList = [];
+
+        var total = new Map();
+        total["short_desc"] = "total memory";
+        total["value"] = snapshot.data.total.toString();
+        memoryList.add(total);
+
+        var available = new Map();
+        available["short_desc"] = "available memory";
+        available["value"] = snapshot.data.available.toString();
+        memoryList.add(available);
+
+        var usagePercent = new Map();
+        usagePercent["short_desc"] = "usage (%)";
+        usagePercent["value"] = snapshot.data.usagePercent.toString();
+        memoryList.add(usagePercent);
+
+        var used = new Map();
+        used["short_desc"] = "used memory";
+        used["value"] = snapshot.data.used.toString();
+        memoryList.add(used);
+
+        var free = new Map();
+        free["short_desc"] = "free memory";
+        free["value"] = snapshot.data.free.toString();
+        memoryList.add(free);
+
+        var active = new Map();
+        active["short_desc"] = "active memory";
+        active["value"] = snapshot.data.active.toString();
+        memoryList.add(active);
+
+        var inactive = new Map();
+        inactive["short_desc"] = "inactive memory";
+        inactive["value"] = snapshot.data.inactive.toString();
+        memoryList.add(inactive);
+
+        var buffers = new Map();
+        buffers["short_desc"] = "buffers memory";
+        buffers["value"] = snapshot.data.buffers.toString();
+        memoryList.add(buffers);
+
+        var shared = new Map();
+        shared["short_desc"] = "shared memory";
+        shared["value"] = snapshot.data.shared.toString();
+        memoryList.add(shared);
+
+        print(memoryList.toString());
     }
 
     @override
@@ -64,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             body:Builder(
                 builder: (context) => Padding(
-                    padding: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.fromLTRB(10.0,10.0,10.0,0),
                     child: Column(
                         children: <Widget> [
                             Row(
@@ -131,29 +182,49 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             Row(
                                 children: <Widget>[
-                                    FutureBuilder(
-                                        future: this.glances.getMemory(), // TODO: Future Memory anlegen, eigene Funktion, auslagern, etc... (https://www.youtube.com/watch?v=LYN46233cws)
-                                        builder: (BuildContext context, AsyncSnapshot snapshot){
-                                            if(snapshot.data == null){
-                                                return Container(
-                                                    child: Center(
-                                                        child: Text("Loading..."),
-                                                    )
-                                                );
-                                            } else{
-                                                return ListView.builder(
-                                                    itemCount: snapshot.data.length,
-                                                    itemBuilder: (BuildContext context, int index){
-                                                        return ListTile(
-                                                            title: Text("Mem Total"),
-                                                            subtitle: Text(snapshot.data[index].total),
-                                                        );
-                                                    }
-                                                );
-                                            }
-                                        }
-                                    )
+                                    Padding(
+                                        padding: EdgeInsets.only(top:10.0),
+                                        child: Text("Memory",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 22),
+                                            ),
+                                    ),
                                 ],
+                            ),
+                            Expanded(
+                                child: ListView(
+                                    children: <Widget>[
+                                        FutureBuilder(
+                                            future: memoryFuture,
+                                            builder: (BuildContext context, AsyncSnapshot snapshot){
+                                                switch (snapshot.connectionState) {
+                                                    case ConnectionState.none:
+                                                        return Text("none");
+                                                    case ConnectionState.active:
+                                                        return Text("active");
+                                                    case ConnectionState.waiting:
+                                                        return new CircularProgressIndicator(); //Text("Active and maybe waiting");
+                                                    case ConnectionState.done:
+                                                        memoryListBuilder(snapshot);
+                                                        return ListView.builder(
+                                                            scrollDirection: Axis.vertical,
+                                                            shrinkWrap: true,
+                                                            itemCount: memoryList.length,
+                                                            itemBuilder: (BuildContext context, int index){
+                                                                return ListTile(
+                                                                    title: Text(memoryList[index]["short_desc"].toString()),
+                                                                    subtitle: Text(memoryList[index]["value"].toString()), //snapshot.data.total.toString()
+                                                                );
+                                                            }
+                                                        );
+                                                    default:
+                                                        return Text("default");
+                                                }
+                                            }
+                                        ),
+                                    ],
+                                )
                             )
                         ],
                     ),

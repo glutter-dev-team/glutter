@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
             title: 'Glutter',
             theme: ThemeData(
-                primarySwatch: Colors.deepOrange,
+                primarySwatch: Colors.deepPurple,
+                brightness: Brightness.dark, // das könnte später über den User-Preferences-Screen individuell anpassbar sein und in sqlite gespeichert werden
                 visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
             home: MyHomePage(title: 'Glutter Dashboard'),

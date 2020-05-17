@@ -25,10 +25,12 @@ class GlancesService {
         try {
             rawResponse = await get(server.getFullServerAddress() + "/cpu");
         } catch(_) {
-            throw IOException;
+            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get CPU.");
         }
 
         cpu = CPU.fromJson(jsonDecode(rawResponse.body));
+        cpu.timeStamp = DateTime.now();
+        cpu.profileId = server.id;
 
         return cpu;
     }
@@ -41,7 +43,7 @@ class GlancesService {
         try {
             rawResponse = await get(server.getFullServerAddress() + "/mem");
         } catch (_) {
-            throw IOException;
+            throw HttpException("Failed to load data from Server to get Memory.");
         }
 
         memory = Memory.fromJson(jsonDecode(rawResponse.body));
@@ -56,7 +58,7 @@ class GlancesService {
         try {
             rawResponse = await get(server.getFullServerAddress() + "/network");
         } catch (_) {
-            throw IOException;
+            throw HttpException("Failed to load data from Server to get Networks.");
         }
         var networkObjectsJson = jsonDecode(rawResponse.body);
 
@@ -74,7 +76,7 @@ class GlancesService {
         try {
             rawResponse = await get(server.getFullServerAddress() + "/sensors");
         } catch (_) {
-            throw IOException;
+            throw HttpException("Failed to load data from Server to get Sensors.");
         }
         var sensorObjectsJson = jsonDecode(rawResponse.body);
 

@@ -1,5 +1,14 @@
 /// Represents the CPU-Values from the Glances-API.
 class CPU {
+    /// The ID for the database.
+    int id;
+
+    /// The ID from the profile/server which this CPU-Values are related to.
+    int profileId;
+
+    /// The timestamp for the database.
+    DateTime timeStamp;
+
     /// Percent of total CPU-Load.
     double totalLoad;
 
@@ -91,5 +100,30 @@ class CPU {
             json['time_since_update'] as double,
             json['cpucore'] as int
         );
+    }
+
+    Map<String, dynamic> toMap() {
+        return {
+            'id' : this.id,
+            'profileId' : this.profileId,
+            'timeStamp' : this.timeStamp,
+            'total' : this.totalLoad,
+            'user' : this.user,
+            'system' : this.system,
+            'idle' : this.idle,
+            'nice' : this.nice,
+            'guestNice' : this.guestNice,
+            'ioWait' : this.ioWait,
+            'interruptRequest' : this.interruptRequest,
+            'softInterruptRequest' : this.softInterruptRequest,
+            'steal' : this.steal,
+            'guest' : this.guest,
+            'ctxSwitches' : this.ctxSwitches,
+            'interrupts' : this.interrupts,
+            'softwareInterrupts' : this.softwareInterrupts,
+            'systemCalls' : this.systemCalls,
+            'timeSinceUpdate' : this.timeSinceUpdate,
+            'cpuCore' : this.cpuCore
+        };
     }
 }

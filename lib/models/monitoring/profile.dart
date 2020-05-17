@@ -1,5 +1,8 @@
 /// Represents a server-profile for monitoring with glances
 class Profile {
+    /// The ID of the server for database.
+    int id;
+
     /// Server-Address without http or sth. and without port.
     String serverAddress;
 
@@ -25,5 +28,34 @@ class Profile {
         this.port = port;
         this.caption = caption;
         this.glancesApiVersion = apiVersion;
+    }
+
+    static Profile fromMap(Map<String, dynamic> map) {
+        return _fromDatabase(
+            map["id"],
+            map["serverAddress"],
+            map["port"],
+            map["glancesApiVersion"],
+            map["caption"]
+        );
+    }
+
+    /// Constructor for Profiles by the Database.
+    static Profile _fromDatabase(int id, String serverAddress, String port, String apiVersion, String caption) {
+        Profile profile = new Profile(serverAddress, port, caption, apiVersion);
+
+        profile.id = id;
+
+        return profile;
+    }
+
+    Map<String, dynamic> toMap() {
+        return {
+            "id" : this.id,
+            "serverAddress" : this.serverAddress,
+            "port" : this.port,
+            "glancesApiVersion" : this.glancesApiVersion,
+            "caption" : this.caption
+        };
     }
 }

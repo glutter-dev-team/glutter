@@ -1,10 +1,10 @@
 import 'package:test/test.dart';
-import 'package:glutter/Monitoring/Entities/profile.dart';
-import 'package:glutter/Monitoring/Entities/cpu.dart';
-import 'package:glutter/Monitoring/Entities/memory.dart';
-import 'package:glutter/Monitoring/Entities/network.dart';
-import 'package:glutter/Monitoring/Entities/sensor.dart';
-import 'package:glutter/Monitoring/Services/glances_service.dart';
+import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/models/monitoring/cpu.dart';
+import 'package:glutter/models/monitoring/memory.dart';
+import 'package:glutter/models/monitoring/network.dart';
+import 'package:glutter/models/monitoring/sensor.dart';
+import 'package:glutter/services/monitoring/glances_service.dart';
 
 void main() {
     /// Test-Constant "TestServer" -> Add your connection-values here!

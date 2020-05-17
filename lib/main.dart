@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Monitoring/Services/glances_service.dart';
-import 'Monitoring/Entities/profile.dart';
+import 'services/monitoring/glances_service.dart';
+import 'models/monitoring/profile.dart';
 import 'dart:async';
 
 void main() {
@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
             title: 'Glutter',
             theme: ThemeData(
-                primarySwatch: Colors.deepOrange,
+                primarySwatch: Colors.deepPurple,
+                brightness: Brightness.dark, // das könnte später über den User-Preferences-Screen individuell anpassbar sein und in sqlite gespeichert werden
                 visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
             home: MyHomePage(title: 'Glutter Dashboard'),
@@ -214,7 +215,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     case ConnectionState.active:
                                                         return Text("active");
                                                     case ConnectionState.waiting:
-                                                        return new CircularProgressIndicator(); //Text("Active and maybe waiting");
+                                                        return Center( //Text("Active and maybe waiting");
+                                                            child: Container(
+                                                                child: new CircularProgressIndicator(),
+                                                                alignment: Alignment(0.0, 0.0),
+                                                            ),
+                                                        );
                                                     case ConnectionState.done:
                                                         memoryListBuilder(snapshot);
                                                         return ListView.builder(

@@ -2,11 +2,11 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../Entities/profile.dart';
-import '../Entities/cpu.dart';
-import '../Entities/memory.dart';
-import '../Entities/network.dart';
-import '../Entities/sensor.dart';
+import '../../models/monitoring/profile.dart';
+import '../../models/monitoring/cpu.dart';
+import '../../models/monitoring/memory.dart';
+import '../../models/monitoring/network.dart';
+import '../../models/monitoring/sensor.dart';
 
 class GlancesService {
 

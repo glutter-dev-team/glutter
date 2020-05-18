@@ -53,7 +53,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                 title: Text(widget.title),
             ),
             drawer: AppDrawer(),
-            body:Builder(
+            body: Builder(
                 builder: (context) => Padding(
                     padding: EdgeInsets.fromLTRB(10.0,10.0,10.0,0),
                     child: Column(
@@ -180,14 +180,6 @@ class _MonitoringState extends State<MonitoringScreen> {
                     ),
                 ),
             )
-
-            /* floatingActionButton: FloatingActionButton(
-                //onPressed: _incrementCounter,
-                tooltip: 'Increment',
-                child: Icon(Icons.add),
-                ), // This trailing comma makes auto-formatting nicer for build methods.
-            */
-
         );
     }
 

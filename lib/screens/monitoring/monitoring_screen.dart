@@ -139,6 +139,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                             ),
                             Expanded(
                                 child: ListView(
+                                    shrinkWrap: true,
                                     children: <Widget>[
                                         FutureBuilder(
                                             future: memoryFuture,

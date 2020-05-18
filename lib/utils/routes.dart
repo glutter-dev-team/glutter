@@ -1,9 +1,9 @@
 import 'package:glutter/screens/monitoring/monitoring_screen.dart';
 import 'package:glutter/screens/remote_control/remote_control_screen.dart';
 import 'package:glutter/screens/settings/about_screen.dart';
-import 'package:glutter/screens/settings/profile_create.dart';
-import 'package:glutter/screens/settings/profile_detail.dart';
-import 'package:glutter/screens/settings/profile_list.dart';
+import 'package:glutter/screens/settings/profile_create_screen.dart';
+import 'package:glutter/screens/settings/profile_detail_screen.dart';
+import 'package:glutter/screens/settings/profile_list_screen.dart';
 import 'package:glutter/screens/settings/settings_screen.dart';
 import '../screens/dashboard/dashboard_screen.dart';
 

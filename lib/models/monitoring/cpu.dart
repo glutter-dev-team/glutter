@@ -79,25 +79,27 @@ class CPU {
         this.cpuCore = cpuCore;
     }
 
+    double reciprocal(double d) => 1 / d;
+
     /// For deserialization of JSON and conversion to CPU-Object.
     factory CPU.fromJson(Map json) {
         return CPU(
-            json['total'] as double,
-            json['user'] as double,
-            json['system'] as double,
-            json['idle'] as double,
-            json['nice'] as double,
-            json['iowait'] as double,
-            json['irq'] as double,
-            json['softirq'] as double,
-            json['steal'] as double,
-            json['guest'] as double,
-            json['guest_nice'] as double,
+            double.parse(json['total'].toString()),
+            double.parse(json['user'].toString()),
+            double.parse(json['system'].toString()),
+            double.parse(json['idle'].toString()),
+            double.parse(json['nice'].toString()),
+            double.parse(json['iowait'].toString()),
+            double.parse(json['irq'].toString()),
+            double.parse(json['softirq'].toString()),
+            double.parse(json['steal'].toString()),
+            double.parse(json['guest'].toString()),
+            double.parse(json['guest_nice'].toString()),
             json['ctx_switches'] as int,
             json['interrupts'] as int,
             json['soft_interrupts'] as int,
             json['syscalls'] as int,
-            json['time_since_update'] as double,
+            double.parse(json['time_since_update'].toString()),
             json['cpucore'] as int
         );
     }

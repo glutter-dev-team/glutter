@@ -29,6 +29,8 @@ class Network {
         this.cumulativeReceive = cumulativeReceive;
         this.receive = receive;
         this.cumulativeTx = cumulativeTx;
+        this.tx = tx;
+        this.cumulativeCx = cumulativeCx;
         this.cx = cx;
         this.isUp = isUp;
         this.speed = speed;
@@ -39,7 +41,7 @@ class Network {
     factory Network.fromJson(dynamic json) {
         return Network(
             json['interface_name'] as String,
-            json['time_since_update'] as double,
+            double.parse(json['time_since_update'].toString()),
             json['cumulative_rx'] as int,
             json['rx'] as int,
             json['cumulative_tx'] as int,

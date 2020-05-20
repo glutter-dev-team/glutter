@@ -51,7 +51,7 @@ class Memory {
         return Memory(
             json['total'] as int,
             json['available'] as int,
-            json['percent'] as double,
+            double.parse(json['percent'].toString()),
             json['used'] as int,
             json['free'] as int,
             json['active'] as int,

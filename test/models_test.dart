@@ -5,9 +5,9 @@ import 'package:glutter/models/monitoring/network.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
 
 void main() {
-    /// Group for all Tests testing Models.
+    /// Group for all tests testing models.
     group('ModelsTest', () {
-        /// Group for all Tests testing CPU-Model
+        /// Group for all tests testing CPU-Model
         group('CPU Test', () {
             /// Tests the correct functionality of the CPU-Ctor.
             test('Ctor Test CPU', () async {
@@ -120,6 +120,7 @@ void main() {
             });
         });
 
+        /// Group for all tests testing Memory-Model
         group('Memory Test', () {
             /// Tests the correct functionality of the Memory-Ctor.
             test('Ctor Test Memory', () async {
@@ -195,8 +196,9 @@ void main() {
             });
         });
 
+        /// Group for all tests testing Network-Model
         group('Network Test', () {
-
+            /// Tests the correct functionality of the Network-Ctor.
             test('Ctor Test Network', () async {
                 Network net = new Network("Testinterface", 2.0, 3, 4, 5, 6, 7, 8, true, 10, "Test");
 
@@ -276,7 +278,9 @@ void main() {
             });
         });
 
+        /// Group for all tests testing Sensor-Model
         group('Sensor Test', () {
+            /// Tests the correct functionality of the Sensor-Ctor.
             test('Ctor Test Sensor', () async {
                 Sensor sens = new Sensor("TestSensor", 2, "C", "TestType", "TestSensor");
 
@@ -307,6 +311,5 @@ void main() {
                 expect("TestSensor", sens.key);
             });
         });
-
     });
 }

@@ -2,12 +2,13 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../../models/monitoring/profile.dart';
-import '../../models/monitoring/cpu.dart';
-import '../../models/monitoring/memory.dart';
-import '../../models/monitoring/network.dart';
-import '../../models/monitoring/sensor.dart';
+import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/models/monitoring/cpu.dart';
+import 'package:glutter/models/monitoring/memory.dart';
+import 'package:glutter/models/monitoring/network.dart';
+import 'package:glutter/models/monitoring/sensor.dart';
 
+/// Provides services to interact with the glances-Restful API.
 class GlancesService {
 
     Profile server;

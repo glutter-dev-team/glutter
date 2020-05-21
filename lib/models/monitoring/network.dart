@@ -1,23 +1,31 @@
 /// Represents the Network-Values from the Glances-API.
 class Network {
+    /// The name of the current network-interface.
     String interfaceName;
 
+    /// Time passed by since last update.
     double timeSinceUpdate;
 
+    /// Cumulative rate of network-traffic receive to the server. (bytes)
     int cumulativeReceive;
 
+    /// Rate of network-traffic receive to the server.
     int receive;
 
+    /// Cumulative rate of network-traffic send by the server. (bytes)
     int cumulativeTx;
 
+    /// Rate of network-traffic send by the server.
     int tx;
 
     int cumulativeCx;
 
     int cx;
 
+    /// Specifies whether the specifies network-interface is up (online)
     bool isUp;
 
+    /// Specifies the speed of the current network-interface
     int speed;
 
     String key;

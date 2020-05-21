@@ -79,8 +79,6 @@ class CPU {
         this.cpuCore = cpuCore;
     }
 
-    double reciprocal(double d) => 1 / d;
-
     /// For deserialization of JSON and conversion to CPU-Object.
     factory CPU.fromJson(Map json) {
         return CPU(
@@ -104,6 +102,7 @@ class CPU {
         );
     }
 
+    /// Creates a map from the CPU-Object. For storing the object in the database.  (Coming soon)
     Map<String, dynamic> toMap() {
         return {
             'id' : this.id,

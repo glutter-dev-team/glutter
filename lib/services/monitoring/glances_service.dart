@@ -87,4 +87,31 @@ class GlancesService {
 
         return sensorObjects;
     }
+
+    /// Checks whether the connection to the glances-APi can be established and the required plugins are installed.
+    Future<bool> connectionTest() async {
+         Response rawResponse;
+
+         try {
+             rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
+         } catch (_) {
+             throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get pluginslist while testing connection.");
+         }
+
+         List<dynamic> pluginsList = jsonDecode(rawResponse.body);
+         bool containsRequiredPlugins = false;
+
+         var filteredPluginsList = pluginsList.where((element) => element == 'network' || element == 'cpu' || element == 'mem' || element == 'sensors');
+
+         // All required plugins installed?
+         containsRequiredPlugins = filteredPluginsList.length == 4;
+
+         // If Response-Code is OK and required plugins are installed, return true.
+        if(rawResponse.statusCode == 200 && containsRequiredPlugins) {
+            return true;
+        }
+
+        // Otherwise return false.
+        return false;
+    }
 }

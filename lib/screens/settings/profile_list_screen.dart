@@ -58,6 +58,7 @@ class _ProfileListState extends State<ProfileListScreen> {
                                                     case ConnectionState.done:
                                                         return ListView.builder(
                                                             scrollDirection: Axis.vertical,
+                                                            physics: NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
                                                             itemCount: snapshot.data.length,
                                                             itemBuilder: (BuildContext context, int index){

@@ -160,6 +160,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                         List<Map> memoryList = memoryListBuilder(snapshot);
                                                         return ListView.builder(
                                                             scrollDirection: Axis.vertical,
+                                                            physics: NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
                                                             itemCount: memoryList.length,
                                                             itemBuilder: (BuildContext context, int index){

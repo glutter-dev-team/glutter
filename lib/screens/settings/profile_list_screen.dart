@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/screens/settings/profile_create_screen.dart';
+import 'package:glutter/screens/settings/profile_edit_screen.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
+import 'package:glutter/utils/toast.dart';
 
 class ProfileListScreen extends StatefulWidget {
     ProfileListScreen({Key key, this.title: "Glutter Profiles"}) : super(key: key);
@@ -57,8 +59,8 @@ class _ProfileListState extends State<ProfileListScreen> {
                                             future: profilesFuture,
                                             builder: (BuildContext context, AsyncSnapshot snapshot){
                                                 switch (snapshot.connectionState) {
-                                                    case ConnectionState.none:
-                                                        return Text("none");
+                                                    //case ConnectionState.none:
+                                                    //    return Text("none");
                                                     case ConnectionState.active:
                                                         return Text("active");
                                                     case ConnectionState.waiting:
@@ -79,6 +81,21 @@ class _ProfileListState extends State<ProfileListScreen> {
                                                                     title: Text(snapshot.data[index].caption),
                                                                     subtitle: Text(snapshot.data[index].serverAddress), //snapshot.data.total.toString()
                                                                     trailing: Icon(Icons.edit),
+                                                                    onTap: () => {
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder: (context) => ProfileEditScreen(),
+                                                                                settings: RouteSettings(
+                                                                                    arguments: snapshot.data[index],
+                                                                                ),
+                                                                            ),
+                                                                        ).then((value) {
+                                                                            setState(() {
+                                                                                profilesFuture = DatabaseService.db.getProfiles();
+                                                                            });
+                                                                        }),
+                                                                    }
                                                                 );
                                                             }
                                                         );
@@ -101,18 +118,9 @@ class _ProfileListState extends State<ProfileListScreen> {
                         MaterialPageRoute(builder: (context) => ProfileCreateScreen()),
                     ).then((value) {
                         setState(() {
-
+                            profilesFuture = DatabaseService.db.getProfiles();
                         });
                     })
-                    /*
-                    Navigator.pushNamed(
-                        context,
-                        '/settings/profiles/create',
-                        /*arguments: <String, String>{
-
-                        },*/
-                    )
-                    */
                 },
                 tooltip: 'Create new profile',
                 child: Icon(Icons.add),

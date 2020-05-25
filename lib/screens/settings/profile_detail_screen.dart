@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/widgets/drawer.dart';
 
 class ProfileDetailScreen extends StatelessWidget {
 

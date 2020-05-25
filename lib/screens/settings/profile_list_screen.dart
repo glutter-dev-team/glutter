@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/screens/settings/profile_create_screen.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
-import 'package:glutter/widgets/drawer.dart';
-import '../../utils/routes.dart';
 
 class ProfileListScreen extends StatefulWidget {
     ProfileListScreen({Key key, this.title: "Glutter Profiles"}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
 import 'package:glutter/models/monitoring/profile.dart';
-import 'dart:io';
+import 'package:glutter/services/monitoring/glances_service.dart';
 
 class ProfileCreateScreen extends StatefulWidget {
     ProfileCreateScreen({Key key, this.title: "Create new profile"}) : super(key: key);
@@ -20,8 +20,16 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
     TextEditingController _serverPortController = new TextEditingController();
     TextEditingController _serverApiVersionController = new TextEditingController();
 
-    _connectionTest() {
+    Future connectionTestResult;
 
+    _connectionTest() async {
+        var address = _serverAddressController.text;
+        var port = _serverPortController.text;
+        var apiVersion = _serverApiVersionController.text;
+
+        Profile testProfile = new Profile(address, port, "test", apiVersion);
+        GlancesService glances = new GlancesService(testProfile);
+        connectionTestResult = glances.connectionTest();
     }
 
     @override
@@ -195,11 +203,73 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                 ),
                                 FlatButton.icon(
                                     onPressed: () {
-                                        _connectionTest();
+                                        setState(() {
+                                            _connectionTest();
+                                        });
                                     },
                                     icon: Icon(Icons.settings_ethernet),
                                     label:
                                         Text("Start connection test")
+                                ),
+                                FutureBuilder(
+                                    future: connectionTestResult,
+                                    builder: (BuildContext context, AsyncSnapshot snapshot){
+                                        switch (snapshot.connectionState) {
+                                            case ConnectionState.none:
+                                                return Text("");
+                                            case ConnectionState.active:
+                                                return Text("Connection active");
+                                            case ConnectionState.waiting:
+                                                return Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                        Container(
+                                                            width: 20,
+                                                            child: new LinearProgressIndicator(
+                                                                backgroundColor: Colors.grey,
+                                                                valueColor: new AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
+                                                            ),
+                                                        ),
+                                                        Padding(
+                                                            padding: EdgeInsets.only(left: 5.0),
+                                                            child: Text("Connection test running..."),
+                                                        )
+                                                    ]
+                                                );
+                                            case ConnectionState.done:
+                                                if (snapshot.data == true) {
+                                                    return Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                            Icon(
+                                                                Icons.check_circle,
+                                                                color: Colors.green,),
+                                                            Padding(
+                                                                padding: EdgeInsets.only(left: 5.0),
+                                                                child: Text("Connection test successful!"),
+                                                            )
+                                                        ]
+                                                    );
+
+                                                } else {
+                                                    return Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                            Icon(
+                                                                Icons.error,
+                                                                color: Colors.red,),
+                                                            Padding(
+                                                                padding: EdgeInsets.only(left: 5.0),
+                                                                child: Text("Connection test failed!"),
+                                                            )
+                                                        ]
+                                                    );
+                                                }
+                                                return Text("no result");
+                                            default:
+                                                return Text("default");
+                                        }
+                                    }
                                 ),
                             ]
                         )

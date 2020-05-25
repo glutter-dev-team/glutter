@@ -30,15 +30,30 @@ class _ProfileListState extends State<ProfileListScreen> {
         return Scaffold(
             appBar: AppBar(
                 title: Text(widget.title),
+                actions: <Widget>[
+                    // overflow menu
+                    /*PopupMenuButton(
+                        onSelected: _select,
+                        itemBuilder: (BuildContext context) {
+                            return choices.skip(2).map((Choice choice) {
+                                return PopupMenuItem(
+                                    //value: choice,
+                                    child: Text(choice.title),
+                                );
+                            }).toList();
+                        },
+                    ),*/
+                ],
             ),
             body: Builder(
                 builder: (context) => Padding(
-                    padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,0),
+                    padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,0.0),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget> [
                             Expanded(
                                 child: ListView(
+                                    padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,75.0),
                                     children: <Widget>[
                                         FutureBuilder(
                                             future: profilesFuture,
@@ -58,6 +73,7 @@ class _ProfileListState extends State<ProfileListScreen> {
                                                     case ConnectionState.done:
                                                         return ListView.builder(
                                                             scrollDirection: Axis.vertical,
+                                                            physics: NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
                                                             itemCount: snapshot.data.length,
                                                             itemBuilder: (BuildContext context, int index){
@@ -82,10 +98,15 @@ class _ProfileListState extends State<ProfileListScreen> {
             ),
             floatingActionButton: FloatingActionButton(
                 onPressed: () => {
-                    /*Navigator.push(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ProfileCreateScreen()),
-                    )*/
+                    ).then((value) {
+                        setState(() {
+
+                        });
+                    })
+                    /*
                     Navigator.pushNamed(
                         context,
                         '/settings/profiles/create',
@@ -93,6 +114,7 @@ class _ProfileListState extends State<ProfileListScreen> {
 
                         },*/
                     )
+                    */
                 },
                 tooltip: 'Create new profile',
                 child: Icon(Icons.add),

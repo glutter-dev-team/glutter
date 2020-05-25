@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:glutter/models/monitoring/profile.dart';
+import 'dart:io';
 
 class ProfileCreateScreen extends StatefulWidget {
     ProfileCreateScreen({Key key, this.title: "Create new profile"}) : super(key: key);
@@ -19,6 +19,10 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
     TextEditingController _serverAddressController = new TextEditingController();
     TextEditingController _serverPortController = new TextEditingController();
     TextEditingController _serverApiVersionController = new TextEditingController();
+
+    _connectionTest() {
+
+    }
 
     @override
     void initState() {
@@ -191,12 +195,12 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                 ),
                                 FlatButton.icon(
                                     onPressed: () {
-                                        /*...*/
+                                        _connectionTest();
                                     },
                                     icon: Icon(Icons.settings_ethernet),
                                     label:
                                         Text("Start connection test")
-                                )
+                                ),
                             ]
                         )
                     ),

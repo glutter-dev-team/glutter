@@ -44,5 +44,13 @@ void main() {
 
             expect(sensors.length, greaterThan(0));
         });
+
+        /// Tests the correct functionality of performing connection-Test.
+        test('GlancesServiceTest ConnectionTest', () async {
+            bool isSuccess = await service.connectionTest();
+
+            expect(isSuccess, equals(true));
+        });
+        
     });
 }

@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../services/monitoring/glances_service.dart';
-import '../../models/monitoring/profile.dart';
-import '../../utils/toast.dart';
-import 'dart:async';
 
 List<Map> memoryListBuilder(AsyncSnapshot snapshot) {
 

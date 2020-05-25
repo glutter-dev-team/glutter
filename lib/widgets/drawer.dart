@@ -6,53 +6,73 @@ class AppDrawer extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return Drawer(
-            child: ListView(
-                padding: EdgeInsets.zero,
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                    _createHeader(),
-                    _createDrawerItem(
-                        icon: Icons.dashboard,
-                        text: 'Dashboard',
-                        onTap: () =>
-                            Navigator.pushReplacementNamed(context, Routes.dashboard)),
-                    _createDrawerItem(
-                        icon: Icons.computer,
-                        text: 'Monitoring',
-                        onTap: () =>
-                            Navigator.pushReplacementNamed(context, Routes.monitoring)),
-                    _createDrawerItem(
-                        icon: Icons.settings_remote,
-                        text: 'Remote Control',
-                        onTap: () =>
-                            Navigator.pushReplacementNamed(context, Routes.remoteControl)),
-                    /*
-                    Divider(),
+                    SizedBox(
+                        child: ListView(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            children: <Widget>[
+                                _createHeader(),
+                                _createDrawerItem(
+                                    icon: Icons.dashboard,
+                                    text: 'Dashboard',
+                                    onTap: () =>
+                                        Navigator.pushReplacementNamed(context, Routes.dashboard)),
+                                _createDrawerItem(
+                                    icon: Icons.computer,
+                                    text: 'Monitoring',
+                                    onTap: () =>
+                                        Navigator.pushReplacementNamed(context, Routes.monitoring)),
+                                _createDrawerItem(
+                                    icon: Icons.settings_remote,
+                                    text: 'Remote Control',
+                                    onTap: () =>
+                                        Navigator.pushReplacementNamed(context, Routes.remoteControl)),
+                                /*
+                                    Divider(),
 
-                    _createDrawerItem(icon: Icons.collections_bookmark, text: 'Steps'),
-                    _createDrawerItem(icon: Icons.face, text: 'Authors'),
-                    _createDrawerItem(
-                        icon: Icons.account_box, text: 'Flutter Documentation'),
-                    _createDrawerItem(icon: Icons.stars, text: 'Useful Links'),
-                    */
-                    Divider(),
-                    _createDrawerItem(
-                        icon: Icons.settings,
-                        text: 'Settings',
-                        onTap: () =>
-                            Navigator.pushReplacementNamed(context, Routes.settings)),
-                    _createDrawerItem(
-                        icon: Icons.bug_report,
-                        text: 'Report an issue',
-                        onTap: () =>
-                            launchURL("https://github.com/HeLau1337/glutter/issues/new/choose")
+                                    _createDrawerItem(icon: Icons.collections_bookmark, text: 'Steps'),
+                                    _createDrawerItem(icon: Icons.face, text: 'Authors'),
+                                    _createDrawerItem(
+                                        icon: Icons.account_box, text: 'Flutter Documentation'),
+                                    _createDrawerItem(icon: Icons.stars, text: 'Useful Links'),
+                                    */
+
+                        ],
                     ),
-                    ListTile(
-                        title: Text('v0.0.1'),
-                        onTap: () {},
                     ),
-                ],
-            ),
+                    Expanded(
+                        child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: ListView(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                children: <Widget>[
+                                    Divider(),
+                                    _createDrawerItem(
+                                        icon: Icons.settings,
+                                        text: 'Settings',
+                                        onTap: () =>
+                                            Navigator.pushReplacementNamed(context, Routes.settings)),
+                                    _createDrawerItem(
+                                        icon: Icons.bug_report,
+                                        text: 'Report an issue',
+                                        onTap: () =>
+                                            launchURL("https://github.com/HeLau1337/glutter/issues/new/choose")
+                                    ),
+                                    ListTile(
+                                        title: Text('v0.0.1'),
+                                        onTap: () {},
+                                    ),
+                        ])
+                        )
+                    )
+            ]
+        )
         );
+
     }
 
     Widget _createHeader() {

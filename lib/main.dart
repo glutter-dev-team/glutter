@@ -3,7 +3,7 @@ import 'package:glutter/screens/dashboard/dashboard_screen.dart';
 import 'package:glutter/screens/remote_control/remote_control_screen.dart';
 import 'package:glutter/screens/settings/about_screen.dart';
 import 'package:glutter/screens/settings/profile_create_screen.dart';
-import 'package:glutter/screens/settings/profile_detail_screen.dart';
+import 'package:glutter/screens/settings/profile_edit_screen.dart';
 import 'package:glutter/screens/settings/profile_list_screen.dart';
 import 'package:glutter/screens/settings/settings_screen.dart';
 import 'screens/monitoring/monitoring_screen.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
                 Routes.settings: (context) => SettingsScreen(),
                 Routes.profileList: (context) => ProfileListScreen(),
                 Routes.profileCreate: (context) => ProfileCreateScreen(),
-                Routes.profileDetail: (context) => ProfileDetailScreen(),
+                Routes.profileDetail: (context) => ProfileEditScreen(),
                 Routes.about: (context) => AboutScreen(),
             },
         );

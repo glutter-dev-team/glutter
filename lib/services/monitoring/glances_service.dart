@@ -2,12 +2,13 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../../models/monitoring/profile.dart';
-import '../../models/monitoring/cpu.dart';
-import '../../models/monitoring/memory.dart';
-import '../../models/monitoring/network.dart';
-import '../../models/monitoring/sensor.dart';
+import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/models/monitoring/cpu.dart';
+import 'package:glutter/models/monitoring/memory.dart';
+import 'package:glutter/models/monitoring/network.dart';
+import 'package:glutter/models/monitoring/sensor.dart';
 
+/// Provides services to interact with the glances-Restful API.
 class GlancesService {
 
     Profile server;
@@ -43,7 +44,7 @@ class GlancesService {
         try {
             rawResponse = await get(server.getFullServerAddress() + "/mem");
         } catch (_) {
-            throw HttpException("Failed to load data from Server to get Memory.");
+            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Memory.");
         }
 
         memory = Memory.fromJson(jsonDecode(rawResponse.body));
@@ -58,7 +59,7 @@ class GlancesService {
         try {
             rawResponse = await get(server.getFullServerAddress() + "/network");
         } catch (_) {
-            throw HttpException("Failed to load data from Server to get Networks.");
+            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Networks.");
         }
         var networkObjectsJson = jsonDecode(rawResponse.body);
 
@@ -76,7 +77,7 @@ class GlancesService {
         try {
             rawResponse = await get(server.getFullServerAddress() + "/sensors");
         } catch (_) {
-            throw HttpException("Failed to load data from Server to get Sensors.");
+            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Sensors.");
         }
         var sensorObjectsJson = jsonDecode(rawResponse.body);
 
@@ -85,5 +86,32 @@ class GlancesService {
         sensorObjectsJson.forEach((sensorJson) => sensorObjects.add(Sensor.fromJson(sensorJson)));
 
         return sensorObjects;
+    }
+
+    /// Checks whether the connection to the glances-APi can be established and the required plugins are installed.
+    Future<bool> connectionTest() async {
+         Response rawResponse;
+
+         try {
+             rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
+         } catch (_) {
+             throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get pluginslist while testing connection.");
+         }
+
+         List<dynamic> pluginsList = jsonDecode(rawResponse.body);
+         bool containsRequiredPlugins = false;
+
+         var filteredPluginsList = pluginsList.where((element) => element == 'network' || element == 'cpu' || element == 'mem' || element == 'sensors');
+
+         // All required plugins installed?
+         containsRequiredPlugins = filteredPluginsList.length == 4;
+
+         // If Response-Code is OK and required plugins are installed, return true.
+        if(rawResponse.statusCode == 200 && containsRequiredPlugins) {
+            return true;
+        }
+
+        // Otherwise return false.
+        return false;
     }
 }

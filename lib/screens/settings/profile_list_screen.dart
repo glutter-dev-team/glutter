@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/screens/settings/profile_create_screen.dart';
+import 'package:glutter/screens/settings/profile_edit_screen.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
-import 'package:glutter/widgets/drawer.dart';
-import '../../utils/routes.dart';
+import 'package:glutter/utils/toast.dart';
 
 class ProfileListScreen extends StatefulWidget {
     ProfileListScreen({Key key, this.title: "Glutter Profiles"}) : super(key: key);
@@ -30,22 +30,37 @@ class _ProfileListState extends State<ProfileListScreen> {
         return Scaffold(
             appBar: AppBar(
                 title: Text(widget.title),
+                actions: <Widget>[
+                    // overflow menu
+                    /*PopupMenuButton(
+                        onSelected: _select,
+                        itemBuilder: (BuildContext context) {
+                            return choices.skip(2).map((Choice choice) {
+                                return PopupMenuItem(
+                                    //value: choice,
+                                    child: Text(choice.title),
+                                );
+                            }).toList();
+                        },
+                    ),*/
+                ],
             ),
             body: Builder(
                 builder: (context) => Padding(
-                    padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,0),
+                    padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,0.0),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget> [
                             Expanded(
                                 child: ListView(
+                                    padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,75.0),
                                     children: <Widget>[
                                         FutureBuilder(
                                             future: profilesFuture,
                                             builder: (BuildContext context, AsyncSnapshot snapshot){
                                                 switch (snapshot.connectionState) {
-                                                    case ConnectionState.none:
-                                                        return Text("none");
+                                                    //case ConnectionState.none:
+                                                    //    return Text("none");
                                                     case ConnectionState.active:
                                                         return Text("active");
                                                     case ConnectionState.waiting:
@@ -66,6 +81,21 @@ class _ProfileListState extends State<ProfileListScreen> {
                                                                     title: Text(snapshot.data[index].caption),
                                                                     subtitle: Text(snapshot.data[index].serverAddress), //snapshot.data.total.toString()
                                                                     trailing: Icon(Icons.edit),
+                                                                    onTap: () => {
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder: (context) => ProfileEditScreen(),
+                                                                                settings: RouteSettings(
+                                                                                    arguments: snapshot.data[index],
+                                                                                ),
+                                                                            ),
+                                                                        ).then((value) {
+                                                                            setState(() {
+                                                                                profilesFuture = DatabaseService.db.getProfiles();
+                                                                            });
+                                                                        }),
+                                                                    }
                                                                 );
                                                             }
                                                         );
@@ -83,17 +113,14 @@ class _ProfileListState extends State<ProfileListScreen> {
             ),
             floatingActionButton: FloatingActionButton(
                 onPressed: () => {
-                    /*Navigator.push(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ProfileCreateScreen()),
-                    )*/
-                    Navigator.pushNamed(
-                        context,
-                        '/settings/profiles/create',
-                        /*arguments: <String, String>{
-
-                        },*/
-                    )
+                    ).then((value) {
+                        setState(() {
+                            profilesFuture = DatabaseService.db.getProfiles();
+                        });
+                    })
                 },
                 tooltip: 'Create new profile',
                 child: Icon(Icons.add),

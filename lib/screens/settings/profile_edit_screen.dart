@@ -3,17 +3,16 @@ import 'package:glutter/services/monitoring/database_service.dart';
 import 'package:glutter/models/monitoring/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 
-class ProfileCreateScreen extends StatefulWidget {
-    ProfileCreateScreen({Key key, this.title: "Create new profile"}) : super(key: key);
+class ProfileEditScreen extends StatefulWidget {
+    ProfileEditScreen({Key key,}) : super(key: key);
 
-    static const String routeName = '/settings/profiles/create';
-    final String title;
+    static const String routeName = '/settings/profiles/edit/{id}';
 
     @override
-    _ProfileCreateState createState() => _ProfileCreateState();
+    _ProfileEditState createState() => _ProfileEditState();
 }
 
-class _ProfileCreateState extends State<ProfileCreateScreen> {
+class _ProfileEditState extends State<ProfileEditScreen> {
 
     TextEditingController _profileCaptionController = new TextEditingController();
     TextEditingController _serverAddressController = new TextEditingController();
@@ -39,6 +38,12 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
 
     @override
     Widget build(BuildContext context) {
+        final Profile profile = ModalRoute.of(context).settings.arguments;
+        _profileCaptionController.text = profile.caption;
+        _serverAddressController.text = profile.serverAddress;
+        _serverPortController.text = profile.port;
+        _serverApiVersionController.text = profile.glancesApiVersion;
+
         // This method is rerun every time setState is called
         return GestureDetector(
             // dismiss focus (keyboard) if users taps anywhere in a "dead space" within the app
@@ -52,7 +57,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                    title: Text(widget.title),
+                    title: Text("Edit profile " + profile.caption),
                 ),
                 body: Builder(
                     builder: (context) => Padding(
@@ -209,7 +214,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                     },
                                     icon: Icon(Icons.settings_ethernet),
                                     label:
-                                        Text("Start connection test")
+                                    Text("Start connection test")
                                 ),
                                 FutureBuilder(
                                     future: connectionTestResult,
@@ -278,23 +283,28 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 floatingActionButton: FloatingActionButton.extended(
-                    icon: Icon(Icons.add_circle),
-                    onPressed: () => _createProfile(
+                    icon: Icon(Icons.save),
+                    onPressed: () => _saveProfile(
+                        profile,
                         _serverAddressController.text,
                         _serverPortController.text,
                         _profileCaptionController.text,
                         _serverApiVersionController.text,
                         context
                     ),
-                    label: new Text('Create profile')
+                    label: new Text('Save profile')
                 ),
             )
         );
     }
 }
 
-_createProfile(String serverAddress, String port, String caption, String apiVersion, BuildContext context) {
-    Profile newProfile = new Profile(serverAddress, port, caption, apiVersion);
-    DatabaseService.db.insertProfile(newProfile);
+_saveProfile(Profile profile, String serverAddress, String port, String caption, String apiVersion, BuildContext context) {
+    profile.serverAddress = serverAddress;
+    profile.port = port;
+    profile.caption = caption;
+    profile.glancesApiVersion = apiVersion;
+
+    DatabaseService.db.updateProfile(profile);
     Navigator.pop(context);
 }

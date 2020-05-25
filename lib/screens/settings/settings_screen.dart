@@ -33,7 +33,7 @@ class _SettingsState extends State<SettingsScreen> {
             drawer: AppDrawer(),
             body: Builder(
                 builder: (context) => Padding(
-                    padding: EdgeInsets.fromLTRB(10.0,10.0,10.0,0),
+                    padding: EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
                     child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget> [

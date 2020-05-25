@@ -10,10 +10,13 @@ import 'package:glutter/models/monitoring/profile.dart';
 /// Implements service to interact with the database.
 class DatabaseService {
 
+    /// Private Ctor -> Should not be instantiated.
     DatabaseService._();
 
+    /// Public instance of the Service.
     static final DatabaseService db = DatabaseService._();
 
+    /// Private instance of the SQLite-Database.
     static Database _database;
 
     /// Getter for the database.
@@ -30,6 +33,7 @@ class DatabaseService {
     initDB() async {
         Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
+        /// Database-Path and Database-Name! Do not edit!
         String path = documentsDirectory.path + "glutter.db";
 
         return await openDatabase(path, version: 1, onOpen: (db) {

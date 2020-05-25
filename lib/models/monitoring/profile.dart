@@ -49,6 +49,7 @@ class Profile {
         return profile;
     }
 
+    /// Converts the object into a map for storing it into the database.
     Map<String, dynamic> toMap() {
         return {
             "id" : this.id,

@@ -1,23 +1,31 @@
 /// Represents the Network-Values from the Glances-API.
 class Network {
+    /// The name of the current network-interface.
     String interfaceName;
 
+    /// Time passed by since last update.
     double timeSinceUpdate;
 
+    /// Cumulative rate of network-traffic receive to the server. (bytes)
     int cumulativeReceive;
 
+    /// Rate of network-traffic receive to the server.
     int receive;
 
+    /// Cumulative rate of network-traffic send by the server. (bytes)
     int cumulativeTx;
 
+    /// Rate of network-traffic send by the server.
     int tx;
 
     int cumulativeCx;
 
     int cx;
 
+    /// Specifies whether the specifies network-interface is up (online)
     bool isUp;
 
+    /// Specifies the speed of the current network-interface
     int speed;
 
     String key;
@@ -29,6 +37,8 @@ class Network {
         this.cumulativeReceive = cumulativeReceive;
         this.receive = receive;
         this.cumulativeTx = cumulativeTx;
+        this.tx = tx;
+        this.cumulativeCx = cumulativeCx;
         this.cx = cx;
         this.isUp = isUp;
         this.speed = speed;
@@ -39,7 +49,7 @@ class Network {
     factory Network.fromJson(dynamic json) {
         return Network(
             json['interface_name'] as String,
-            json['time_since_update'] as double,
+            double.parse(json['time_since_update'].toString()),
             json['cumulative_rx'] as int,
             json['rx'] as int,
             json['cumulative_tx'] as int,

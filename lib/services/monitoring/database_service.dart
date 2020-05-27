@@ -5,6 +5,7 @@ import 'dart:core';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:glutter/services/monitoring/database_provider.dart';
+import 'package:glutter/models/settings/settings.dart';
 import 'package:glutter/models/monitoring/profile.dart';
 
 /// Implements service to interact with the database.
@@ -36,9 +37,11 @@ class DatabaseService {
         /// Database-Path and Database-Name! Do not edit!
         String path = documentsDirectory.path + "glutter.db";
 
-        return await openDatabase(path, version: 1, onOpen: (db) {
-        }, onCreate: (Database db, int version) async {
-            await db.execute(DatabaseProvider.getOnCreate());
+        return await openDatabase(path, version: 2, onOpen: (db) {
+        },
+        onCreate: (Database db, int version) async {
+            await db.execute(DatabaseProvider.createProfileTable());
+            await db.execute(DatabaseProvider.createSettingsTable());
         });
     }
 
@@ -93,6 +96,37 @@ class DatabaseService {
     deleteAllProfiles() async {
         final db = await database;
 
-        db.rawDelete("Delete * from profiles");
+        db.rawDelete("Delete from profiles");
+    }
+
+    /// Deletes every settings-row in the database.
+    deleteAllSettings() async {
+        final db = await database;
+
+        db.rawDelete("Delete from settings");
+    }
+
+    /// Inserts one settings into the database and deletes any further settings-row.
+    Future<void> insertSettings(Settings settings) async {
+        final Database db = await database;
+
+        /// We only can have one settings-Row!
+        await this.deleteAllSettings();
+
+        await db.insert(
+            "settings",
+            settings.toMap(),
+            conflictAlgorithm: ConflictAlgorithm.replace
+        );
+    }
+
+    /// Loads the settings-rows from the database.
+    Future<Settings> getSettings() async {
+        final Database db = await database;
+
+        final List<Map<String, dynamic>> maps = await db.query('settings');
+
+        // returns the first (and hopefully only) settings-object.
+        return Settings.fromMap(maps[0]);
     }
 }

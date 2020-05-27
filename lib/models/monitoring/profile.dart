@@ -30,6 +30,7 @@ class Profile {
         this.glancesApiVersion = apiVersion;
     }
 
+    /// Converts data from Database into Profiles.
     static Profile fromMap(Map<String, dynamic> map) {
         return _fromDatabase(
             map["id"],

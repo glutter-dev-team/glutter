@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/utils/convert_bytes.dart';
 
-List<Map> buildList(String choice, AsyncSnapshot snapshot) {
-    List<Map> list = new List();
+List<List> buildList(String choice, AsyncSnapshot snapshot) {
+    List<List> list = new List();
     switch (choice) {
         case "Memory":
             list = memoryListBuilder(snapshot);
@@ -20,11 +20,11 @@ List<Map> buildList(String choice, AsyncSnapshot snapshot) {
     return list;
 }
 
-List<Map> memoryListBuilder(AsyncSnapshot snapshot) {
+List<List> memoryListBuilder(AsyncSnapshot snapshot) {
 
-    List<Map> dataList = new List();
+    List<List> dataList = new List();
     List<Map> memoryList = new List();
-    memoryList = [];
+    //memoryList = [];
 
     var total = new Map();
     total["short_desc"] = "Total memory";
@@ -71,19 +71,17 @@ List<Map> memoryListBuilder(AsyncSnapshot snapshot) {
     shared["value"] = convertBytes(snapshot.data.shared, 2).toString();
     memoryList.add(shared);
 
+    dataList.add(memoryList);
 
-    var entry = new Map();
-    entry[0] = memoryList;
-    dataList.add(entry);
-
-    print(dataList.toString());
+    print(">>> full memory data list: " + dataList.toString());
     return dataList;
 }
 
-List<Map> cpuListBuilder(AsyncSnapshot snapshot) {
+List<List> cpuListBuilder(AsyncSnapshot snapshot) {
 
+    List<List> dataList = new List();
     List<Map> cpuList = new List();
-    cpuList = [];
+    //cpuList = [];
 
     var totalLoad = new Map();
     totalLoad["short_desc"] = "Total CPU-load";
@@ -170,105 +168,124 @@ List<Map> cpuListBuilder(AsyncSnapshot snapshot) {
     cpuCore["value"] = snapshot.data.cpuCore.toString();
     cpuList.add(cpuCore);
 
-    //print(cpuList.toString());
-    return cpuList;
+    dataList.add(cpuList);
+
+    print(">>> full cpu data list: " + dataList.toString());
+    return dataList;
 }
 
-List<Map> sensorsListBuilder(AsyncSnapshot snapshot) {
+List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
 
-    List<Map> sensorsList = new List();
-    sensorsList = [];
+    List<List> dataList = new List();
+    //List<Map> sensorsList = new List();
+    //sensorsList = [];
 
-    var label = new Map();
-    label["short_desc"] = "Label";
-    label["value"] = snapshot.data.label.toString();
-    sensorsList.add(label);
+    for(var i = 0; i < snapshot.data.length; i++) {
 
-    var value = new Map();
-    value["short_desc"] = "Value";
-    value["value"] = snapshot.data.value.toString();
-    sensorsList.add(value);
+        var obj = snapshot.data[i];
+        List<Map> sensorsList = new List();
 
-    var unit = new Map();
-    unit["short_desc"] = "Unit";
-    unit["value"] = snapshot.data.unit.toString();
-    sensorsList.add(unit);
+        var label = new Map();
+        label["short_desc"] = "Label";
+        label["value"] = obj.label.toString();
+        sensorsList.add(label);
 
-    var type = new Map();
-    type["short_desc"] = "Type";
-    type["value"] = snapshot.data.type.toString();
-    sensorsList.add(type);
+        var value = new Map();
+        value["short_desc"] = "Value";
+        value["value"] = obj.value.toString();
+        sensorsList.add(value);
 
-    var key = new Map();
-    key["short_desc"] = "Key";
-    key["value"] = snapshot.data.key.toString();
-    sensorsList.add(key);
+        var unit = new Map();
+        unit["short_desc"] = "Unit";
+        unit["value"] = obj.unit.toString();
+        sensorsList.add(unit);
 
-    //print(sensorsList.toString());
-    return sensorsList;
+        var type = new Map();
+        type["short_desc"] = "Type";
+        type["value"] = obj.type.toString();
+        sensorsList.add(type);
+
+        var key = new Map();
+        key["short_desc"] = "Key";
+        key["value"] = obj.key.toString();
+        sensorsList.add(key);
+
+        dataList.add(sensorsList);
+    }
+
+    print(">>> full sensors data list: " + dataList.toString());
+    return dataList;
 }
 
+List<List> networkListBuilder(AsyncSnapshot snapshot) {
 
-List<Map> networkListBuilder(AsyncSnapshot snapshot) {
+    List<List> dataList = new List();
+    //List<Map> networkList = new List();
+    //networkList = [];
 
-    List<Map> networkList = new List();
-    networkList = [];
+    for(var i = 0; i < snapshot.data.length; i++) {
 
-    var interfaceName = new Map();
-    interfaceName["short_desc"] = "Interface name";
-    interfaceName["value"] = snapshot.data.interfaceName.toString();
-    networkList.add(interfaceName);
+        var obj = snapshot.data[i];
+        List<Map> networkList = new List();
 
-    var timeSinceUpdate = new Map();
-    timeSinceUpdate["short_desc"] = "Time since update";
-    timeSinceUpdate["value"] = snapshot.data.timeSinceUpdate.toString();
-    networkList.add(timeSinceUpdate);
+        var interfaceName = new Map();
+        interfaceName["short_desc"] = "Interface name";
+        interfaceName["value"] = obj.interfaceName.toString();
+        networkList.add(interfaceName);
 
-    var cumulativeReceive = new Map();
-    cumulativeReceive["short_desc"] = "Cumulative receive";
-    cumulativeReceive["value"] = snapshot.data.cumulativeReceive.toString();
-    networkList.add(cumulativeReceive);
+        var timeSinceUpdate = new Map();
+        timeSinceUpdate["short_desc"] = "Time since update";
+        timeSinceUpdate["value"] = obj.timeSinceUpdate.toString();
+        networkList.add(timeSinceUpdate);
 
-    var receive = new Map();
-    receive["short_desc"] = "Receive";
-    receive["value"] = snapshot.data.receive.toString();
-    networkList.add(receive);
+        var cumulativeReceive = new Map();
+        cumulativeReceive["short_desc"] = "Cumulative receive";
+        cumulativeReceive["value"] = obj.cumulativeReceive.toString();
+        networkList.add(cumulativeReceive);
 
-    var cumulativeTx = new Map();
-    cumulativeTx["short_desc"] = "Cumulative Tx";
-    cumulativeTx["value"] = snapshot.data.cumulativeTx.toString();
-    networkList.add(cumulativeTx);
+        var receive = new Map();
+        receive["short_desc"] = "Receive";
+        receive["value"] = obj.receive.toString();
+        networkList.add(receive);
 
-    var tx = new Map();
-    tx["short_desc"] = "tx";
-    tx["value"] = snapshot.data.tx.toString();
-    networkList.add(tx);
+        var cumulativeTx = new Map();
+        cumulativeTx["short_desc"] = "Cumulative Tx";
+        cumulativeTx["value"] = obj.cumulativeTx.toString();
+        networkList.add(cumulativeTx);
 
-    var cumulativeCx = new Map();
-    cumulativeCx["short_desc"] = "Cumulative cx";
-    cumulativeCx["value"] = snapshot.data.cumulativeCx.toString();
-    networkList.add(cumulativeCx);
+        var tx = new Map();
+        tx["short_desc"] = "tx";
+        tx["value"] = obj.tx.toString();
+        networkList.add(tx);
 
-    var cx = new Map();
-    cx["short_desc"] = "cx";
-    cx["value"] = snapshot.data.cx.toString();
-    networkList.add(cx);
+        var cumulativeCx = new Map();
+        cumulativeCx["short_desc"] = "Cumulative cx";
+        cumulativeCx["value"] = obj.cumulativeCx.toString();
+        networkList.add(cumulativeCx);
 
-    var isUp = new Map();
-    isUp["short_desc"] = "Is up";
-    isUp["value"] = snapshot.data.isUp.toString();
-    networkList.add(isUp);
+        var cx = new Map();
+        cx["short_desc"] = "cx";
+        cx["value"] = obj.cx.toString();
+        networkList.add(cx);
 
-    var speed = new Map();
-    speed["short_desc"] = "Speed";
-    speed["value"] = snapshot.data.speed.toString();
-    networkList.add(speed);
+        var isUp = new Map();
+        isUp["short_desc"] = "Is up";
+        isUp["value"] = obj.isUp.toString();
+        networkList.add(isUp);
 
-    var key = new Map();
-    key["short_desc"] = "Key";
-    key["value"] = snapshot.data.key.toString();
-    networkList.add(key);
+        var speed = new Map();
+        speed["short_desc"] = "Speed";
+        speed["value"] = obj.speed.toString();
+        networkList.add(speed);
 
-    //print(networkList.toString());
-    return networkList;
+        var key = new Map();
+        key["short_desc"] = "Key";
+        key["value"] = obj.key.toString();
+        networkList.add(key);
+
+        dataList.add(networkList);        
+    }
+    
+    print(">>> full network data list: " + dataList.toString());
+    return dataList;
 }

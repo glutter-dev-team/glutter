@@ -180,7 +180,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                             ),
                                                         );
                                                     case ConnectionState.done:
-                                                        List<Map> dataList = buildList(this.selectedData, snapshot);
+                                                        List<List> dataList = buildList(this.selectedData, snapshot);
                                                         return ListView.builder(
                                                             scrollDirection: Axis.vertical,
                                                             physics: NeverScrollableScrollPhysics(),
@@ -188,6 +188,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                             itemCount: dataList.length,
                                                             itemBuilder: (BuildContext context, int entity){
                                                                 var entityProps = dataList[entity];
+                                                                print(">>> dataList entity: " + entityProps.toString());
                                                                 return Card(
                                                                     child: ListView.builder(
                                                                         scrollDirection: Axis.vertical,

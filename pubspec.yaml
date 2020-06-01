@@ -32,6 +32,7 @@ dependencies:
     http: any
     url_launcher: ^5.4.2
     percent_indicator: "^2.1.1"
+    pull_to_refresh: ^1.5.7
     # process_run: ^0.10.10+1
 
 dev_dependencies:

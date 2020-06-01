@@ -4,6 +4,7 @@ import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/settings/settings.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
 import 'dart:async';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../services/monitoring/glances_service.dart';
 import '../../models/monitoring/profile.dart';
@@ -71,6 +72,20 @@ class _MonitoringState extends State<MonitoringScreen> {
                 monitoringFuture = service.getSensors();
                 break;
         }
+    }
+
+    RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+    void _onRefresh() async{
+        // monitor network fetch
+        await Future.delayed(Duration(milliseconds: 500));
+
+        this.setState(() {
+            _changeDataChoice(this.selectedData);
+        });
+
+        // if failed,use refreshFailed()
+        _refreshController.refreshCompleted();
     }
 
     @override
@@ -161,58 +176,63 @@ class _MonitoringState extends State<MonitoringScreen> {
                                 ],
                             ),
                             Expanded(
-                                child: ListView(
-                                    shrinkWrap: true,
-                                    children: <Widget>[
-                                        FutureBuilder(
-                                            future: monitoringFuture,
-                                            builder: (BuildContext context, AsyncSnapshot snapshot){
-                                                switch (snapshot.connectionState) {
-                                                    case ConnectionState.none:
-                                                        return Text("none");
-                                                    case ConnectionState.active:
-                                                        return Text("active");
-                                                    case ConnectionState.waiting:
-                                                        return Center( //Text("Active and maybe waiting");
-                                                            child: Container(
-                                                                child: new CircularProgressIndicator(),
-                                                                alignment: Alignment(0.0, 0.0),
-                                                            ),
-                                                        );
-                                                    case ConnectionState.done:
-                                                        List<List> dataList = buildList(this.selectedData, snapshot);
-                                                        return ListView.builder(
-                                                            scrollDirection: Axis.vertical,
-                                                            physics: NeverScrollableScrollPhysics(),
-                                                            shrinkWrap: true,
-                                                            itemCount: dataList.length,
-                                                            itemBuilder: (BuildContext context, int entity){
-                                                                var entityProps = dataList[entity];
-                                                                print(">>> dataList entity: " + entityProps.toString());
-                                                                return Card(
-                                                                    child: ListView.builder(
-                                                                        scrollDirection: Axis.vertical,
-                                                                        physics: NeverScrollableScrollPhysics(),
-                                                                        shrinkWrap: true,
-                                                                        itemCount: entityProps.length,
-                                                                        itemBuilder: (BuildContext context, int index){
-                                                                            return  ListTile(
-                                                                                title: Text(entityProps[index]["short_desc"].toString()),
-                                                                                subtitle: Text(entityProps[index]["value"].toString()),
-                                                                            );
-                                                                        }
-                                                                    )
-                                                                );
-
-
-                                                            }
-                                                        );
-                                                    default:
-                                                        return Text("default");
+                                child: SmartRefresher(
+                                    enablePullDown: true,
+                                    enablePullUp: false,
+                                    header: ClassicHeader(),
+                                    controller: _refreshController,
+                                    onRefresh: _onRefresh,
+                                    child: ListView(
+                                        shrinkWrap: true,
+                                        children: <Widget>[
+                                            FutureBuilder(
+                                                future: monitoringFuture,
+                                                builder: (BuildContext context, AsyncSnapshot snapshot){
+                                                    switch (snapshot.connectionState) {
+                                                        case ConnectionState.none:
+                                                            return Text("none");
+                                                        case ConnectionState.active:
+                                                            return Text("active");
+                                                        case ConnectionState.waiting:
+                                                            return Center( //Text("Active and maybe waiting");
+                                                                child: Container(
+                                                                    child: new CircularProgressIndicator(),
+                                                                    alignment: Alignment(0.0, 0.0),
+                                                                ),
+                                                            );
+                                                        case ConnectionState.done:
+                                                            List<List> dataList = buildList(this.selectedData, snapshot);
+                                                            return ListView.builder(
+                                                                scrollDirection: Axis.vertical,
+                                                                physics: NeverScrollableScrollPhysics(),
+                                                                shrinkWrap: true,
+                                                                itemCount: dataList.length,
+                                                                itemBuilder: (BuildContext context, int entity){
+                                                                    var entityProps = dataList[entity];
+                                                                    print(">>> dataList entity: " + entityProps.toString());
+                                                                    return Card(
+                                                                        child: ListView.builder(
+                                                                            scrollDirection: Axis.vertical,
+                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                            shrinkWrap: true,
+                                                                            itemCount: entityProps.length,
+                                                                            itemBuilder: (BuildContext context, int index){
+                                                                                return  ListTile(
+                                                                                    title: Text(entityProps[index]["short_desc"].toString()),
+                                                                                    subtitle: Text(entityProps[index]["value"].toString()),
+                                                                                );
+                                                                            }
+                                                                        )
+                                                                    );
+                                                                }
+                                                            );
+                                                        default:
+                                                            return Text("default");
+                                                    }
                                                 }
-                                            }
-                                        ),
-                                    ],
+                                            ),
+                                        ],
+                                    )
                                 )
                             )
                         ],

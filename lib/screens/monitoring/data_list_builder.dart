@@ -24,7 +24,6 @@ List<List> memoryListBuilder(AsyncSnapshot snapshot) {
 
     List<List> dataList = new List();
     List<Map> memoryList = new List();
-    //memoryList = [];
 
     var total = new Map();
     total["short_desc"] = "Total memory";
@@ -81,7 +80,6 @@ List<List> cpuListBuilder(AsyncSnapshot snapshot) {
 
     List<List> dataList = new List();
     List<Map> cpuList = new List();
-    //cpuList = [];
 
     var totalLoad = new Map();
     totalLoad["short_desc"] = "Total CPU-load";
@@ -177,8 +175,6 @@ List<List> cpuListBuilder(AsyncSnapshot snapshot) {
 List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
 
     List<List> dataList = new List();
-    //List<Map> sensorsList = new List();
-    //sensorsList = [];
 
     for(var i = 0; i < snapshot.data.length; i++) {
 
@@ -220,8 +216,6 @@ List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
 List<List> networkListBuilder(AsyncSnapshot snapshot) {
 
     List<List> dataList = new List();
-    //List<Map> networkList = new List();
-    //networkList = [];
 
     for(var i = 0; i < snapshot.data.length; i++) {
 

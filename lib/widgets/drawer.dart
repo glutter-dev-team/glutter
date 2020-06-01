@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../utils/routes.dart';
 import '../utils/launch_url.dart';
@@ -81,7 +82,7 @@ class AppDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                     image: AssetImage('assets/images/temporary_app_icon.png'))),
             child: Stack(children: <Widget>[
                 Positioned(

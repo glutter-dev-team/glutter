@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/models/monitoring/cpu.dart';
-import 'package:glutter/models/monitoring/memory.dart';
-import 'package:glutter/models/settings/settings.dart';
-import 'package:glutter/services/monitoring/database_service.dart';
 import 'dart:async';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../services/monitoring/glances_service.dart';
-import '../../models/monitoring/profile.dart';
-import '../../utils/toast.dart';
+import 'package:glutter/models/settings/settings.dart';
+import 'package:glutter/services/monitoring/database_service.dart';
+import 'package:glutter/services/monitoring/glances_service.dart';
+import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/widgets/drawer.dart';
 import 'data_list_builder.dart';
-import '../../widgets/drawer.dart';
 
 class MonitoringScreen extends StatefulWidget {
     MonitoringScreen({Key key, this.title: "Glutter Monitoring"}) : super(key: key);

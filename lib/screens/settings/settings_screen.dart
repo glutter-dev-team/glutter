@@ -117,11 +117,19 @@ class _SettingsState extends State<SettingsScreen> {
                                             ListTile(
                                                 leading: Icon(Icons.info_outline),
                                                 title: Text("About"),
-                                                //subtitle: Text("A profile specifies a server that you want to monitor and control."),
                                                 onTap: () {
-                                                    Navigator.push(
+                                                    /*Navigator.push(
                                                         context,
                                                         MaterialPageRoute(builder: (context) => AboutScreen()),
+                                                    );*/
+                                                    showAboutDialog(
+                                                        context: context,
+                                                        // applicationIcon: <<INSERT ICON HERE>>,
+                                                        applicationVersion: '0.0.1',
+                                                        applicationLegalese: 'Copyright © 2020 Hendrik Laudemann, Moritz Jökel. All rights reserved.',
+                                                        children: [
+                                                            // some widgets
+                                                        ]
                                                     );
                                                 },
                                             ),

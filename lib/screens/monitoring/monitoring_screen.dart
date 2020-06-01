@@ -50,7 +50,7 @@ class _MonitoringState extends State<MonitoringScreen> {
             "CPU",
             "Memory",
             "Network",
-            "Sensor"
+            "Sensors"
         ];
 
         super.initState();
@@ -67,7 +67,7 @@ class _MonitoringState extends State<MonitoringScreen> {
             case "Network":
                 monitoringFuture = service.getNetworks();
                 break;
-            case "Sensor":
+            case "Sensors":
                 monitoringFuture = service.getSensors();
                 break;
         }

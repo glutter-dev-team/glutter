@@ -251,18 +251,30 @@ class _DashboardState extends State<DashboardScreen> {
                                                         )
                                                     );
                                                 case ConnectionState.done:
-                                                    return new Center(
-                                                        child: CircularPercentIndicator(
-                                                            radius: 150.0,
-                                                            animation: true,
-                                                            lineWidth: 15.0,
-                                                            header: new Text(snapshot.data[0].label),
-                                                            percent: (snapshot.data[0].value / 100),
-                                                            center: new Text(snapshot.data[0].value.toString() + " " + snapshot.data[0].unit.toString()),
-                                                            progressColor: Theme.of(context).accentColor,
-                                                            backgroundColor: Theme.of(context).primaryColor,
-                                                        )
-                                                    );
+                                                    if (snapshot.data != null)
+                                                    {
+                                                        return new Column(
+                                                            mainAxisSize: MainAxisSize.max,
+                                                            children: List.generate(snapshot.data.length, (i) {
+                                                                return Center(
+                                                                    child: CircularPercentIndicator(
+                                                                        radius: 150.0,
+                                                                        animation: true,
+                                                                        lineWidth: 15.0,
+                                                                        header: new Text(snapshot.data[i].label),
+                                                                        percent: (snapshot.data[i].value / 100),
+                                                                        center: new Text(snapshot.data[i].value.toString() + " " + snapshot.data[i].unit.toString()),
+                                                                        progressColor: Theme.of(context).accentColor,
+                                                                        backgroundColor: Theme.of(context).primaryColor,
+                                                                    )
+                                                                );
+                                                            })
+                                                        );
+                                                    }
+                                                    else {
+                                                        return new Text("No Sensor Data");
+                                                    }
+                                                    return null;
                                                 default:
                                                     return Text("default");
                                             }

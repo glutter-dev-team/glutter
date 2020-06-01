@@ -38,14 +38,6 @@ class _MonitoringState extends State<MonitoringScreen> {
     @override
     void initState() {
         profilesFuture = DatabaseService.db.getProfiles();
-        profilesFuture.then((value) => this.setState(() {
-            this.selectedServer = value[0];
-            DatabaseService.db.insertSettings(new Settings(value[0].id, false));
-        }));
-        this.service = new GlancesService(this.selectedServer);
-        this.monitoringFuture = service.getCpu();
-        this.settingsFuture = DatabaseService.db.getSettings();
-        this.selectedData = "CPU";
 
         dataChoices = [
             "CPU",
@@ -55,6 +47,14 @@ class _MonitoringState extends State<MonitoringScreen> {
         ];
 
         super.initState();
+
+        profilesFuture.then((value) => this.setState(() {
+            this.selectedServer = value[0];
+            DatabaseService.db.insertSettings(new Settings(value[0].id, false));
+            this.service = new GlancesService(selectedServer);
+            this.selectedData = "CPU";
+            this.monitoringFuture = service.getCpu();
+        }));
     }
 
     _changeDataChoice(String choice) {
@@ -209,7 +209,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                 itemCount: dataList.length,
                                                                 itemBuilder: (BuildContext context, int entity){
                                                                     var entityProps = dataList[entity];
-                                                                    print(">>> dataList entity: " + entityProps.toString());
+                                                                    //print(">>> dataList entity: " + entityProps.toString());
                                                                     return Card(
                                                                         child: ListView.builder(
                                                                             scrollDirection: Axis.vertical,

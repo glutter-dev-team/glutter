@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:glutter/models/monitoring/cpu.dart';
+import 'package:glutter/models/monitoring/memory.dart';
+import 'package:glutter/models/settings/settings.dart';
+import 'package:glutter/services/monitoring/database_service.dart';
 import 'dart:async';
 
 import '../../services/monitoring/glances_service.dart';
@@ -19,30 +23,23 @@ class MonitoringScreen extends StatefulWidget {
 
 class _MonitoringState extends State<MonitoringScreen> {
 
-    TextEditingController _serverAddressController = new TextEditingController();
-    TextEditingController _serverPortController = new TextEditingController();
-    TextEditingController _serverApiVersionController = new TextEditingController();
-
-    Profile defaultProfile;
-    GlancesService glances;
-    Profile tempProfile;
-
-    Future memoryFuture;
+    Future profilesFuture;
+    Profile selectedServer;
+    GlancesService service;
+    Future<CPU> cpuFuture;
+    Future<Memory> memFuture;
+    Future<Settings> settingsFuture;
 
     @override
     void initState() {
-        // hier wird ein Default-Profil festgelegt, das beim Laden der App angewandt wird (solange, bis ein funktionierendes System für das Speichern der eigenen Profile haben, mit DB)
-        this._serverAddressController.text = "pi0w1";
-        this._serverPortController.text = "61208";
-        this._serverApiVersionController.text = "3";
+        profilesFuture = DatabaseService.db.getProfiles();
 
-        this.defaultProfile = new Profile(this._serverAddressController.text, this._serverPortController.text , "default profile", this._serverApiVersionController.text);
-        this.glances = new GlancesService(this.defaultProfile);
-
+        profilesFuture.then((value) => this.setState(() {selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id, false));}));
+        this.service = new GlancesService(this.selectedServer);
+        this.cpuFuture = service.getCpu();
+        this.memFuture = service.getMemory();
+        this.settingsFuture = DatabaseService.db.getSettings();
         super.initState();
-
-        memoryFuture = this.glances.getMemory();
-        //print(memoryFuture);
     }
 
     @override
@@ -60,68 +57,43 @@ class _MonitoringState extends State<MonitoringScreen> {
                         children: <Widget> [
                             Row(
                                 children: <Widget>[
-                                    Container(
-                                        width: 110.0,
-                                        child: TextField(
-                                            controller: _serverAddressController,
-                                            decoration: InputDecoration(
-                                                //border: OutlineInputBorder(),
-                                                labelText: 'Server address',
-                                                labelStyle: new TextStyle(fontSize: 14.0,),
-                                                hintText: 'IP or domain',
-                                                hintStyle: new TextStyle(fontSize: 14.0,),
-                                            )
-                                        )
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(left:10.0),
-                                        child: Container(
-                                            width: 75.0,
-                                            child: TextField(
-                                                controller: _serverPortController,
-                                                decoration: InputDecoration(
-                                                    //border: OutlineInputBorder(),
-                                                    labelText: 'Port',
-                                                    labelStyle: new TextStyle(fontSize: 14.0,),
-                                                    hintText: 'Def.: 61208',
-                                                    hintStyle: new TextStyle(fontSize: 14.0,),
-                                                )
-                                            )
-                                        ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(left:10.0),
-                                        child: Container(
-                                            width: 75.0,
-                                            child: TextField(
-                                                controller: _serverApiVersionController,
-                                                decoration: InputDecoration(
-                                                    //border: OutlineInputBorder(),
-                                                    labelText: 'Glances Version',
-                                                    labelStyle: new TextStyle(fontSize: 14.0,),
-                                                    hintText: '2 or 3',
-                                                    hintStyle: new TextStyle(fontSize: 14.0,),
-                                                )
-                                            )
-                                        ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(left:1.0),
-                                        child: RaisedButton(
-                                            onPressed: () {
-                                                // bei jedem Klick auf den "Set"-Button wird das Profil abhängig von den eingebenen Werten aktualisiert und es werden die aktuellsten Daten geladen
-                                                setState(() {
-                                                    this.tempProfile = new Profile(_serverAddressController.text,_serverPortController.text,"temporary profile",_serverApiVersionController.text);
-                                                    this.glances = new GlancesService(tempProfile);
-                                                    showToast(context, "Generated address: "+tempProfile.getFullServerAddress());
-                                                    memoryFuture = this.glances.getMemory();
-                                                });
-
-                                            },
-                                            child: Text(
-                                                "Set",
-                                            ),
-                                        )
+                                    FutureBuilder(
+                                        future: profilesFuture,
+                                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                            switch (snapshot.connectionState) {
+                                                case ConnectionState.active:
+                                                    return Text("active");
+                                                case ConnectionState.waiting:
+                                                    return Text("loading");
+                                                case ConnectionState.done:
+                                                    return Center(
+                                                        child: Padding(
+                                                            padding: EdgeInsets.all(0.0),
+                                                            child: DropdownButton<Profile>(
+                                                                items: snapshot.data.map((Profile item) {
+                                                                    return DropdownMenuItem<Profile>(
+                                                                        value: item,
+                                                                        child: Text(item.caption + " (" + item.serverAddress + ")")
+                                                                    );
+                                                                }).cast<DropdownMenuItem<Profile>>().toList(),
+                                                                onChanged: (Profile selectedServer) {
+                                                                    setState(() {
+                                                                        this.selectedServer = selectedServer;
+                                                                        this.service = new GlancesService(selectedServer);
+                                                                        this.cpuFuture = service.getCpu();
+                                                                        this.memFuture = service.getMemory();
+                                                                        DatabaseService.db.insertSettings(new Settings(selectedServer.id, false));
+                                                                        this.settingsFuture = DatabaseService.db.getSettings();
+                                                                    });
+                                                                },
+                                                                value: selectedServer,
+                                                            ),
+                                                        )
+                                                    );
+                                                default:
+                                                    return Text("default");
+                                            }
+                                        }
                                     )
                                 ],
                             ),
@@ -142,7 +114,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                     shrinkWrap: true,
                                     children: <Widget>[
                                         FutureBuilder(
-                                            future: memoryFuture,
+                                            future: memFuture,
                                             builder: (BuildContext context, AsyncSnapshot snapshot){
                                                 switch (snapshot.connectionState) {
                                                     case ConnectionState.none:

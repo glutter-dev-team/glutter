@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -30,9 +31,17 @@ class AboutScreen extends StatelessWidget {
                                                 );
                                             }
                                         ),*/
-                                    Text("about page"),
+                                    Text("About this App", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0))
                                 ]
                             ),
+                            Row(
+                                children: <Widget>[
+                                    Padding(
+                                        child: Text("Copyright (2020) Hendrik Laudemann, Moritz Jökel"),
+                                        padding: EdgeInsets.all(15.0),
+                                    )
+                                ],
+                            )
                         ]
                     )
                 ),

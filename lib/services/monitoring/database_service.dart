@@ -129,4 +129,13 @@ class DatabaseService {
         // returns the first (and hopefully only) settings-object.
         return Settings.fromMap(maps[0]);
     }
+
+    /// Updates one Settings-Row, which already exists in the database.
+    updateSettings(Settings newSettings) async {
+        final db = await database;
+
+        var res = await db.update("settings", newSettings.toMap(),
+            where: "id = ?", whereArgs: [newSettings.id]);
+        return res;
+    }
 }

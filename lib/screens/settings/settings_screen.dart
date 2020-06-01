@@ -90,7 +90,7 @@ class _SettingsState extends State<SettingsScreen> {
                                             child:  SwitchListTile(
                                                 value: _themeBrightnessLight,
                                                 title: Text("Dark mode"),
-                                                onChanged: (value) {
+                                                onChanged: null /*(value) {
                                                     setState(() {
                                                         if (value == true) {
                                                             // TODO: Theme Brightness tatsächlich ändern und speichern
@@ -100,7 +100,7 @@ class _SettingsState extends State<SettingsScreen> {
                                                             _themeBrightnessLight = false;
                                                         }
                                                     });
-                                                },
+                                                },*/
                                             ),
                                         )
                                     ),

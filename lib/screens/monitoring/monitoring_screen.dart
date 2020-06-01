@@ -186,11 +186,24 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                             physics: NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
                                                             itemCount: dataList.length,
-                                                            itemBuilder: (BuildContext context, int index){
-                                                                return ListTile(
-                                                                    title: Text(dataList[index]["short_desc"].toString()),
-                                                                    subtitle: Text(dataList[index]["value"].toString()), //snapshot.data.total.toString()
+                                                            itemBuilder: (BuildContext context, int entity){
+                                                                var entityProps = dataList[entity];
+                                                                return Card(
+                                                                    child: ListView.builder(
+                                                                        scrollDirection: Axis.vertical,
+                                                                        physics: NeverScrollableScrollPhysics(),
+                                                                        shrinkWrap: true,
+                                                                        itemCount: entityProps.length,
+                                                                        itemBuilder: (BuildContext context, int index){
+                                                                            return  ListTile(
+                                                                                title: Text(entityProps[index]["short_desc"].toString()),
+                                                                                subtitle: Text(entityProps[index]["value"].toString()),
+                                                                            );
+                                                                        }
+                                                                    )
                                                                 );
+
+
                                                             }
                                                         );
                                                     default:

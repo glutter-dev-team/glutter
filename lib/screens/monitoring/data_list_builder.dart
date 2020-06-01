@@ -22,7 +22,7 @@ List<Map> buildList(String choice, AsyncSnapshot snapshot) {
 
 List<Map> memoryListBuilder(AsyncSnapshot snapshot) {
 
-    //List<Map> dataList = new List();
+    List<Map> dataList = new List();
     List<Map> memoryList = new List();
     memoryList = [];
 
@@ -71,13 +71,13 @@ List<Map> memoryListBuilder(AsyncSnapshot snapshot) {
     shared["value"] = convertBytes(snapshot.data.shared, 2).toString();
     memoryList.add(shared);
 
-    /*
+
     var entry = new Map();
     entry[0] = memoryList;
     dataList.add(entry);
-    */
-    print(memoryList.toString());
-    return memoryList;
+
+    print(dataList.toString());
+    return dataList;
 }
 
 List<Map> cpuListBuilder(AsyncSnapshot snapshot) {

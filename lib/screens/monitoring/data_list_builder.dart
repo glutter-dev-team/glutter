@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:glutter/utils/convert_bytes.dart';
 
 List<Map> buildList(String choice, AsyncSnapshot snapshot) {
     List<Map> list = new List();
     switch (choice) {
-        case "memory":
+        case "Memory":
             list = memoryListBuilder(snapshot);
             break;
-        case "cpu":
+        case "CPU":
             list = cpuListBuilder(snapshot);
             break;
     }
@@ -20,51 +21,50 @@ List<Map> memoryListBuilder(AsyncSnapshot snapshot) {
 
     var total = new Map();
     total["short_desc"] = "total memory";
-    total["value"] = snapshot.data.total.toString();
+    total["value"] = convertBytes(snapshot.data.total, 2).toString();
     memoryList.add(total);
 
     var available = new Map();
     available["short_desc"] = "available memory";
-    available["value"] = snapshot.data.available.toString();
+    available["value"] = convertBytes(snapshot.data.available, 2).toString();
     memoryList.add(available);
 
     var usagePercent = new Map();
-    usagePercent["short_desc"] = "usage (%)";
-    usagePercent["value"] = snapshot.data.usagePercent.toString();
+    usagePercent["short_desc"] = "usage";
+    usagePercent["value"] = snapshot.data.usagePercent.toString() + "%";
     memoryList.add(usagePercent);
 
     var used = new Map();
     used["short_desc"] = "used memory";
-    used["value"] = snapshot.data.used.toString();
+    used["value"] = convertBytes(snapshot.data.used, 2).toString();
     memoryList.add(used);
 
     var free = new Map();
     free["short_desc"] = "free memory";
-    free["value"] = snapshot.data.free.toString();
+    free["value"] = convertBytes(snapshot.data.free, 2).toString();
     memoryList.add(free);
 
     var active = new Map();
     active["short_desc"] = "active memory";
-    active["value"] = snapshot.data.active.toString();
+    active["value"] = convertBytes(snapshot.data.active, 2).toString();
     memoryList.add(active);
 
     var inactive = new Map();
     inactive["short_desc"] = "inactive memory";
-    inactive["value"] = snapshot.data.inactive.toString();
+    inactive["value"] = convertBytes(snapshot.data.inactive, 2).toString();
     memoryList.add(inactive);
 
     var buffers = new Map();
     buffers["short_desc"] = "buffers memory";
-    buffers["value"] = snapshot.data.buffers.toString();
+    buffers["value"] = convertBytes(snapshot.data.buffers, 2).toString();
     memoryList.add(buffers);
 
     var shared = new Map();
     shared["short_desc"] = "shared memory";
-    shared["value"] = snapshot.data.shared.toString();
+    shared["value"] = convertBytes(snapshot.data.shared, 2).toString();
     memoryList.add(shared);
 
-    print(memoryList.toString());
-
+    //print(memoryList.toString());
     return memoryList;
 }
 
@@ -75,22 +75,22 @@ List<Map> cpuListBuilder(AsyncSnapshot snapshot) {
 
     var totalLoad = new Map();
     totalLoad["short_desc"] = "Total CPU-Load";
-    totalLoad["value"] = snapshot.data.totalLoad.toString();
-    cpuList.add(total);
+    totalLoad["value"] = snapshot.data.totalLoad.toString() + "%";
+    cpuList.add(totalLoad);
 
     var user = new Map();
     user["short_desc"] = "User CPU Usage";
-    user["value"] = snapshot.data.user.toString();
+    user["value"] = snapshot.data.user.toString() + "%";
     cpuList.add(user);
 
     var system = new Map();
     system["short_desc"] = "System CPU Usage";
-    system["value"] = snapshot.data.system.toString();
+    system["value"] = snapshot.data.system.toString() + "%";
     cpuList.add(system);
 
     var idle = new Map();
     idle["short_desc"] = "Idle CPU";
-    idle["value"] = snapshot.data.idle.toString();
+    idle["value"] = snapshot.data.idle.toString() + "%";
     cpuList.add(idle);
 
     var nice = new Map();
@@ -158,7 +158,6 @@ List<Map> cpuListBuilder(AsyncSnapshot snapshot) {
     cpuCore["value"] = snapshot.data.cpuCore.toString();
     cpuList.add(cpuCore);
 
-    print(cpuList.toString());
-
+    //print(cpuList.toString());
     return cpuList;
 }

@@ -23,23 +23,54 @@ class MonitoringScreen extends StatefulWidget {
 
 class _MonitoringState extends State<MonitoringScreen> {
 
+    GlancesService service;
+    Future<Settings> settingsFuture;
+
     Future profilesFuture;
     Profile selectedServer;
-    GlancesService service;
-    Future<CPU> cpuFuture;
-    Future<Memory> memFuture;
-    Future<Settings> settingsFuture;
+
+    String selectedData;
+    List<String> dataChoices;
+
+    Future monitoringFuture;
 
     @override
     void initState() {
         profilesFuture = DatabaseService.db.getProfiles();
-
-        profilesFuture.then((value) => this.setState(() {selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id, false));}));
+        profilesFuture.then((value) => this.setState(() {
+            this.selectedServer = value[0];
+            DatabaseService.db.insertSettings(new Settings(value[0].id, false));
+        }));
         this.service = new GlancesService(this.selectedServer);
-        this.cpuFuture = service.getCpu();
-        this.memFuture = service.getMemory();
+        this.monitoringFuture = service.getCpu();
         this.settingsFuture = DatabaseService.db.getSettings();
+        this.selectedData = "CPU";
+
+        dataChoices = [
+            "CPU",
+            "Memory",
+            "Network",
+            "Sensor"
+        ];
+
         super.initState();
+    }
+
+    _changeDataChoice(String choice) {
+        switch (choice) {
+            case "CPU":
+                monitoringFuture = service.getCpu();
+                break;
+            case "Memory":
+                monitoringFuture = service.getMemory();
+                break;
+            case "Network":
+                monitoringFuture = service.getNetworks();
+                break;
+            case "Sensor":
+                monitoringFuture = service.getSensors();
+                break;
+        }
     }
 
     @override
@@ -57,6 +88,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                         children: <Widget> [
                             Row(
                                 children: <Widget>[
+                                    Text("Profile: "),
                                     FutureBuilder(
                                         future: profilesFuture,
                                         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -80,10 +112,9 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                     setState(() {
                                                                         this.selectedServer = selectedServer;
                                                                         this.service = new GlancesService(selectedServer);
-                                                                        this.cpuFuture = service.getCpu();
-                                                                        this.memFuture = service.getMemory();
                                                                         DatabaseService.db.insertSettings(new Settings(selectedServer.id, false));
                                                                         this.settingsFuture = DatabaseService.db.getSettings();
+                                                                        _changeDataChoice(this.selectedData);
                                                                     });
                                                                 },
                                                                 value: selectedServer,
@@ -99,9 +130,29 @@ class _MonitoringState extends State<MonitoringScreen> {
                             ),
                             Row(
                                 children: <Widget>[
+                                    Text("Data: "),
+                                    DropdownButton<String>(
+                                        items: dataChoices.map((value) {
+                                            return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value)
+                                            );
+                                        }).cast<DropdownMenuItem<String>>().toList(),
+                                        onChanged: (selectedData) {
+                                            setState(() {
+                                                this.selectedData = selectedData;
+                                                _changeDataChoice(this.selectedData);
+                                            });
+                                        },
+                                        value: selectedData,
+                                    ),
+                                ],
+                            ),
+                            Row(
+                                children: <Widget>[
                                     Padding(
                                         padding: EdgeInsets.only(top:10.0),
-                                        child: Text("Memory",
+                                        child: Text(this.selectedData,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 22),
@@ -114,7 +165,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                     shrinkWrap: true,
                                     children: <Widget>[
                                         FutureBuilder(
-                                            future: memFuture,
+                                            future: monitoringFuture,
                                             builder: (BuildContext context, AsyncSnapshot snapshot){
                                                 switch (snapshot.connectionState) {
                                                     case ConnectionState.none:
@@ -129,16 +180,16 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                             ),
                                                         );
                                                     case ConnectionState.done:
-                                                        List<Map> memoryList = memoryListBuilder(snapshot);
+                                                        List<Map> dataList = buildList(this.selectedData, snapshot);
                                                         return ListView.builder(
                                                             scrollDirection: Axis.vertical,
                                                             physics: NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
-                                                            itemCount: memoryList.length,
+                                                            itemCount: dataList.length,
                                                             itemBuilder: (BuildContext context, int index){
                                                                 return ListTile(
-                                                                    title: Text(memoryList[index]["short_desc"].toString()),
-                                                                    subtitle: Text(memoryList[index]["value"].toString()), //snapshot.data.total.toString()
+                                                                    title: Text(dataList[index]["short_desc"].toString()),
+                                                                    subtitle: Text(dataList[index]["value"].toString()), //snapshot.data.total.toString()
                                                                 );
                                                             }
                                                         );
@@ -156,6 +207,4 @@ class _MonitoringState extends State<MonitoringScreen> {
             )
         );
     }
-
-
 }

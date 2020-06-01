@@ -62,7 +62,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                         IconButton(
                             icon: Icon(Icons.delete),
                             onPressed: () {
-
                                 showDialog(
                                     context: context,
                                     builder: (_) => AlertDialog(
@@ -95,9 +94,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                         ],
                                     ),
                                 );
-
-                               /* DatabaseService.db.deleteProfileById(profile.id);
-                                Navigator.pop(context);*/
                             },
                         )
                     ],

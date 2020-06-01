@@ -37,7 +37,7 @@ class AboutScreen extends StatelessWidget {
                             Row(
                                 children: <Widget>[
                                     Padding(
-                                        child: Text("Copyright (2020) Henrik Laudemann, Moritz Jökel"),
+                                        child: Text("Copyright (2020) Hendrik Laudemann, Moritz Jökel"),
                                         padding: EdgeInsets.all(15.0),
                                     )
                                 ],

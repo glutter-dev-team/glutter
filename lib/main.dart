@@ -1,144 +1,43 @@
 import 'package:flutter/material.dart';
-import 'Monitoring/Services/glances_service.dart';
+import 'package:glutter/screens/dashboard/dashboard_screen.dart';
+import 'package:glutter/screens/remote_control/remote_control_screen.dart';
+import 'package:glutter/screens/settings/about_screen.dart';
+import 'package:glutter/screens/settings/profile_create_screen.dart';
+import 'package:glutter/screens/settings/profile_edit_screen.dart';
+import 'package:glutter/screens/settings/profile_list_screen.dart';
+import 'package:glutter/screens/settings/settings_screen.dart';
+import 'screens/monitoring/monitoring_screen.dart';
+import 'utils/routes.dart';
 
 void main() {
-  runApp(MyApp());
+    runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Glutter',
-        theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: MyHomePage(title: 'Glutter Home Page'),
-      );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  final GlancesService glancesService = GlancesService();
-
-  TextEditingController _setServerController = new TextEditingController();
-
-  @override
-  void initState() {
-    this.glancesService.getServerStatus("sensors").then((value){
-
-      print('Async done');
-    });
-    super.initState();
-    _setServerController.text = this.glancesService.serverAddress;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget> [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20.0, 20.0,0.0,20.0),
-                    child:
-                    SizedBox(width: 250,
-                      child:
-                      TextFormField(
-                        autofocus: false,
-                        controller: _setServerController,
-                        decoration: InputDecoration(
-                          labelText: "Glances API address:",
-                        ),
-                      ),
-                    ),
-                  ),
-                  FlatButton(
-                    color: Colors.deepOrange.shade600,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      glancesService.serverAddress = _setServerController.text;
-                      print(glancesService.serverAddress);
-                    },
-                    child: Text(
-                      "Set",
-                    ),
-                  )
-                ]
+    // This widget is the root of your application.
+    @override
+    Widget build(BuildContext context) {
+        return MaterialApp(
+            title: 'Glutter',
+            theme: new ThemeData(
+                primarySwatch: Colors.deepPurple,
+                accentColor: Colors.deepPurpleAccent,
+                toggleableActiveColor: Colors.deepPurpleAccent,
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                brightness: Brightness.dark, // das könnte später über den User-Preferences-Screen individuell anpassbar sein und in sqlite gespeichert werden
             ),
-            Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                  children: <Widget> [
-                    Row(
-                        children: <Widget> [
-                          Text("Glances data: "),
-
-                        ]
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child:
-                            Text(
-                              "address: " + glancesService.serverAddress + ", \n"
-                                  + "status code: " + glancesService.statusCodeStr + ", \n"
-                                  + "resp: " + glancesService.glcsResponse,
-
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                            )
-                        )
-                      ],
-                    ),
-                  ]
-              ),
-            ),
-
-            FlatButton(
-              color: Colors.deepOrange.shade600,
-              textColor: Colors.white,
-              onPressed: () {
-                setState(() {
-                  glancesService.getServerStatus("network");
-                });
-              },
-              child: Text(
-                "Get info",
-              ),
-            )
-          ],
-        ),
-      ),
-
-      /* floatingActionButton: FloatingActionButton(
-        //onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-      */
-
-    );
-  }
+            home: DashboardScreen(),
+            routes:  {
+                Routes.dashboard: (context) => DashboardScreen(),
+                Routes.monitoring: (context) => MonitoringScreen(),
+                Routes.remoteControl: (context) => RemoteControlScreen(),
+                Routes.settings: (context) => SettingsScreen(),
+                Routes.profileList: (context) => ProfileListScreen(),
+                Routes.profileCreate: (context) => ProfileCreateScreen(),
+                Routes.profileDetail: (context) => ProfileEditScreen(),
+                Routes.about: (context) => AboutScreen(),
+            },
+        );
+    }
 }
+

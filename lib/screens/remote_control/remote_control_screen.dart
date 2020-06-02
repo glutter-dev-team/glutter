@@ -27,7 +27,9 @@ class _RemoteControlState extends State<RemoteControlScreen> {
             ),
             drawer: AppDrawer(),
             body:
-                Text("Remote control page")
+                Center(child:
+                    Text("Coming soon™")
+                )
         );
     }
 }

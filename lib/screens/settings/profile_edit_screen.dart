@@ -58,6 +58,45 @@ class _ProfileEditState extends State<ProfileEditScreen> {
             child: Scaffold(
                 appBar: AppBar(
                     title: Text("Edit profile " + profile.caption),
+                    actions: [
+                        IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                        title: Text("Delete profile?"),
+                                        content: Text("Do you really want to delete this profile called '" + profile.caption + "'?"),
+                                        actions: [
+                                            FlatButton(
+                                                onPressed: () {
+                                                    Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                    "Cancel",
+                                                ),
+                                            ),
+                                            FlatButton(
+                                                onPressed: () {
+                                                    DatabaseService.db.deleteProfileById(profile.id);
+
+                                                    //Navigator.popUntil(context, ModalRoute.withName('/settings/profiles'));
+                                                    var count = 0;
+                                                    Navigator.popUntil(context, (route) {
+                                                        return count++ == 2;
+                                                    });
+                                                },
+                                                child: Text(
+                                                    "Delete",
+                                                    style: TextStyle(color: Colors.red),
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                );
+                            },
+                        )
+                    ],
                 ),
                 body: Builder(
                     builder: (context) => Padding(

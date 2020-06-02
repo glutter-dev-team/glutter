@@ -90,7 +90,7 @@ class _SettingsState extends State<SettingsScreen> {
                                             child:  SwitchListTile(
                                                 value: _themeBrightnessLight,
                                                 title: Text("Dark mode"),
-                                                onChanged: (value) {
+                                                onChanged: null /*(value) {
                                                     setState(() {
                                                         if (value == true) {
                                                             // TODO: Theme Brightness tatsächlich ändern und speichern
@@ -100,7 +100,7 @@ class _SettingsState extends State<SettingsScreen> {
                                                             _themeBrightnessLight = false;
                                                         }
                                                     });
-                                                },
+                                                },*/
                                             ),
                                         )
                                     ),
@@ -117,11 +117,19 @@ class _SettingsState extends State<SettingsScreen> {
                                             ListTile(
                                                 leading: Icon(Icons.info_outline),
                                                 title: Text("About"),
-                                                //subtitle: Text("A profile specifies a server that you want to monitor and control."),
                                                 onTap: () {
-                                                    Navigator.push(
+                                                    /*Navigator.push(
                                                         context,
                                                         MaterialPageRoute(builder: (context) => AboutScreen()),
+                                                    );*/
+                                                    showAboutDialog(
+                                                        context: context,
+                                                        // applicationIcon: <<INSERT ICON HERE>>,
+                                                        applicationVersion: '0.0.1',
+                                                        applicationLegalese: 'Copyright © 2020 Hendrik Laudemann, Moritz Jökel. All rights reserved.',
+                                                        children: [
+                                                            // some widgets
+                                                        ]
                                                     );
                                                 },
                                             ),

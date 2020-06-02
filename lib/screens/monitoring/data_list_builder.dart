@@ -201,11 +201,6 @@ List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
         type["value"] = obj.type.toString();
         sensorsList.add(type);
 
-        var key = new Map();
-        key["short_desc"] = "Key";
-        key["value"] = obj.key.toString();
-        sensorsList.add(key);
-
         dataList.add(sensorsList);
     }
 
@@ -271,11 +266,6 @@ List<List> networkListBuilder(AsyncSnapshot snapshot) {
         speed["short_desc"] = "Speed";
         speed["value"] = obj.speed.toString();
         networkList.add(speed);
-
-        var key = new Map();
-        key["short_desc"] = "Key";
-        key["value"] = obj.key.toString();
-        networkList.add(key);
 
         dataList.add(networkList);        
     }

@@ -1,21 +1,16 @@
-# glutter
+# glutter  
+  
+A mutli-platform app for easy-to-use remote control of your linux servers built with Flutter and Glances.  
+  
+# Quick-Start Guide  
+Install Glances on your system, you want to monitor. Have a look on https://glances.readthedocs.io/en/stable/install.html for further information. 
+Having Glances installed on your System, start the Glances-integrated Webserver for providing the API for glutter. *(You may register Glances as a system-service or start it as a cronjob)*
 
-A mutli-platform app for easy-to-use remote control of your linux servers built with Flutter and Glances.
+    >> glances -w
+You can now verify your server is up and running by typing
 
-## Flutter docs
+    http://YourServerAddress:61208
+in your Browser. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-- For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## Glances API docs
-https://github.com/nicolargo/glances/wiki/The-Glances-RESTFULL-JSON-API
-
-## Coding-Conventions
-- Klassennamen im Upper-Camel-Case
-- Dateinamen entsprechen den Klassennamen, auch im Upper-Camel-Case
-- Instanzvariablen klein
-- Geschweifte öffnende Klammern in der selben Zeile
-- Einzug: 4 Leerzeichen 
+Please have an eye on your firewall settings. If you want to use Glances outside your LAN, please configure your firewall to open Port 61208 (be careful!) or run Glances behind a reverse-proxy. 
+Running Glances with HTTPS behind a reverse-proxy is not supported by glutter yet.

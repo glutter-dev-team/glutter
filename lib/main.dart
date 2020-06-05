@@ -20,8 +20,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
             title: 'Glutter',
             theme: new ThemeData(
-                primarySwatch: Colors.deepPurple,
-                accentColor: Colors.deepPurpleAccent,
+                // TODO: ThemeData aus eigener Datei laden, wo auch einige Theme-Eigenschaften anpassbar sein sollen
+                primarySwatch: Colors.deepPurple, // deepPurple = #512da8
+                accentColor: Colors.deepPurpleAccent, // deepPurpleAccent = #7c4dff
                 toggleableActiveColor: Colors.deepPurpleAccent,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 brightness: Brightness.dark, // das könnte später über den User-Preferences-Screen individuell anpassbar sein und in sqlite gespeichert werden

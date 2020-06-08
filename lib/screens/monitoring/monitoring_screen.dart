@@ -160,19 +160,6 @@ class _MonitoringState extends State<MonitoringScreen> {
                                     ),
                                 ],
                             ),
-                            /*
-                            Row(
-                                children: <Widget>[
-                                    Padding(
-                                        padding: EdgeInsets.only(top:10.0),
-                                        child: Text(this.selectedData,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22),
-                                        ),
-                                    ),
-                                ],
-                            ),*/
                             Expanded(
                                 child: SmartRefresher(
                                     enablePullDown: true,
@@ -192,7 +179,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                         case ConnectionState.active:
                                                             return Text("active");
                                                         case ConnectionState.waiting:
-                                                            return Center( //Text("Active and maybe waiting");
+                                                            return Center(
                                                                 child: Container(
                                                                     child: new CircularProgressIndicator(),
                                                                     alignment: Alignment(0.0, 0.0),

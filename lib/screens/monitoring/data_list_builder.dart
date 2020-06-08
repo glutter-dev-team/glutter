@@ -2,22 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:glutter/utils/convert_bytes.dart';
 
 List<List> buildList(String choice, AsyncSnapshot snapshot) {
-    List<List> list = new List();
     switch (choice) {
         case "Memory":
-            list = memoryListBuilder(snapshot);
-            break;
+            return memoryListBuilder(snapshot);
         case "CPU":
-            list = cpuListBuilder(snapshot);
-            break;
+            return cpuListBuilder(snapshot);
         case "Sensors":
-            list = sensorsListBuilder(snapshot);
-            break;
+            return sensorsListBuilder(snapshot);
         case "Network":
-            list = networkListBuilder(snapshot);
-            break;
+            return networkListBuilder(snapshot);
+        default:
+            return null;
     }
-    return list;
 }
 
 List<List> memoryListBuilder(AsyncSnapshot snapshot) {
@@ -92,86 +88,103 @@ List<List> cpuListBuilder(AsyncSnapshot snapshot) {
 
     var totalLoad = new Map();
     totalLoad["short_desc"] = "Total CPU-load";
+    totalLoad["help_text"] = "Percent of total CPU-Load.";
     totalLoad["value"] = snapshot.data.totalLoad.toString() + "%";
     cpuList.add(totalLoad);
 
     var user = new Map();
     user["short_desc"] = "User CPU usage";
+    user["help_text"] = "Percent time spent in user space.";
     user["value"] = snapshot.data.user.toString() + "%";
     cpuList.add(user);
 
     var system = new Map();
     system["short_desc"] = "System CPU usage";
+    system["help_text"] = "Percent time spent in kernel space.";
     system["value"] = snapshot.data.system.toString() + "%";
     cpuList.add(system);
 
     var idle = new Map();
     idle["short_desc"] = "Idle CPU";
+    idle["help_text"] = "Percent of CPU used by any program.";
     idle["value"] = snapshot.data.idle.toString() + "%";
     cpuList.add(idle);
 
     var nice = new Map();
     nice["short_desc"] = "Nice";
-    nice["value"] = snapshot.data.nice.toString();
+    nice["help_text"] = "Percent time occupied by user level processes with a positive nice value.";
+    nice["value"] = snapshot.data.nice.toString() + "%";
     cpuList.add(nice);
 
     var guestNice = new Map();
     guestNice["short_desc"] = "Guest nice";
+    //guestNice["help_text"] = ""; // TODO: Wofür steht die "guestNice" Eigenschaft?
     guestNice["value"] = snapshot.data.guestNice.toString();
     cpuList.add(guestNice);
 
     var ioWait = new Map();
     ioWait["short_desc"] = "I/O wait";
-    ioWait["value"] = snapshot.data.ioWait.toString();
+    ioWait["help_text"] = "Linux: Percent time spent by the CPU waiting for I/O operations to complete.";
+    ioWait["value"] = snapshot.data.ioWait.toString() + "%";
     cpuList.add(ioWait);
 
     var softInterruptRequest = new Map();
     softInterruptRequest["short_desc"] = "Soft interrupt request";
-    softInterruptRequest["value"] = snapshot.data.softInterruptRequest.toString();
+    softInterruptRequest["help_text"] = "Percent time spent servicing/handling software interrupts.";
+    softInterruptRequest["value"] = snapshot.data.softInterruptRequest.toString() + "%";
     cpuList.add(softInterruptRequest);
 
     var interruptRequest = new Map();
     interruptRequest["short_desc"] = "Interrupt request";
-    interruptRequest["value"] = snapshot.data.interruptRequest.toString();
+    interruptRequest["help_text"] = "Percent time spent servicing/handling hardware interrupts.";
+    interruptRequest["value"] = snapshot.data.interruptRequest.toString() + "%";
     cpuList.add(interruptRequest);
 
     var steal = new Map();
     steal["short_desc"] = "Steal";
-    steal["value"] = snapshot.data.steal.toString();
+    steal["help_text"] = "Percentage of time a virtual CPU waits for a real CPU while the hypervisor is servicing another virtual processor.";
+    steal["value"] = snapshot.data.steal.toString() + "%";
     cpuList.add(steal);
 
     var guest = new Map();
     guest["short_desc"] = "Guest";
+    //guest["help_text"] = ""; // TODO: Wofür steht die "guest" Eigenschaft?
     guest["value"] = snapshot.data.guest.toString();
     cpuList.add(guest);
 
     var ctxSwitches = new Map();
     ctxSwitches["short_desc"] = "CTX switches";
-    ctxSwitches["value"] = snapshot.data.ctxSwitches.toString();
+    ctxSwitches["help_text"] = "Number of context switches (voluntary + involuntary) per second.";
+    ctxSwitches["value"] = snapshot.data.ctxSwitches.toString() + "/s";
     cpuList.add(ctxSwitches);
 
     var interrupts = new Map();
     interrupts["short_desc"] = "Interrupts";
-    interrupts["value"] = snapshot.data.interrupts.toString();
+    interrupts["help_text"] = "Number of interrupts per second.";
+    interrupts["value"] = snapshot.data.interrupts.toString() + "/s";
     cpuList.add(interrupts);
 
     var softwareInterrupts = new Map();
     softwareInterrupts["short_desc"] = "Software interrupts";
-    softwareInterrupts["value"] = snapshot.data.softwareInterrupts.toString();
+    softwareInterrupts["help_text"] = "Number of software interrupts per second. Always set to 0 on Windows and SunOS.";
+    softwareInterrupts["value"] = snapshot.data.softwareInterrupts.toString() + "/s";
     cpuList.add(softwareInterrupts);
 
     var systemCalls = new Map();
     systemCalls["short_desc"] = "System calls";
-    systemCalls["value"] = snapshot.data.systemCalls.toString();
+    systemCalls["help_text"] = "Number of system calls per second. Do not displayed on Linux (always 0).";
+    systemCalls["value"] = snapshot.data.systemCalls.toString() + "/s";
     cpuList.add(systemCalls);
 
     var timeSinceUpdate = new Map();
     timeSinceUpdate["short_desc"] = "Time since update";
+    timeSinceUpdate["help_text"] = "Time passed by since last update.";
     timeSinceUpdate["value"] = snapshot.data.timeSinceUpdate.toString();
     cpuList.add(timeSinceUpdate);
 
     var cpuCore = new Map();
     cpuCore["short_desc"] = "CPU cores";
+    cpuCore["help_text"] = "Number of available CPU-Cores.";
     cpuCore["value"] = snapshot.data.cpuCore.toString();
     cpuList.add(cpuCore);
 
@@ -237,46 +250,55 @@ List<List> networkListBuilder(AsyncSnapshot snapshot) {
 
         var timeSinceUpdate = new Map();
         timeSinceUpdate["short_desc"] = "Time since update";
+        timeSinceUpdate["help_text"] = "Time passed by since last update.";
         timeSinceUpdate["value"] = obj.timeSinceUpdate.toString();
         networkList.add(timeSinceUpdate);
 
         var cumulativeReceive = new Map();
         cumulativeReceive["short_desc"] = "Cumulative receive";
-        cumulativeReceive["value"] = obj.cumulativeReceive.toString();
+        cumulativeReceive["help_text"] = "Cumulative rate of network-traffic receive to the server.";
+        cumulativeReceive["value"] = convertBytes(obj.cumulativeReceive, 2).toString();
         networkList.add(cumulativeReceive);
 
         var receive = new Map();
         receive["short_desc"] = "Receive";
-        receive["value"] = obj.receive.toString();
+        receive["help_text"] = "Rate of network-traffic receive to the server.";
+        receive["value"] = convertBytes(obj.receive, 2).toString() + "/s";
         networkList.add(receive);
 
         var cumulativeTx = new Map();
         cumulativeTx["short_desc"] = "Cumulative Tx";
-        cumulativeTx["value"] = obj.cumulativeTx.toString();
+        cumulativeTx["help_text"] = "Cumulative rate of network-traffic send by the server.";
+        cumulativeTx["value"] = convertBytes(obj.cumulativeTx, 2).toString();
         networkList.add(cumulativeTx);
 
         var tx = new Map();
         tx["short_desc"] = "tx";
-        tx["value"] = obj.tx.toString();
+        tx["help_text"] = "Rate of network-traffic send by the server.";
+        tx["value"] =  convertBytes(obj.tx, 2).toString() + "/s";
         networkList.add(tx);
 
         var cumulativeCx = new Map();
         cumulativeCx["short_desc"] = "Cumulative cx";
+        //cumulativeCx["help_text"] = ""; // TODO: Wofür steht die "cumulativeCx" Eigenschaft?
         cumulativeCx["value"] = obj.cumulativeCx.toString();
         networkList.add(cumulativeCx);
 
         var cx = new Map();
         cx["short_desc"] = "cx";
+        //cx["help_text"] = ""; // TODO: Wofür steht die "cx" Eigenschaft?
         cx["value"] = obj.cx.toString();
         networkList.add(cx);
 
         var isUp = new Map();
         isUp["short_desc"] = "Is up";
-        isUp["value"] = obj.isUp.toString();
+        isUp["help_text"] = "Specifies whether the specifies network-interface is up (online).";
+        isUp["value"] = obj.isUp;
         networkList.add(isUp);
 
         var speed = new Map();
         speed["short_desc"] = "Speed";
+        speed["help_text"] = "Specifies the speed of the current network-interface.";
         speed["value"] = obj.speed.toString();
         networkList.add(speed);
 

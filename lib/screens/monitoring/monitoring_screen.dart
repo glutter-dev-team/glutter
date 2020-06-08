@@ -225,8 +225,8 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                                             itemCount: entityProps.length,
                                                                                             itemBuilder: (BuildContext context, int index){
                                                                                                 return ListTile(
-                                                                                                    title: Text(entityProps[index]["short_desc"].toString()),
-                                                                                                    subtitle: Text(entityProps[index]["value"].toString()),
+                                                                                                    title: Text(entityProps[index]["short_desc"]),
+                                                                                                    subtitle: Text(entityProps[index]["value"]),
                                                                                                     onTap: () {
                                                                                                         _showHelpTextDialog(context, entityProps[index]);
                                                                                                     },
@@ -251,8 +251,8 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                                             itemCount: entityProps.length,
                                                                                             itemBuilder: (BuildContext context, int index){
                                                                                                 return ListTile(
-                                                                                                    title: Text(entityProps[index]["short_desc"].toString()),
-                                                                                                    subtitle: Text(entityProps[index]["value"].toString()),
+                                                                                                    title: Text(entityProps[index]["short_desc"]),
+                                                                                                    subtitle: Text(entityProps[index]["value"]),
                                                                                                     onTap: () {
                                                                                                         _showHelpTextDialog(context, entityProps[index]);
                                                                                                     },
@@ -283,24 +283,6 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                             return Card(
                                                                                 child: Column(
                                                                                     children: [
-                                                                                        /*Container(
-                                                                                            decoration: BoxDecoration(
-                                                                                                color: Theme.of(context).accentColor,
-                                                                                                borderRadius: new BorderRadius.only(
-                                                                                                    topLeft:  const  Radius.circular(4.0),
-                                                                                                    topRight: const  Radius.circular(4.0)
-                                                                                                ),
-                                                                                            ),
-                                                                                            child: ListTile(
-                                                                                                leading: Icon(Icons.settings_ethernet),
-                                                                                                title: Text(
-                                                                                                    entityProps[0]["value"],
-                                                                                                    style: TextStyle(
-                                                                                                        fontSize: 18.0,
-                                                                                                    ),
-                                                                                                ),
-                                                                                            ),
-                                                                                        ),*/
                                                                                         PurpleCardHeader(
                                                                                             title: entityProps[0]["value"],
                                                                                             iconData: Icons.settings_ethernet,
@@ -312,11 +294,32 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                                             itemCount: entityProps.length,
                                                                                             itemBuilder: (BuildContext context, int index){
                                                                                                 if (index == 0){
-                                                                                                    return Container();
+                                                                                                return Container();
+                                                                                                } else if (entityProps[index]["short_desc"] == "Is up") {
+                                                                                                    IconData isUp;
+                                                                                                    if (entityProps[index]["value"]) {
+                                                                                                        isUp = Icons.check;
+                                                                                                    } else {
+                                                                                                        isUp = Icons.clear;
+                                                                                                    }
+                                                                                                    return ListTile(
+                                                                                                        title: Text(entityProps[index]["short_desc"]),
+                                                                                                        subtitle: Row(
+                                                                                                            children: [
+                                                                                                                Icon(
+                                                                                                                    isUp,
+                                                                                                                    size: 18.0,
+                                                                                                                ),
+                                                                                                            ],
+                                                                                                        ),
+                                                                                                        onTap: () {
+                                                                                                            _showHelpTextDialog(context, entityProps[index]);
+                                                                                                        },
+                                                                                                    );
                                                                                                 } else {
                                                                                                     return ListTile(
-                                                                                                        title: Text(entityProps[index]["short_desc"].toString()),
-                                                                                                        subtitle: Text(entityProps[index]["value"].toString()),
+                                                                                                        title: Text(entityProps[index]["short_desc"]),
+                                                                                                        subtitle: Text(entityProps[index]["value"]),
                                                                                                         onTap: () {
                                                                                                             _showHelpTextDialog(context, entityProps[index]);
                                                                                                         },
@@ -363,13 +366,13 @@ _showHelpTextDialog(BuildContext context, entityProp) {
                         Padding(
                             padding: EdgeInsets.only(left: 5.0),
                             child: Text(
-                                entityProp["short_desc"].toString(),
+                                entityProp["short_desc"],
                                 style: TextStyle(color: Theme.of(context).accentColor),
                             ),
                         ),
                     ],
                 ),
-                content: Text(entityProp["help_text"].toString()),
+                content: Text(entityProp["help_text"]),
                 actions: [
                     /*
                     FlatButton(

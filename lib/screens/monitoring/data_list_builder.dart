@@ -27,46 +27,55 @@ List<List> memoryListBuilder(AsyncSnapshot snapshot) {
 
     var total = new Map();
     total["short_desc"] = "Total memory";
+    total["help_text"] = "Total physical memory installed.";
     total["value"] = convertBytes(snapshot.data.total, 2).toString();
     memoryList.add(total);
 
     var available = new Map();
     available["short_desc"] = "Available memory";
+    available["help_text"] = "The actual amount of available memory that can be given instantly to processes that request more memory in bytes. This is calculated by summing different memory values depending on the platform (e.g. free + buffers + cached on Linux) and it is supposed to be used to monitor actual memory usage in a cross platform fashion.";
     available["value"] = convertBytes(snapshot.data.available, 2).toString();
     memoryList.add(available);
 
     var usagePercent = new Map();
     usagePercent["short_desc"] = "Usage";
+    usagePercent["help_text"] = "The percentage usage calculated as (total-available)/total*100.";
     usagePercent["value"] = snapshot.data.usagePercent.toString() + "%";
     memoryList.add(usagePercent);
 
     var used = new Map();
     used["short_desc"] = "Used memory";
+    used["help_text"] = "Memory used, calculated differently depending on the platform and designed for informational purposes only.";
     used["value"] = convertBytes(snapshot.data.used, 2).toString();
     memoryList.add(used);
 
     var free = new Map();
     free["short_desc"] = "Free memory";
+    free["help_text"] = "Memory not being used at all (zeroed) that is readily available; note that this doesn’t reflect the actual memory available (use ‘available’ instead).";
     free["value"] = convertBytes(snapshot.data.free, 2).toString();
     memoryList.add(free);
 
     var active = new Map();
     active["short_desc"] = "Active memory";
+    active["help_text"] = "UNIX: Memory currently in use or very recently used, and so it is in RAM.";
     active["value"] = convertBytes(snapshot.data.active, 2).toString();
     memoryList.add(active);
 
     var inactive = new Map();
     inactive["short_desc"] = "Inactive memory";
+    inactive["help_text"] = "UNIX: Memory that is marked as not used.";
     inactive["value"] = convertBytes(snapshot.data.inactive, 2).toString();
     memoryList.add(inactive);
 
     var buffers = new Map();
     buffers["short_desc"] = "Buffers memory";
+    buffers["help_text"] = "Linux, BSD: Cache for things like file system metadata.";
     buffers["value"] = convertBytes(snapshot.data.buffers, 2).toString();
     memoryList.add(buffers);
 
     var shared = new Map();
     shared["short_desc"] = "Shared memory";
+    shared["help_text"] = "BSD: Memory that may be simultaneously accessed by multiple processes.";
     shared["value"] = convertBytes(snapshot.data.shared, 2).toString();
     memoryList.add(shared);
 
@@ -193,7 +202,11 @@ List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
 
         var unit = new Map();
         unit["short_desc"] = "Unit";
-        unit["value"] = obj.unit.toString();
+        if (obj.unit.toString() == "C" || obj.unit.toString() == "F") {
+            unit["value"] = "°" + obj.unit.toString();
+        } else {
+            unit["value"] = obj.unit.toString();
+        }
         sensorsList.add(unit);
 
         var type = new Map();

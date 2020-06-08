@@ -160,6 +160,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                     ),
                                 ],
                             ),
+                            /*
                             Row(
                                 children: <Widget>[
                                     Padding(
@@ -171,7 +172,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                         ),
                                     ),
                                 ],
-                            ),
+                            ),*/
                             Expanded(
                                 child: SmartRefresher(
                                     enablePullDown: true,
@@ -207,20 +208,128 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                 itemBuilder: (BuildContext context, int entity){
                                                                     var entityProps = dataList[entity];
                                                                     //print(">>> dataList entity: " + entityProps.toString());
-                                                                    return Card(
-                                                                        child: ListView.builder(
-                                                                            scrollDirection: Axis.vertical,
-                                                                            physics: NeverScrollableScrollPhysics(),
-                                                                            shrinkWrap: true,
-                                                                            itemCount: entityProps.length,
-                                                                            itemBuilder: (BuildContext context, int index){
-                                                                                return  ListTile(
-                                                                                    title: Text(entityProps[index]["short_desc"].toString()),
-                                                                                    subtitle: Text(entityProps[index]["value"].toString()),
-                                                                                );
-                                                                            }
-                                                                        )
-                                                                    );
+
+                                                                    switch (this.selectedData) {
+                                                                        case "CPU":
+                                                                            return Card(
+                                                                                child: Column(
+                                                                                    children: [
+                                                                                        PurpleCardHeader(
+                                                                                            title: "CPU",
+                                                                                            iconData: Icons.memory,
+                                                                                        ),
+                                                                                        ListView.builder(
+                                                                                            scrollDirection: Axis.vertical,
+                                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                                            shrinkWrap: true,
+                                                                                            itemCount: entityProps.length,
+                                                                                            itemBuilder: (BuildContext context, int index){
+                                                                                                return ListTile(
+                                                                                                    title: Text(entityProps[index]["short_desc"].toString()),
+                                                                                                    subtitle: Text(entityProps[index]["value"].toString()),
+                                                                                                    onTap: () {
+                                                                                                        _showHelpTextDialog(context, entityProps[index]);
+                                                                                                    },
+                                                                                                );
+                                                                                            }
+                                                                                        )
+                                                                                    ],
+                                                                                )
+                                                                            );
+                                                                        case "Memory":
+                                                                            return Card(
+                                                                                child: Column(
+                                                                                    children: [
+                                                                                        PurpleCardHeader(
+                                                                                            title: "Memory",
+                                                                                            iconData: Icons.storage,
+                                                                                        ),
+                                                                                        ListView.builder(
+                                                                                            scrollDirection: Axis.vertical,
+                                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                                            shrinkWrap: true,
+                                                                                            itemCount: entityProps.length,
+                                                                                            itemBuilder: (BuildContext context, int index){
+                                                                                                return ListTile(
+                                                                                                    title: Text(entityProps[index]["short_desc"].toString()),
+                                                                                                    subtitle: Text(entityProps[index]["value"].toString()),
+                                                                                                    onTap: () {
+                                                                                                        _showHelpTextDialog(context, entityProps[index]);
+                                                                                                    },
+                                                                                                );
+                                                                                            }
+                                                                                        )
+                                                                                    ],
+                                                                                )
+                                                                            );
+                                                                        case "Sensors":
+                                                                            return Card(
+                                                                                child: Column(
+                                                                                    children: [
+                                                                                        PurpleCardHeader(
+                                                                                            title: entityProps[0]["value"],
+                                                                                            iconData: Icons.toys,
+                                                                                        ),
+                                                                                        ListTile(
+                                                                                            title: Text(
+                                                                                                entityProps[3]["value"], // sensor type
+                                                                                            ),
+                                                                                            subtitle: Text(entityProps[1]["value"] + entityProps[2]["value"]), // sensor value + unit
+                                                                                        )
+                                                                                    ],
+                                                                                ),
+                                                                            );
+                                                                        case "Network":
+                                                                            return Card(
+                                                                                child: Column(
+                                                                                    children: [
+                                                                                        /*Container(
+                                                                                            decoration: BoxDecoration(
+                                                                                                color: Theme.of(context).accentColor,
+                                                                                                borderRadius: new BorderRadius.only(
+                                                                                                    topLeft:  const  Radius.circular(4.0),
+                                                                                                    topRight: const  Radius.circular(4.0)
+                                                                                                ),
+                                                                                            ),
+                                                                                            child: ListTile(
+                                                                                                leading: Icon(Icons.settings_ethernet),
+                                                                                                title: Text(
+                                                                                                    entityProps[0]["value"],
+                                                                                                    style: TextStyle(
+                                                                                                        fontSize: 18.0,
+                                                                                                    ),
+                                                                                                ),
+                                                                                            ),
+                                                                                        ),*/
+                                                                                        PurpleCardHeader(
+                                                                                            title: entityProps[0]["value"],
+                                                                                            iconData: Icons.settings_ethernet,
+                                                                                        ),
+                                                                                        ListView.builder(
+                                                                                            scrollDirection: Axis.vertical,
+                                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                                            shrinkWrap: true,
+                                                                                            itemCount: entityProps.length,
+                                                                                            itemBuilder: (BuildContext context, int index){
+                                                                                                if (index == 0){
+                                                                                                    return Container();
+                                                                                                } else {
+                                                                                                    return ListTile(
+                                                                                                        title: Text(entityProps[index]["short_desc"].toString()),
+                                                                                                        subtitle: Text(entityProps[index]["value"].toString()),
+                                                                                                        onTap: () {
+                                                                                                            _showHelpTextDialog(context, entityProps[index]);
+                                                                                                        },
+                                                                                                    );
+                                                                                                }
+                                                                                            }
+                                                                                        )
+                                                                                    ],
+                                                                                )
+                                                                            );
+                                                                        default:
+                                                                            return Container();
+                                                                    }
                                                                 }
                                                             );
                                                         default:
@@ -236,6 +345,81 @@ class _MonitoringState extends State<MonitoringScreen> {
                     ),
                 ),
             )
+        );
+    }
+}
+
+_showHelpTextDialog(BuildContext context, entityProp) {
+    if (entityProp["help_text"] != null) {
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                title: Row(
+                    children: [
+                        Icon(
+                            Icons.help_outline,
+                            color: Theme.of(context).accentColor
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 5.0),
+                            child: Text(
+                                entityProp["short_desc"].toString(),
+                                style: TextStyle(color: Theme.of(context).accentColor),
+                            ),
+                        ),
+                    ],
+                ),
+                content: Text(entityProp["help_text"].toString()),
+                actions: [
+                    /*
+                    FlatButton(
+                        onPressed: () {
+                            // Link to Glutter or Glances documentation with more detailed information?
+                        },
+                        child: Text(
+                            "More information",
+                        ),
+                    ),
+                    */
+                    FlatButton(
+                        onPressed: () {
+                            Navigator.pop(context);
+                        },
+                        child: Text(
+                            "OK",
+                        ),
+                    ),
+                ],
+            ),
+        );
+    }
+}
+
+class PurpleCardHeader extends StatelessWidget {
+    PurpleCardHeader({this.title, this.iconData});
+
+    final IconData iconData;
+    final String title;
+
+    @override
+    Widget build(BuildContext context) {
+        return Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).accentColor, //Colors.deepPurple,
+                borderRadius: new BorderRadius.only(
+                    topLeft:  const  Radius.circular(4.0),
+                    topRight: const  Radius.circular(4.0)
+                ),
+            ),
+            child: ListTile(
+                leading: Icon(iconData),
+                title: Text(
+                    title,
+                    style: TextStyle(
+                        fontSize: 18.0,
+                    ),
+                ),
+            ),
         );
     }
 }

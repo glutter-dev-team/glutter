@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/utils/convert_bytes.dart';
 
-List<List> buildList(String choice, AsyncSnapshot snapshot) {
+enum MonitoringOption {
+    CPU,
+    Memory,
+    Network,
+    Sensors
+}
+
+List<List> buildList(MonitoringOption choice, AsyncSnapshot snapshot) {
     switch (choice) {
-        case "Memory":
+        case MonitoringOption.Memory:
             return memoryListBuilder(snapshot);
-        case "CPU":
+        case MonitoringOption.CPU:
             return cpuListBuilder(snapshot);
-        case "Sensors":
+        case MonitoringOption.Sensors:
             return sensorsListBuilder(snapshot);
-        case "Network":
+        case MonitoringOption.Network:
             return networkListBuilder(snapshot);
         default:
             return null;

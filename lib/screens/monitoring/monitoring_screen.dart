@@ -27,8 +27,8 @@ class _MonitoringState extends State<MonitoringScreen> {
     Future profilesFuture;
     Profile selectedServer;
 
-    String selectedData;
-    List<String> dataChoices;
+    MonitoringOption selectedOption;
+    List<MonitoringOption> monitoringOptions;
 
     Future monitoringFuture;
 
@@ -36,12 +36,11 @@ class _MonitoringState extends State<MonitoringScreen> {
     void initState() {
         profilesFuture = DatabaseService.db.getProfiles();
 
-        dataChoices = [
-            "CPU",
-            "Memory",
-            "Network",
-            "Sensors"
-        ];
+        this.monitoringOptions = new List();
+        for (var value in MonitoringOption.values) {
+            this.monitoringOptions.add(value);
+        }
+        //print(">>> monitoringOptions List: " + this.monitoringOptions.toString());
 
         super.initState();
 
@@ -49,23 +48,23 @@ class _MonitoringState extends State<MonitoringScreen> {
             this.selectedServer = value[0];
             DatabaseService.db.insertSettings(new Settings(value[0].id, false));
             this.service = new GlancesService(selectedServer);
-            this.selectedData = "CPU";
+            this.selectedOption = MonitoringOption.CPU;
             this.monitoringFuture = service.getCpu();
         }));
     }
 
-    _changeDataChoice(String choice) {
+    _changeDataChoice(MonitoringOption choice) {
         switch (choice) {
-            case "CPU":
+            case MonitoringOption.CPU:
                 monitoringFuture = service.getCpu();
                 break;
-            case "Memory":
+            case MonitoringOption.Memory:
                 monitoringFuture = service.getMemory();
                 break;
-            case "Network":
+            case MonitoringOption.Network:
                 monitoringFuture = service.getNetworks();
                 break;
-            case "Sensors":
+            case MonitoringOption.Sensors:
                 monitoringFuture = service.getSensors();
                 break;
         }
@@ -78,7 +77,7 @@ class _MonitoringState extends State<MonitoringScreen> {
         await Future.delayed(Duration(milliseconds: 500));
 
         this.setState(() {
-            _changeDataChoice(this.selectedData);
+            _changeDataChoice(this.selectedOption);
         });
 
         // if failed,use refreshFailed()
@@ -126,7 +125,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                         this.service = new GlancesService(selectedServer);
                                                                         DatabaseService.db.insertSettings(new Settings(selectedServer.id, false));
                                                                         this.settingsFuture = DatabaseService.db.getSettings();
-                                                                        _changeDataChoice(this.selectedData);
+                                                                        _changeDataChoice(this.selectedOption);
                                                                     });
                                                                 },
                                                                 value: selectedServer,
@@ -143,20 +142,20 @@ class _MonitoringState extends State<MonitoringScreen> {
                             Row(
                                 children: <Widget>[
                                     Text("Data: "),
-                                    DropdownButton<String>(
-                                        items: dataChoices.map((value) {
-                                            return DropdownMenuItem<String>(
+                                    DropdownButton<MonitoringOption>(
+                                        items: this.monitoringOptions.map((value) {
+                                            return DropdownMenuItem<MonitoringOption>(
                                                 value: value,
-                                                child: Text(value)
+                                                child: Text(_getOptionAsString(value))
                                             );
-                                        }).cast<DropdownMenuItem<String>>().toList(),
-                                        onChanged: (selectedData) {
+                                        }).cast<DropdownMenuItem<MonitoringOption>>().toList(),
+                                        onChanged: (selectedOption) {
                                             setState(() {
-                                                this.selectedData = selectedData;
-                                                _changeDataChoice(this.selectedData);
+                                                this.selectedOption = selectedOption;
+                                                _changeDataChoice(this.selectedOption);
                                             });
                                         },
-                                        value: selectedData,
+                                        value: selectedOption,
                                     ),
                                 ],
                             ),
@@ -186,7 +185,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                 ),
                                                             );
                                                         case ConnectionState.done:
-                                                            List<List> dataList = buildList(this.selectedData, snapshot);
+                                                            List<List> dataList = buildList(this.selectedOption, snapshot);
                                                             return ListView.builder(
                                                                 scrollDirection: Axis.vertical,
                                                                 physics: NeverScrollableScrollPhysics(),
@@ -196,8 +195,8 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                     var entityProps = dataList[entity];
                                                                     //print(">>> dataList entity: " + entityProps.toString());
 
-                                                                    switch (this.selectedData) {
-                                                                        case "CPU":
+                                                                    switch (this.selectedOption) {
+                                                                        case MonitoringOption.CPU:
                                                                             return Card(
                                                                                 child: Column(
                                                                                     children: [
@@ -223,7 +222,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                                     ],
                                                                                 )
                                                                             );
-                                                                        case "Memory":
+                                                                        case MonitoringOption.Memory:
                                                                             return Card(
                                                                                 child: Column(
                                                                                     children: [
@@ -249,7 +248,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                                     ],
                                                                                 )
                                                                             );
-                                                                        case "Sensors":
+                                                                        case MonitoringOption.Sensors:
                                                                             return Card(
                                                                                 child: Column(
                                                                                     children: [
@@ -266,7 +265,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                                     ],
                                                                                 ),
                                                                             );
-                                                                        case "Network":
+                                                                        case MonitoringOption.Network:
                                                                             return Card(
                                                                                 child: Column(
                                                                                     children: [
@@ -412,4 +411,11 @@ class PurpleCardHeader extends StatelessWidget {
             ),
         );
     }
+}
+
+String _getOptionAsString(MonitoringOption option) {
+    // Removes the enum name from the enum's value and returns its value only. See example below.
+    // input: MonitoringOption.Sensors
+    // output: Sensors
+    return option.toString().substring(option.toString().indexOf('.')+1);
 }

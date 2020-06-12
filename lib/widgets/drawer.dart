@@ -83,12 +83,14 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.contain,
-                    image: AssetImage('assets/images/temporary_app_icon.png'))),
+                    image: AssetImage('assets/images/glutter_app_icon_xxxhdpi.png')
+                )
+            ),
             child: Stack(children: <Widget>[
                 Positioned(
                     bottom: 12.0,
                     left: 16.0,
-                    child: Text("Glutter",
+                    child: Text("glutter",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,

@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:glutter/screens/settings/about_screen.dart';
 import 'package:glutter/screens/settings/profile_list_screen.dart';
+import 'package:glutter/utils/launch_url.dart';
 import 'package:glutter/widgets/drawer.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -118,17 +120,36 @@ class _SettingsState extends State<SettingsScreen> {
                                                 leading: Icon(Icons.info_outline),
                                                 title: Text("About"),
                                                 onTap: () {
-                                                    /*Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(builder: (context) => AboutScreen()),
-                                                    );*/
                                                     showAboutDialog(
                                                         context: context,
-                                                        // applicationIcon: <<INSERT ICON HERE>>,
+                                                        applicationIcon: Container(
+                                                            height: 75.0,
+                                                            child: Image(
+                                                                image: AssetImage('assets/images/glutter_app_icon_dark_xxxhdpi.png')
+                                                            ),
+                                                        ),
                                                         applicationVersion: '0.0.1',
                                                         applicationLegalese: 'Copyright © 2020 Hendrik Laudemann, Moritz Jökel. All rights reserved.',
                                                         children: [
-                                                            // some widgets
+                                                            SizedBox(height: 20),
+                                                            RichText(
+                                                                text: TextSpan(
+                                                                    children: <TextSpan>[
+                                                                        TextSpan(
+                                                                        text: 'Glutter is an app for easy-to-use remote control of your linux servers, built with Flutter and Glances.\n\n'
+                                                                        'Visit us on '
+                                                                        ),
+                                                                        TextSpan(
+                                                                            style: TextStyle(color: Theme.of(context).accentColor),
+                                                                            text: 'Github',
+                                                                            recognizer: new TapGestureRecognizer()
+                                                                                ..onTap = () { launchURL('https://github.com/HeLau1337/glutter');
+                                                                                },
+                                                                        ),
+                                                                        TextSpan(text: ' to learn more.'),
+                                                                    ]
+                                                                )
+                                                            )
                                                         ]
                                                     );
                                                 },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glutter/widgets/drawer.dart';
 
 class RemoteControlScreen extends StatefulWidget {
-    RemoteControlScreen({Key key, this.title: "Glutter Remote Control"}) : super(key: key);
+    RemoteControlScreen({Key key, this.title: "Remote Control"}) : super(key: key);
 
     static const String routeName = '/remote-control';
     final String title;

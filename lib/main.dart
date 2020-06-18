@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-            title: 'Glutter',
+            title: 'glutter',
             theme: new ThemeData(
                 // TODO: ThemeData aus eigener Datei laden, wo auch einige Theme-Eigenschaften anpassbar sein sollen
                 primarySwatch: Colors.deepPurple, // deepPurple = #512da8

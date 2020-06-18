@@ -7,7 +7,7 @@ import 'package:glutter/utils/launch_url.dart';
 import 'package:glutter/widgets/drawer.dart';
 
 class SettingsScreen extends StatefulWidget {
-    SettingsScreen({Key key, this.title: "Glutter Settings"}) : super(key: key);
+    SettingsScreen({Key key, this.title: "Settings"}) : super(key: key);
 
     static const String routeName = '/settings';
     final String title;
@@ -136,8 +136,13 @@ class _SettingsState extends State<SettingsScreen> {
                                                                 text: TextSpan(
                                                                     children: <TextSpan>[
                                                                         TextSpan(
-                                                                        text: 'Glutter is an app for easy-to-use remote control of your linux servers, built with Flutter and Glances.\n\n'
-                                                                        'Visit us on '
+                                                                            text: 'glutter is an app for easy-to-use remote control of your linux servers, built with ',
+                                                                            children: <TextSpan>[
+                                                                                TextSpan(text: 'Gl', style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                TextSpan(text: 'ances and Fl'),
+                                                                                TextSpan(text: 'utter.', style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                TextSpan(text: '\n\n Visit us on '),
+                                                                            ]
                                                                         ),
                                                                         TextSpan(
                                                                             style: TextStyle(color: Theme.of(context).accentColor),

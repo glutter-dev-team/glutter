@@ -11,7 +11,7 @@ import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/widgets/drawer.dart';
 
 class DashboardScreen extends StatefulWidget {
-    DashboardScreen({Key key, this.title: "Glutter Dashboard"}) : super(key: key);
+    DashboardScreen({Key key, this.title: "Dashboard"}) : super(key: key);
 
     static const String routeName = '/dashboard';
     final String title;
@@ -33,7 +33,10 @@ class _DashboardState extends State<DashboardScreen> {
     void initState() {
         profilesFuture = DatabaseService.db.getProfiles();
 
-        profilesFuture.then((value) => this.setState(() {selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id, false));}));
+        profilesFuture.then((value) => this.setState(() {
+            selectedServer = value[0];
+            DatabaseService.db.insertSettings(new Settings(value[0].id, false));
+        }));
         this.service = new GlancesService(this.selectedServer);
         this.cpuFuture = service.getCpu();
         this.memFuture = service.getMemory();
@@ -42,7 +45,8 @@ class _DashboardState extends State<DashboardScreen> {
 
         setState(() {
             profilesFuture.then((value) => this.setState(() {
-                selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id, false));
+                selectedServer = value[0];
+                DatabaseService.db.insertSettings(new Settings(value[0].id, false));
                 this.service = new GlancesService(selectedServer);
                 this.cpuFuture = service.getCpu();
                 this.memFuture = service.getMemory();

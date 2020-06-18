@@ -10,7 +10,7 @@ import 'package:glutter/widgets/drawer.dart';
 import 'data_list_builder.dart';
 
 class MonitoringScreen extends StatefulWidget {
-    MonitoringScreen({Key key, this.title: "Glutter Monitoring"}) : super(key: key);
+    MonitoringScreen({Key key, this.title: "Monitoring"}) : super(key: key);
 
     static const String routeName = '/monitoring';
     final String title;

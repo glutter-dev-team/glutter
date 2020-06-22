@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glutter/screens/settings/manage_profiles/profile_form_widget.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
 import 'package:glutter/models/monitoring/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
@@ -17,15 +18,15 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
 
     TextEditingController _profileCaptionController = new TextEditingController();
     TextEditingController _serverAddressController = new TextEditingController();
-    TextEditingController _serverPortController = new TextEditingController();
-    TextEditingController _serverApiVersionController = new TextEditingController();
+    TextEditingController _glancesPortController = new TextEditingController();
+    TextEditingController _glancesApiVersionController = new TextEditingController();
 
     Future connectionTestResult;
 
     _connectionTest() async {
-        var address = _serverAddressController.text;
-        var port = _serverPortController.text;
-        var apiVersion = _serverApiVersionController.text;
+        String address = _serverAddressController.text;
+        String port = _glancesPortController.text;
+        String apiVersion = _glancesApiVersionController.text;
 
         Profile testProfile = new Profile(address, port, "test", apiVersion);
         GlancesService glances = new GlancesService(testProfile);
@@ -59,144 +60,11 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                         padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,0),
                         child: Column(
                             children: <Widget> [
-                                /*Row(
-                                    children: <Widget>[
-                                        Container(
-                                            child: TextField(
-                                                controller: _profileCaptionController,
-                                                decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    labelText: 'Caption / Name / Title',
-                                                    labelStyle: new TextStyle(fontSize: 14.0,),
-                                                    hintText: '2 or 3',
-                                                    hintStyle: new TextStyle(fontSize: 14.0,),
-                                                )
-                                            ),
-                                        ),
-
-                                    ]
-                                ),*/
-                                //Text("test123"),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: TextField(
-                                                            controller: _profileCaptionController,
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                labelText: 'Caption / Name / Title',
-                                                                hintText: 'e.g. My NAS @ Home',
-                                                            )
-                                                        )),
-                                                ],
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: TextField(
-                                                controller: _serverAddressController,
-                                                decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    labelText: 'Server address',
-                                                    hintText: 'e.g. example.com or 123.45.678.9',
-                                                )
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: TextField(
-                                                            controller: _serverPortController,
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                labelText: 'Server port',
-                                                                hintText: 'default: 61208',
-                                                            )
-                                                        )),
-                                                ],
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: TextField(
-                                                controller: _serverApiVersionController,
-                                                decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    labelText: 'Glances API version',
-                                                    hintText: '2 or 3',
-                                                )
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
+                                ProfileForm(
+                                    profileCaptionController: _profileCaptionController,
+                                    serverAddressController: _serverAddressController,
+                                    glancesPortController: _glancesPortController,
+                                    glancesApiVersionController: _glancesApiVersionController,
                                 ),
                                 SizedBox(
                                     height: 25,
@@ -281,9 +149,9 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                     icon: Icon(Icons.add_circle),
                     onPressed: () => _createProfile(
                         _serverAddressController.text,
-                        _serverPortController.text,
+                        _glancesPortController.text,
                         _profileCaptionController.text,
-                        _serverApiVersionController.text,
+                        _glancesApiVersionController.text,
                         context
                     ),
                     label: new Text('Create profile')

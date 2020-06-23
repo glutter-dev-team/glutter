@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/monitoring/network.dart';

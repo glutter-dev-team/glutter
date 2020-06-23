@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/screens/settings/profile_create_screen.dart';
 import 'package:glutter/screens/settings/profile_edit_screen.dart';
-import 'package:glutter/services/monitoring/database_service.dart';
+import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/utils/toast.dart';
 
 class ProfileListScreen extends StatefulWidget {

@@ -1,13 +1,13 @@
 import 'package:test/test.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
-import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/models/shared/profile.dart';
 
 // skip this file to avoid getting errors when running your unit tests
 @Skip("sqflite cannot run on the machine.")
 
 void main() {
     /// Test-Constant "TestServer" -> Add your connection-values here!
-    final Profile testServer = new Profile('seafileserver', '61208', 'Testserver', '2');
+    final Profile testServer = new Profile('seafileserver', 61208, '2', 'Testserver',22, 'admin');
 
     /// Test-Constant "service", generated from the TestServer-Constant.
     final GlancesService service = new GlancesService(testServer);

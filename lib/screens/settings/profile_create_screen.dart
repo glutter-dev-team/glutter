@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/services/monitoring/database_service.dart';
-import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/services/shared/database_service.dart';
+import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 
 class ProfileCreateScreen extends StatefulWidget {
@@ -18,6 +18,9 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
     TextEditingController _profileCaptionController = new TextEditingController();
     TextEditingController _serverAddressController = new TextEditingController();
     TextEditingController _serverPortController = new TextEditingController();
+    TextEditingController _serverSshPortController = new TextEditingController();
+    TextEditingController _serverSshUsernameController = new TextEditingController();
+    TextEditingController _serverSshPasswordController = new TextEditingController();
     TextEditingController _serverApiVersionController = new TextEditingController();
 
     Future connectionTestResult;
@@ -25,9 +28,13 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
     _connectionTest() async {
         var address = _serverAddressController.text;
         var port = _serverPortController.text;
+        var sshPort = _serverSshPortController.text;
+        var sshUsername = _serverSshUsernameController.text;
+        var sshPassword = _serverSshPasswordController.text;
         var apiVersion = _serverApiVersionController.text;
 
-        Profile testProfile = new Profile(address, port, "test", apiVersion);
+        Profile testProfile = new Profile(address, int.parse(port), apiVersion, "test", int.parse(sshPort), sshUsername);
+        testProfile.sshPassword = sshPassword;
         GlancesService glances = new GlancesService(testProfile);
         connectionTestResult = glances.connectionTest();
     }
@@ -175,6 +182,105 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                        Expanded(
+                                            child: Column(
+                                                children: <Widget>[
+                                                    Container(
+                                                        child: TextField(
+                                                            controller: _serverSshPortController,
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                labelText: 'Server SSH-Port',
+                                                                hintText: 'default: 22',
+                                                            )
+                                                        )),
+                                                ],
+                                            ),
+                                        ),
+                                        /*
+                                        IconButton(
+                                            icon: Icon(Icons.help_outline),
+                                            tooltip: 'Show help text',
+                                            onPressed: () {
+                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
+                                            },
+                                        ),
+                                        */
+                                    ],
+                                ),
+                                SizedBox(
+                                    height: 15,
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                        Expanded(
+                                            child: Column(
+                                                children: <Widget>[
+                                                    Container(
+                                                        child: TextField(
+                                                            controller: _serverSshUsernameController,
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                labelText: 'Server SSH-Username',
+                                                                hintText: 'username',
+                                                            )
+                                                        )),
+                                                ],
+                                            ),
+                                        ),
+                                        /*
+                                        IconButton(
+                                            icon: Icon(Icons.help_outline),
+                                            tooltip: 'Show help text',
+                                            onPressed: () {
+                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
+                                            },
+                                        ),
+                                        */
+                                    ],
+                                ),
+                                SizedBox(
+                                    height: 15,
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                        Expanded(
+                                            child: Column(
+                                                children: <Widget>[
+                                                    Container(
+                                                        child: TextField(
+                                                            controller: _serverSshPasswordController,
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                labelText: 'Server SSH-Password',
+                                                                hintText: 'password',
+                                                            )
+                                                        )),
+                                                ],
+                                            ),
+                                        ),
+                                        /*
+                                        IconButton(
+                                            icon: Icon(Icons.help_outline),
+                                            tooltip: 'Show help text',
+                                            onPressed: () {
+                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
+                                            },
+                                        ),
+                                        */
+                                    ],
+                                ),
+                                SizedBox(
+                                    height: 15,
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
                                         Expanded(
@@ -282,8 +388,11 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                     onPressed: () => _createProfile(
                         _serverAddressController.text,
                         _serverPortController.text,
+                        _serverSshPortController.text,
                         _profileCaptionController.text,
                         _serverApiVersionController.text,
+                        _serverSshUsernameController.text,
+                        _serverSshPasswordController.text,
                         context
                     ),
                     label: new Text('Create profile')
@@ -293,8 +402,9 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
     }
 }
 
-_createProfile(String serverAddress, String port, String caption, String apiVersion, BuildContext context) {
-    Profile newProfile = new Profile(serverAddress, port, caption, apiVersion);
+_createProfile(String serverAddress, String port, String sshPort, String caption, String apiVersion, String sshUsername, String sshPassword, BuildContext context) {
+    Profile newProfile = new Profile(serverAddress, int.parse(port), apiVersion, caption, int.parse(sshPort), sshUsername);
+    newProfile.sshPassword = sshPassword;
     DatabaseService.db.insertProfile(newProfile);
     Navigator.pop(context);
 }

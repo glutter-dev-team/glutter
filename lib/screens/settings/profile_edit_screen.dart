@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/services/monitoring/database_service.dart';
-import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/services/shared/database_service.dart';
+import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 
 class ProfileEditScreen extends StatefulWidget {
@@ -16,7 +16,10 @@ class _ProfileEditState extends State<ProfileEditScreen> {
 
     TextEditingController _profileCaptionController = new TextEditingController();
     TextEditingController _serverAddressController = new TextEditingController();
+    TextEditingController _serverSshPortController = new TextEditingController();
     TextEditingController _serverPortController = new TextEditingController();
+    TextEditingController _serverSshUsernameController = new TextEditingController();
+    TextEditingController _serverSshPasswordController = new TextEditingController();
     TextEditingController _serverApiVersionController = new TextEditingController();
 
     Future connectionTestResult;
@@ -24,9 +27,13 @@ class _ProfileEditState extends State<ProfileEditScreen> {
     _connectionTest() async {
         var address = _serverAddressController.text;
         var port = _serverPortController.text;
+        var sshPort = _serverSshPortController.text;
+        var sshUsername = _serverSshUsernameController.text;
+        var sshPassword = _serverSshPasswordController.text;
         var apiVersion = _serverApiVersionController.text;
 
-        Profile testProfile = new Profile(address, port, "test", apiVersion);
+        Profile testProfile = new Profile(address, int.parse(port), apiVersion, "test", int.parse(sshPort), sshUsername, );
+        testProfile.sshPassword = sshPassword;
         GlancesService glances = new GlancesService(testProfile);
         connectionTestResult = glances.connectionTest();
     }
@@ -41,7 +48,10 @@ class _ProfileEditState extends State<ProfileEditScreen> {
         final Profile profile = ModalRoute.of(context).settings.arguments;
         _profileCaptionController.text = profile.caption;
         _serverAddressController.text = profile.serverAddress;
-        _serverPortController.text = profile.port;
+        _serverPortController.text = profile.port.toString();
+        _serverSshPortController.text = profile.sshPort.toString();
+        _serverSshUsernameController.text = profile.sshUsername;
+        _serverSshPasswordController.text = "*Password hidden*";
         _serverApiVersionController.text = profile.glancesApiVersion;
 
         // This method is rerun every time setState is called
@@ -219,6 +229,105 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                        Expanded(
+                                            child: Column(
+                                                children: <Widget>[
+                                                    Container(
+                                                        child: TextField(
+                                                            controller: _serverSshPortController,
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                labelText: 'Server SSH-Port',
+                                                                hintText: 'default: 22',
+                                                            )
+                                                        )),
+                                                ],
+                                            ),
+                                        ),
+                                        /*
+                                        IconButton(
+                                            icon: Icon(Icons.help_outline),
+                                            tooltip: 'Show help text',
+                                            onPressed: () {
+                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
+                                            },
+                                        ),
+                                        */
+                                    ],
+                                ),
+                                SizedBox(
+                                    height: 15,
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                        Expanded(
+                                            child: Column(
+                                                children: <Widget>[
+                                                    Container(
+                                                        child: TextField(
+                                                            controller: _serverSshUsernameController,
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                labelText: 'Server SSH-Username',
+                                                                hintText: 'username',
+                                                            )
+                                                        )),
+                                                ],
+                                            ),
+                                        ),
+                                        /*
+                                        IconButton(
+                                            icon: Icon(Icons.help_outline),
+                                            tooltip: 'Show help text',
+                                            onPressed: () {
+                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
+                                            },
+                                        ),
+                                        */
+                                    ],
+                                ),
+                                SizedBox(
+                                    height: 15,
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                        Expanded(
+                                            child: Column(
+                                                children: <Widget>[
+                                                    Container(
+                                                        child: TextField(
+                                                            controller: _serverSshPasswordController,
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(),
+                                                                labelText: 'Server SSH-Password',
+                                                                hintText: 'password',
+                                                            )
+                                                        )),
+                                                ],
+                                            ),
+                                        ),
+                                        /*
+                                        IconButton(
+                                            icon: Icon(Icons.help_outline),
+                                            tooltip: 'Show help text',
+                                            onPressed: () {
+                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
+                                            },
+                                        ),
+                                        */
+                                    ],
+                                ),
+                                SizedBox(
+                                    height: 15,
+                                ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
                                         Expanded(
@@ -326,7 +435,8 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                     onPressed: () => _saveProfile(
                         profile,
                         _serverAddressController.text,
-                        _serverPortController.text,
+                        int.parse(_serverPortController.text),
+                        int.parse(_serverSshPortController.text),
                         _profileCaptionController.text,
                         _serverApiVersionController.text,
                         context
@@ -338,9 +448,10 @@ class _ProfileEditState extends State<ProfileEditScreen> {
     }
 }
 
-_saveProfile(Profile profile, String serverAddress, String port, String caption, String apiVersion, BuildContext context) {
+_saveProfile(Profile profile, String serverAddress, int port, int sshPort, String caption, String apiVersion, BuildContext context) {
     profile.serverAddress = serverAddress;
     profile.port = port;
+    profile.sshPort = sshPort;
     profile.caption = caption;
     profile.glancesApiVersion = apiVersion;
 

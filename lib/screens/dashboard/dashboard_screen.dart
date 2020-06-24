@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
-import 'package:glutter/services/monitoring/database_service.dart';
+import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/models/settings/settings.dart';
 import 'package:glutter/models/monitoring/cpu.dart';

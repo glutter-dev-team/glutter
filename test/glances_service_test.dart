@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:glutter/models/monitoring/profile.dart';
+import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/monitoring/network.dart';
@@ -8,7 +8,7 @@ import 'package:glutter/services/monitoring/glances_service.dart';
 
 void main() {
     /// Test-Constant "TestServer" -> Add your connection-values here!
-    final Profile testServer = new Profile('192.168.2.126', '61208', 'Testserver', '2');
+    final Profile testServer = new Profile('192.168.2.126', 61208, '2', 'Testserver', 22, 'admin');
 
     /// Test-Constant "service", generated from the TestServer-Constant.
     final GlancesService service = new GlancesService(testServer);

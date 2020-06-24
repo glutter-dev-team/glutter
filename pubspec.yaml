@@ -33,12 +33,16 @@ dependencies:
     url_launcher: ^5.4.2
     percent_indicator: "^2.1.1"
     pull_to_refresh: ^1.5.7
+    ssh: any
+    flutter_secure_storage: any
     # process_run: ^0.10.10+1
 
 dev_dependencies:
     flutter_test:
         sdk: flutter
-    test: 
+    test:
+    clock: any
+    fake_async: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

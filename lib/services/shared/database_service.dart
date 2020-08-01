@@ -44,23 +44,13 @@ class DatabaseService {
 
         return await openDatabase(
             path,
-            version: 2,
+            version: 1,
             onOpen: (db) {
             },
             onCreate: (Database db, int version) async {
                 await db.execute(DatabaseProvider.createProfileTable());
                 await db.execute(DatabaseProvider.createSettingsTable());
                 await db.execute(DatabaseProvider.createCommandsTable());
-            },
-            onUpgrade: (Database db, int oldVersion, int newVersion) async {
-                // Recreate the database
-                if (oldVersion == 1 && newVersion == 2) {
-                    await db.execute("DROP TABLE profiles");
-                    await db.execute("DROP TABLE settings");
-                    await db.execute(DatabaseProvider.createProfileTable());
-                    await db.execute(DatabaseProvider.createSettingsTable());
-                    await db.execute(DatabaseProvider.createCommandsTable());
-                }
             });
     }
 

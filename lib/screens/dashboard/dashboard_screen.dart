@@ -33,7 +33,7 @@ class _DashboardState extends State<DashboardScreen> {
     void initState() {
         profilesFuture = DatabaseService.db.getProfiles();
 
-        profilesFuture.then((value) => this.setState(() {selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id, false));}));
+        profilesFuture.then((value) => this.setState(() {selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id));}));
         this.service = new GlancesService(this.selectedServer);
         this.cpuFuture = service.getCpu();
         this.memFuture = service.getMemory();
@@ -42,7 +42,7 @@ class _DashboardState extends State<DashboardScreen> {
 
         setState(() {
             profilesFuture.then((value) => this.setState(() {
-                selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id, false));
+                selectedServer = value[0]; DatabaseService.db.insertSettings(new Settings(value[0].id));
                 this.service = new GlancesService(selectedServer);
                 this.cpuFuture = service.getCpu();
                 this.memFuture = service.getMemory();
@@ -64,7 +64,7 @@ class _DashboardState extends State<DashboardScreen> {
             this.cpuFuture = service.getCpu();
             this.memFuture = service.getMemory();
             this.sensFuture = service.getSensors();
-            DatabaseService.db.insertSettings(new Settings(selectedServer.id, false));
+            DatabaseService.db.insertSettings(new Settings(selectedServer.id));
             this.settingsFuture = DatabaseService.db.getSettings();
         });
 
@@ -129,7 +129,7 @@ class _DashboardState extends State<DashboardScreen> {
                                                                 this.cpuFuture = service.getCpu();
                                                                 this.memFuture = service.getMemory();
                                                                 this.sensFuture = service.getSensors();
-                                                                DatabaseService.db.insertSettings(new Settings(selectedServer.id, false));
+                                                                DatabaseService.db.insertSettings(new Settings(selectedServer.id));
                                                                 this.settingsFuture = DatabaseService.db.getSettings();
                                                             });
                                                         },

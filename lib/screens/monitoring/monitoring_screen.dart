@@ -46,7 +46,7 @@ class _MonitoringState extends State<MonitoringScreen> {
 
         profilesFuture.then((value) => this.setState(() {
             this.selectedServer = value[0];
-            DatabaseService.db.insertSettings(new Settings(value[0].id, false));
+            DatabaseService.db.insertSettings(new Settings(value[0].id));
             this.service = new GlancesService(selectedServer);
             this.selectedOption = MonitoringOption.CPU;
             this.monitoringFuture = service.getCpu();
@@ -123,7 +123,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                     setState(() {
                                                                         this.selectedServer = selectedServer;
                                                                         this.service = new GlancesService(selectedServer);
-                                                                        DatabaseService.db.insertSettings(new Settings(selectedServer.id, false));
+                                                                        DatabaseService.db.insertSettings(new Settings(selectedServer.id));
                                                                         this.settingsFuture = DatabaseService.db.getSettings();
                                                                         _changeDataChoice(this.selectedOption);
                                                                     });

@@ -20,8 +20,7 @@ class DatabaseProvider {
         return
             "CREATE TABLE settings ( " +
                 "id	INTEGER NOT NULL PRIMARY KEY, " +
-                "defaultProfileId INTEGER NOT NULL, " +
-                "isDarkmode INTEGER NOT NULL" +
+                "defaultProfileId INTEGER NOT NULL" +
                 ");"
         ;
     }
@@ -32,7 +31,8 @@ class DatabaseProvider {
             "CREATE TABLE commands ( " +
                 "id	INTEGER NOT NULL PRIMARY KEY, " +
                 "profileId INTEGER NOT NULL, " +
-                "commandMessage TEXT NOT NULL" +
+                "commandMessage TEXT NOT NULL, " +
+                "caption TEXT NOT NULL"
                 ");"
         ;
     }

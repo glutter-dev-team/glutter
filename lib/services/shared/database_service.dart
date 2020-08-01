@@ -40,7 +40,7 @@ class DatabaseService {
         Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
         /// Database-Path and Database-Name! Do not edit!
-        String path = documentsDirectory.path + "glutter.db";
+        String path = documentsDirectory.path + "glutter_1_1.db";
 
         return await openDatabase(
             path,

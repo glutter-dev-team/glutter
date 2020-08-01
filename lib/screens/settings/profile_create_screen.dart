@@ -77,6 +77,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                                         Container(
                                                             child: TextField(
                                                                 controller: _profileCaptionController,
+                                                                autocorrect: false,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
                                                                     labelText: 'Caption / Name / Title',
@@ -99,6 +100,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                             Expanded(
                                                 child: TextField(
                                                     controller: _serverAddressController,
+                                                    autocorrect: false,
                                                     decoration: InputDecoration(
                                                         border: OutlineInputBorder(),
                                                         labelText: 'Server address',
@@ -120,6 +122,8 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                                     children: <Widget>[
                                                         Container(
                                                             child: TextField(
+                                                                autocorrect: false,
+                                                                keyboardType: TextInputType.number,
                                                                 controller: _serverPortController,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
@@ -145,6 +149,8 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                                         Container(
                                                             child: TextField(
                                                                 controller: _serverSshPortController,
+                                                                autocorrect: false,
+                                                                keyboardType: TextInputType.number,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
                                                                     labelText: 'Server SSH-Port',
@@ -169,6 +175,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                                         Container(
                                                             child: TextField(
                                                                 controller: _serverSshUsernameController,
+                                                                autocorrect: false,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
                                                                     labelText: 'Server SSH-Username',
@@ -193,6 +200,9 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                                         Container(
                                                             child: TextField(
                                                                 controller: _serverSshPasswordController,
+                                                                autocorrect: false,
+                                                                obscureText: true,
+                                                                obscuringCharacter: "*",
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
                                                                     labelText: 'Server SSH-Password',
@@ -215,6 +225,8 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                             Expanded(
                                                 child: TextField(
                                                     controller: _serverApiVersionController,
+                                                    autocorrect: false,
+                                                    keyboardType: TextInputType.number,
                                                     decoration: InputDecoration(
                                                         border: OutlineInputBorder(),
                                                         labelText: 'Glances API version',

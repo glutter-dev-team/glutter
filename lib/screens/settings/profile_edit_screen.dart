@@ -114,24 +114,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                             padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,0),
                             child: Column(
                                 children: <Widget> [
-                                    /*Row(
-                                        children: <Widget>[
-                                            Container(
-                                                child: TextField(
-                                                    controller: _profileCaptionController,
-                                                    decoration: InputDecoration(
-                                                        border: OutlineInputBorder(),
-                                                        labelText: 'Caption / Name / Title',
-                                                        labelStyle: new TextStyle(fontSize: 14.0,),
-                                                        hintText: '2 or 3',
-                                                        hintStyle: new TextStyle(fontSize: 14.0,),
-                                                    )
-                                                ),
-                                            ),
-
-                                        ]
-                                    ),*/
-                                    //Text("test123"),
                                     Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -141,6 +123,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     children: <Widget>[
                                                         Container(
                                                             child: TextField(
+                                                                autocorrect: false,
                                                                 controller: _profileCaptionController,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
@@ -151,15 +134,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     ],
                                                 ),
                                             ),
-                                            /*
-                                            IconButton(
-                                                icon: Icon(Icons.help_outline),
-                                                tooltip: 'Show help text',
-                                                onPressed: () {
-                                                    // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                                },
-                                            ),
-                                            */
                                         ],
                                     ),
                                     SizedBox(
@@ -180,15 +154,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     )
                                                 ),
                                             ),
-                                            /*
-                                            IconButton(
-                                                icon: Icon(Icons.help_outline),
-                                                tooltip: 'Show help text',
-                                                onPressed: () {
-                                                    // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                                },
-                                            ),
-                                            */
                                         ],
                                     ),
                                     SizedBox(
@@ -203,6 +168,8 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     children: <Widget>[
                                                         Container(
                                                             child: TextField(
+                                                                autocorrect: false,
+                                                                keyboardType: TextInputType.number,
                                                                 controller: _serverPortController,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
@@ -213,15 +180,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     ],
                                                 ),
                                             ),
-                                            /*
-                                            IconButton(
-                                                icon: Icon(Icons.help_outline),
-                                                tooltip: 'Show help text',
-                                                onPressed: () {
-                                                    // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                                },
-                                            ),
-                                            */
                                         ],
                                     ),
                                     SizedBox(
@@ -236,6 +194,8 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     children: <Widget>[
                                                         Container(
                                                             child: TextField(
+                                                                autocorrect: false,
+                                                                keyboardType: TextInputType.number,
                                                                 controller: _serverSshPortController,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
@@ -246,15 +206,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     ],
                                                 ),
                                             ),
-                                            /*
-                                            IconButton(
-                                                icon: Icon(Icons.help_outline),
-                                                tooltip: 'Show help text',
-                                                onPressed: () {
-                                                    // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                                },
-                                            ),
-                                            */
                                         ],
                                     ),
                                     SizedBox(
@@ -269,6 +220,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     children: <Widget>[
                                                         Container(
                                                             child: TextField(
+                                                                autocorrect: false,
                                                                 controller: _serverSshUsernameController,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
@@ -279,15 +231,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     ],
                                                 ),
                                             ),
-                                            /*
-                                            IconButton(
-                                                icon: Icon(Icons.help_outline),
-                                                tooltip: 'Show help text',
-                                                onPressed: () {
-                                                    // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                                },
-                                            ),
-                                            */
                                         ],
                                     ),
                                     SizedBox(
@@ -302,6 +245,9 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     children: <Widget>[
                                                         Container(
                                                             child: TextField(
+                                                                autocorrect: false,
+                                                                obscureText: true,
+                                                                obscuringCharacter: "*",
                                                                 controller: _serverSshPasswordController,
                                                                 decoration: InputDecoration(
                                                                     border: OutlineInputBorder(),
@@ -312,15 +258,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     ],
                                                 ),
                                             ),
-                                            /*
-                                            IconButton(
-                                                icon: Icon(Icons.help_outline),
-                                                tooltip: 'Show help text',
-                                                onPressed: () {
-                                                    // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                                },
-                                            ),
-                                            */
                                         ],
                                     ),
                                     SizedBox(
@@ -334,6 +271,8 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                             Expanded(
                                                 child: TextField(
                                                     controller: _serverApiVersionController,
+                                                    keyboardType: TextInputType.number,
+                                                    autocorrect: false,
                                                     decoration: InputDecoration(
                                                         border: OutlineInputBorder(),
                                                         labelText: 'Glances API version',
@@ -341,15 +280,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     )
                                                 ),
                                             ),
-                                            /*
-                                            IconButton(
-                                                icon: Icon(Icons.help_outline),
-                                                tooltip: 'Show help text',
-                                                onPressed: () {
-                                                    // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                                },
-                                            ),
-                                            */
                                         ],
                                     ),
                                     SizedBox(

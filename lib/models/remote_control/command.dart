@@ -9,6 +9,8 @@ class Command {
     /// The actual SSH-Command
     String commandMessage;
 
+    String caption;
+
     /// Ctor for Commands
     Command(String msg) {
         this.commandMessage = msg;
@@ -19,16 +21,18 @@ class Command {
         return _fromDatabase(
             map["id"],
             map["profileId"],
-            map["commandMessage"]
+            map["commandMessage"],
+            map["caption"]
         );
     }
 
     /// Constructor for Commands by the Database.
-    static Command _fromDatabase(int id, int profileId, String commandMessage) {
+    static Command _fromDatabase(int id, int profileId, String commandMessage, String caption) {
         Command cmd = new Command(commandMessage);
 
         cmd.id = id;
         cmd.profileId = profileId;
+        cmd.caption = caption;
 
         return cmd;
     }
@@ -38,7 +42,8 @@ class Command {
         return {
             "id" : this.id,
             "profileId" : this.profileId,
-            "commandMessage" : this.commandMessage
+            "commandMessage" : this.commandMessage,
+            "caption" : this.caption
         };
     }
 }

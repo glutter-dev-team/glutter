@@ -108,326 +108,257 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                         )
                     ],
                 ),
-                body: Builder(
-                    builder: (context) => Padding(
-                        padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,0),
-                        child: Column(
-                            children: <Widget> [
-                                /*Row(
-                                    children: <Widget>[
-                                        Container(
-                                            child: TextField(
-                                                controller: _profileCaptionController,
-                                                decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    labelText: 'Caption / Name / Title',
-                                                    labelStyle: new TextStyle(fontSize: 14.0,),
-                                                    hintText: '2 or 3',
-                                                    hintStyle: new TextStyle(fontSize: 14.0,),
-                                                )
-                                            ),
-                                        ),
-
-                                    ]
-                                ),*/
-                                //Text("test123"),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: TextField(
-                                                            controller: _profileCaptionController,
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                labelText: 'Caption / Name / Title',
-                                                                hintText: 'e.g. My NAS @ Home',
-                                                            )
-                                                        )),
-                                                ],
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: TextField(
-                                                controller: _serverAddressController,
-                                                decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    labelText: 'Server address',
-                                                    hintText: 'e.g. example.com or 123.45.678.9',
-                                                )
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: TextField(
-                                                            controller: _serverPortController,
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                labelText: 'Server port',
-                                                                hintText: 'default: 61208',
-                                                            )
-                                                        )),
-                                                ],
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: TextField(
-                                                            controller: _serverSshPortController,
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                labelText: 'Server SSH-Port',
-                                                                hintText: 'default: 22',
-                                                            )
-                                                        )),
-                                                ],
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: TextField(
-                                                            controller: _serverSshUsernameController,
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                labelText: 'Server SSH-Username',
-                                                                hintText: 'username',
-                                                            )
-                                                        )),
-                                                ],
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: Column(
-                                                children: <Widget>[
-                                                    Container(
-                                                        child: TextField(
-                                                            controller: _serverSshPasswordController,
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(),
-                                                                labelText: 'Server SSH-Password',
-                                                                hintText: 'password',
-                                                            )
-                                                        )),
-                                                ],
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 15,
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                        Expanded(
-                                            child: TextField(
-                                                controller: _serverApiVersionController,
-                                                decoration: InputDecoration(
-                                                    border: OutlineInputBorder(),
-                                                    labelText: 'Glances API version',
-                                                    hintText: '2 or 3',
-                                                )
-                                            ),
-                                        ),
-                                        /*
-                                        IconButton(
-                                            icon: Icon(Icons.help_outline),
-                                            tooltip: 'Show help text',
-                                            onPressed: () {
-                                                // Popup (Modal/Dialog) Fenster mit Text anzeigen
-                                            },
-                                        ),
-                                        */
-                                    ],
-                                ),
-                                SizedBox(
-                                    height: 25,
-                                ),
-                                FlatButton.icon(
-                                    onPressed: () {
-                                        setState(() {
-                                            _connectionTest();
-                                        });
-                                    },
-                                    icon: Icon(Icons.settings_ethernet),
-                                    label:
-                                    Text("Start connection test")
-                                ),
-                                FutureBuilder(
-                                    future: connectionTestResult,
-                                    builder: (BuildContext context, AsyncSnapshot snapshot){
-                                        switch (snapshot.connectionState) {
-                                            case ConnectionState.none:
-                                                return Text("");
-                                            case ConnectionState.active:
-                                                return Text("Connection active");
-                                            case ConnectionState.waiting:
-                                                return Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                body: SingleChildScrollView(
+                    child: Builder(
+                        builder: (context) => Padding(
+                            padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,0),
+                            child: Column(
+                                children: <Widget> [
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: Column(
                                                     children: <Widget>[
                                                         Container(
-                                                            width: 20,
-                                                            child: new LinearProgressIndicator(
-                                                                backgroundColor: Colors.grey,
-                                                                valueColor: new AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
+                                                            child: TextField(
+                                                                autocorrect: false,
+                                                                controller: _profileCaptionController,
+                                                                decoration: InputDecoration(
+                                                                    border: OutlineInputBorder(),
+                                                                    labelText: 'Caption / Name / Title',
+                                                                    hintText: 'e.g. My NAS @ Home',
+                                                                )
+                                                            )),
+                                                    ],
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    SizedBox(
+                                        height: 15,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: TextField(
+                                                    controller: _serverAddressController,
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(),
+                                                        labelText: 'Server address',
+                                                        hintText: 'e.g. example.com or 123.45.678.9',
+                                                    )
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    SizedBox(
+                                        height: 15,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: Column(
+                                                    children: <Widget>[
+                                                        Container(
+                                                            child: TextField(
+                                                                autocorrect: false,
+                                                                keyboardType: TextInputType.number,
+                                                                controller: _serverPortController,
+                                                                decoration: InputDecoration(
+                                                                    border: OutlineInputBorder(),
+                                                                    labelText: 'Server port',
+                                                                    hintText: 'default: 61208',
+                                                                )
+                                                            )),
+                                                    ],
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    SizedBox(
+                                        height: 15,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: Column(
+                                                    children: <Widget>[
+                                                        Container(
+                                                            child: TextField(
+                                                                autocorrect: false,
+                                                                keyboardType: TextInputType.number,
+                                                                controller: _serverSshPortController,
+                                                                decoration: InputDecoration(
+                                                                    border: OutlineInputBorder(),
+                                                                    labelText: 'Server SSH-Port',
+                                                                    hintText: 'default: 22',
+                                                                )
+                                                            )),
+                                                    ],
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    SizedBox(
+                                        height: 15,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: Column(
+                                                    children: <Widget>[
+                                                        Container(
+                                                            child: TextField(
+                                                                autocorrect: false,
+                                                                controller: _serverSshUsernameController,
+                                                                decoration: InputDecoration(
+                                                                    border: OutlineInputBorder(),
+                                                                    labelText: 'Server SSH-Username',
+                                                                    hintText: 'username',
+                                                                )
+                                                            )),
+                                                    ],
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    SizedBox(
+                                        height: 15,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: Column(
+                                                    children: <Widget>[
+                                                        Container(
+                                                            child: TextField(
+                                                                autocorrect: false,
+                                                                obscureText: true,
+                                                                obscuringCharacter: "*",
+                                                                controller: _serverSshPasswordController,
+                                                                decoration: InputDecoration(
+                                                                    border: OutlineInputBorder(),
+                                                                    labelText: 'Server SSH-Password',
+                                                                    hintText: 'password',
+                                                                )
+                                                            )),
+                                                    ],
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    SizedBox(
+                                        height: 15,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                            Expanded(
+                                                child: TextField(
+                                                    controller: _serverApiVersionController,
+                                                    keyboardType: TextInputType.number,
+                                                    autocorrect: false,
+                                                    decoration: InputDecoration(
+                                                        border: OutlineInputBorder(),
+                                                        labelText: 'Glances API version',
+                                                        hintText: '2 or 3',
+                                                    )
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    SizedBox(
+                                        height: 25,
+                                    ),
+                                    FlatButton.icon(
+                                        onPressed: () {
+                                            setState(() {
+                                                _connectionTest();
+                                            });
+                                        },
+                                        icon: Icon(Icons.settings_ethernet),
+                                        label:
+                                        Text("Start connection test")
+                                    ),
+                                    FutureBuilder(
+                                        future: connectionTestResult,
+                                        builder: (BuildContext context, AsyncSnapshot snapshot){
+                                            switch (snapshot.connectionState) {
+                                                case ConnectionState.none:
+                                                    return Text("");
+                                                case ConnectionState.active:
+                                                    return Text("Connection active");
+                                                case ConnectionState.waiting:
+                                                    return Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                            Container(
+                                                                width: 20,
+                                                                child: new LinearProgressIndicator(
+                                                                    backgroundColor: Colors.grey,
+                                                                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
+                                                                ),
                                                             ),
-                                                        ),
-                                                        Padding(
-                                                            padding: EdgeInsets.only(left: 5.0),
-                                                            child: Text("Connection test running..."),
-                                                        )
-                                                    ]
-                                                );
-                                            case ConnectionState.done:
-                                                if (snapshot.data == true) {
-                                                    return Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                            Icon(
-                                                                Icons.check_circle,
-                                                                color: Colors.green,),
                                                             Padding(
                                                                 padding: EdgeInsets.only(left: 5.0),
-                                                                child: Text("Connection test successful!"),
+                                                                child: Text("Connection test running..."),
                                                             )
                                                         ]
                                                     );
+                                                case ConnectionState.done:
+                                                    if (snapshot.data == true) {
+                                                        return Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                                Icon(
+                                                                    Icons.check_circle,
+                                                                    color: Colors.green,),
+                                                                Padding(
+                                                                    padding: EdgeInsets.only(left: 5.0),
+                                                                    child: Text("Connection test successful!"),
+                                                                )
+                                                            ]
+                                                        );
 
-                                                } else {
-                                                    return Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                            Icon(
-                                                                Icons.error,
-                                                                color: Colors.red,),
-                                                            Padding(
-                                                                padding: EdgeInsets.only(left: 5.0),
-                                                                child: Text("Connection test failed!"),
-                                                            )
-                                                        ]
-                                                    );
-                                                }
-                                                return Text("no result");
-                                            default:
-                                                return Text("default");
+                                                    } else {
+                                                        return Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                                Icon(
+                                                                    Icons.error,
+                                                                    color: Colors.red,),
+                                                                Padding(
+                                                                    padding: EdgeInsets.only(left: 5.0),
+                                                                    child: Text("Connection test failed!"),
+                                                                )
+                                                            ]
+                                                        );
+                                                    }
+                                                    return Text("no result");
+                                                default:
+                                                    return Text("default");
+                                            }
                                         }
-                                    }
-                                ),
-                            ]
-                        )
+                                    ),
+                                ]
+                            )
+                        ),
                     ),
-
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 floatingActionButton: FloatingActionButton.extended(

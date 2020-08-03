@@ -10,16 +10,14 @@ class Settings {
     bool isDarkmode;
 
     /// Ctor of Settings.
-    Settings(int defaultProfileId, bool isDarkmode) {
+    Settings(int defaultProfileId) {
         this.defaultProfileId = defaultProfileId;
-        this.isDarkmode = isDarkmode;
     }
 
     /// Creates a map from the Settings-Object. For storing the object in the database.
     Map<String, dynamic> toMap() {
         return {
-            'defaultProfileId': this.defaultProfileId,
-            'isDarkmode': this.isDarkmode
+            'defaultProfileId': this.defaultProfileId
         };
     }
 
@@ -27,22 +25,15 @@ class Settings {
     static Settings fromMap(Map<String, dynamic> map) {
         return _fromDatabase(
             map["id"],
-            map["defaultProfileId"],
-            map["isDarkmode"]
+            map["defaultProfileId"]
         );
     }
 
     /// Constructor for Settings by the Database.
-    static Settings _fromDatabase(int id, int defaultProfileId, int isDarkmode) {
-        Settings settings = new Settings(defaultProfileId, true);
+    static Settings _fromDatabase(int id, int defaultProfileId) {
+        Settings settings = new Settings(defaultProfileId);
 
         settings.id = id;
-        if (isDarkmode == 1) {
-            settings.isDarkmode = true;
-        }
-        else {
-            settings.isDarkmode = false;
-        }
 
         return settings;
     }

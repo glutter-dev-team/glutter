@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/screens/settings/manage_profiles/profile_form_widget.dart';
+import 'package:glutter/screens/settings/profile_form_widget.dart';
 import 'package:glutter/services/monitoring/database_service.dart';
 import 'package:glutter/models/monitoring/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';

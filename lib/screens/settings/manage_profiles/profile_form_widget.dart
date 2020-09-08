@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Dieses Widget soll das komplette Profile-Formular abbilden (für create und update screens). Wird aktuell noch nicht (wieder) benutzt, weil es merge conflicts gab.
 class ProfileForm extends StatelessWidget {
     ProfileForm({
         this.profileCaptionController,

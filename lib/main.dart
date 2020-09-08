@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:glutter/screens/dashboard/dashboard_screen.dart';
 import 'package:glutter/screens/remote_control/remote_control_screen.dart';
 import 'package:glutter/screens/settings/about_screen.dart';
-import 'package:glutter/screens/settings/profile_create_screen.dart';
-import 'package:glutter/screens/settings/profile_edit_screen.dart';
-import 'package:glutter/screens/settings/profile_list_screen.dart';
+import 'package:glutter/screens/settings/manage_profiles/profile_create_screen.dart';
+import 'package:glutter/screens/settings/manage_profiles/profile_edit_screen.dart';
+import 'package:glutter/screens/settings/manage_profiles/profile_list_screen.dart';
 import 'package:glutter/screens/settings/settings_screen.dart';
 import 'screens/monitoring/monitoring_screen.dart';
 import 'utils/routes.dart';
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-            title: 'Glutter',
+            title: 'glutter',
             theme: new ThemeData(
                 // TODO: ThemeData aus eigener Datei laden, wo auch einige Theme-Eigenschaften anpassbar sein sollen
                 primarySwatch: Colors.deepPurple, // deepPurple = #512da8

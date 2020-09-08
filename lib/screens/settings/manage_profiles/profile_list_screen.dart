@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/screens/settings/profile_create_screen.dart';
-import 'package:glutter/screens/settings/profile_edit_screen.dart';
+import 'package:glutter/screens/settings/manage_profiles/profile_create_screen.dart';
+import 'package:glutter/screens/settings/manage_profiles/profile_edit_screen.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/utils/toast.dart';
 
 class ProfileListScreen extends StatefulWidget {
-    ProfileListScreen({Key key, this.title: "Glutter Profiles"}) : super(key: key);
+    ProfileListScreen({Key key, this.title: "Profiles"}) : super(key: key);
 
     static const String routeName = '/settings/profiles';
     final String title;

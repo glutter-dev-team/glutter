@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
@@ -23,6 +24,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
     TextEditingController _serverApiVersionController = new TextEditingController();
 
     Future connectionTestResult;
+    bool initialWrite = false;
 
     _connectionTest() async {
         var address = _serverAddressController.text;
@@ -46,13 +48,18 @@ class _ProfileEditState extends State<ProfileEditScreen> {
     @override
     Widget build(BuildContext context) {
         final Profile profile = ModalRoute.of(context).settings.arguments;
-        _profileCaptionController.text = profile.caption;
-        _serverAddressController.text = profile.serverAddress;
-        _serverPortController.text = profile.port.toString();
-        _serverSshPortController.text = profile.sshPort.toString();
-        _serverSshUsernameController.text = profile.sshUsername;
-        _serverSshPasswordController.text = "*Password hidden*";
-        _serverApiVersionController.text = profile.glancesApiVersion;
+
+        if(!initialWrite) {
+            _profileCaptionController.text = profile.caption;
+            _serverAddressController.text = profile.serverAddress;
+            _serverPortController.text = profile.port.toString();
+            _serverSshPortController.text = profile.sshPort.toString();
+            _serverSshUsernameController.text = profile.sshUsername;
+            _serverSshPasswordController.text = "*Password hidden*";
+            _serverApiVersionController.text = profile.glancesApiVersion;
+
+            initialWrite = true;
+        }
 
         // This method is rerun every time setState is called
         return GestureDetector(
@@ -149,6 +156,10 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                 Expanded(
                                                     child: TextField(
                                                         controller: _serverAddressController,
+                                                        /*inputFormatters: <TextInputFormatter>[
+                                                            // hier muss eine RegEx hin, die Leerzeichen ausschließt
+                                                            // https://api.flutter.dev/flutter/services/FilteringTextInputFormatter-class.html
+                                                        ],*/
                                                         decoration: InputDecoration(
                                                             border: OutlineInputBorder(),
                                                             labelText: 'Server address',
@@ -172,6 +183,9 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                                 child: TextField(
                                                                     autocorrect: false,
                                                                     keyboardType: TextInputType.number,
+                                                                    inputFormatters: <TextInputFormatter>[
+                                                                        WhitelistingTextInputFormatter.digitsOnly
+                                                                    ],
                                                                     controller: _serverPortController,
                                                                     decoration: InputDecoration(
                                                                         border: OutlineInputBorder(),
@@ -198,6 +212,9 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                                 child: TextField(
                                                                     autocorrect: false,
                                                                     keyboardType: TextInputType.number,
+                                                                    inputFormatters: <TextInputFormatter>[
+                                                                        WhitelistingTextInputFormatter.digitsOnly
+                                                                    ],
                                                                     controller: _serverSshPortController,
                                                                     decoration: InputDecoration(
                                                                         border: OutlineInputBorder(),
@@ -224,6 +241,10 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                                 child: TextField(
                                                                     autocorrect: false,
                                                                     controller: _serverSshUsernameController,
+                                                                    /*inputFormatters: <TextInputFormatter>[
+                                                                        // hier muss eine RegEx hin, die Leerzeichen ausschließt
+                                                                        // https://api.flutter.dev/flutter/services/FilteringTextInputFormatter-class.html
+                                                                    ],*/
                                                                     decoration: InputDecoration(
                                                                         border: OutlineInputBorder(),
                                                                         labelText: 'Server SSH-Username',
@@ -274,6 +295,10 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                     child: TextField(
                                                         controller: _serverApiVersionController,
                                                         keyboardType: TextInputType.number,
+                                                        inputFormatters: <TextInputFormatter>[
+                                                            WhitelistingTextInputFormatter.digitsOnly
+                                                            // hier muss eine RegEx hin, die nur 2 oder 3 zulässt (besser wäre allerdings eine andere Input-Methode, also kein TextField)
+                                                        ],
                                                         autocorrect: false,
                                                         decoration: InputDecoration(
                                                             border: OutlineInputBorder(),

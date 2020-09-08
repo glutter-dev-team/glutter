@@ -7,27 +7,44 @@ class Profile {
     String serverAddress;
 
     /// Server-Port. Glances-default: 61208
-    String port;
-
-    /// User-defined caption for this server.
-    String caption;
+    int port;
 
     /// Defines the version of the Glances-API-Version (2 or 3)
     String glancesApiVersion;
 
+    /// User-defined caption for this server.
+    String caption;
+
+    /// Server-Port for SSH. Default: 22
+    int sshPort;
+
+    /// Username for SSH
+    String sshUsername;
+
+    /// Server-Password for SSH. Not stored in the database!
+    String sshPassword;
+
     /// Returns the full server-address, includes http, port and the API-Version.
     String getFullServerAddress() {
-        String fullServerAddress =  "http://" + this.serverAddress + ":" + this.port + "/api/" + this.glancesApiVersion;
+        String fullServerAddress =  "http://" + this.serverAddress + ":" + this.port.toString() + "/api/" + this.glancesApiVersion;
 
         return fullServerAddress;
     }
 
+    String getSshAddress() {
+        String sshAddress = this.serverAddress + ":" + this.sshPort.toString();
+
+        return sshAddress;
+    }
+
     /// Constructor for Profile.
-    Profile(String serverAddress, String port, String caption, String apiVersion) {
+    Profile(String serverAddress, int port, String apiVersion, String caption, int sshPort, String sshUsername) {
         this.serverAddress = serverAddress;
         this.port = port;
         this.caption = caption;
         this.glancesApiVersion = apiVersion;
+        this.sshPort = sshPort;
+        this.sshUsername = sshUsername;
     }
 
     /// Converts data from Database into Profiles.
@@ -37,13 +54,15 @@ class Profile {
             map["serverAddress"],
             map["port"],
             map["glancesApiVersion"],
-            map["caption"]
+            map["caption"],
+            map["sshPort"],
+            map["sshUsername"]
         );
     }
 
     /// Constructor for Profiles by the Database.
-    static Profile _fromDatabase(int id, String serverAddress, String port, String apiVersion, String caption) {
-        Profile profile = new Profile(serverAddress, port, caption, apiVersion);
+    static Profile _fromDatabase(int id, String serverAddress, int port, String apiVersion, String caption, int sshPort, String sshUsername) {
+        Profile profile = new Profile(serverAddress, port, apiVersion, caption, sshPort, sshUsername);
 
         profile.id = id;
 
@@ -57,7 +76,9 @@ class Profile {
             "serverAddress" : this.serverAddress,
             "port" : this.port,
             "glancesApiVersion" : this.glancesApiVersion,
-            "caption" : this.caption
+            "caption" : this.caption,
+            "sshPort" : this.sshPort,
+            "sshUsername" : this.sshUsername
         };
     }
 }

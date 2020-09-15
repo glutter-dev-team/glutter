@@ -83,35 +83,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                 onPressed: () {
                                     showDialog(
                                         context: context,
-                                        builder: (_) => AlertDialog(
-                                            title: Text("Delete profile?"),
-                                            content: Text("Do you really want to delete this profile called '" + profile.caption + "'?"),
-                                            actions: [
-                                                FlatButton(
-                                                    onPressed: () {
-                                                        Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                        "Cancel",
-                                                    ),
-                                                ),
-                                                FlatButton(
-                                                    onPressed: () {
-                                                        DatabaseService.db.deleteProfileById(profile.id);
-
-                                                        //Navigator.popUntil(context, ModalRoute.withName('/settings/profiles'));
-                                                        var count = 0;
-                                                        Navigator.popUntil(context, (route) {
-                                                            return count++ == 2;
-                                                        });
-                                                    },
-                                                    child: Text(
-                                                        "Delete",
-                                                        style: TextStyle(color: Colors.red),
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
+                                        builder: (_) => _showDeleteDialog(context, profile)
                                     );
                                 },
                             )
@@ -128,19 +100,14 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: <Widget>[
                                                 Expanded(
-                                                    child: Column(
-                                                        children: <Widget>[
-                                                            Container(
-                                                                child: TextField(
-                                                                    autocorrect: false,
-                                                                    controller: _profileCaptionController,
-                                                                    decoration: InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        labelText: 'Caption / Name / Title',
-                                                                        hintText: 'e.g. My NAS @ Home',
-                                                                    )
-                                                                )),
-                                                        ],
+                                                    child: TextField(
+                                                        autocorrect: false,
+                                                        controller: _profileCaptionController,
+                                                        decoration: InputDecoration(
+                                                            border: OutlineInputBorder(),
+                                                            labelText: 'Caption / Name / Title',
+                                                            hintText: 'e.g. My NAS @ Home',
+                                                        )
                                                     ),
                                                 ),
                                             ],
@@ -184,7 +151,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                                     autocorrect: false,
                                                                     keyboardType: TextInputType.number,
                                                                     inputFormatters: <TextInputFormatter>[
-                                                                        WhitelistingTextInputFormatter.digitsOnly
+                                                                        FilteringTextInputFormatter.digitsOnly
                                                                     ],
                                                                     controller: _serverPortController,
                                                                     decoration: InputDecoration(
@@ -213,7 +180,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                                     autocorrect: false,
                                                                     keyboardType: TextInputType.number,
                                                                     inputFormatters: <TextInputFormatter>[
-                                                                        WhitelistingTextInputFormatter.digitsOnly
+                                                                        FilteringTextInputFormatter.digitsOnly
                                                                     ],
                                                                     controller: _serverSshPortController,
                                                                     decoration: InputDecoration(
@@ -296,7 +263,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                         controller: _serverApiVersionController,
                                                         keyboardType: TextInputType.number,
                                                         inputFormatters: <TextInputFormatter>[
-                                                            WhitelistingTextInputFormatter.digitsOnly
+                                                            FilteringTextInputFormatter.digitsOnly
                                                             // hier muss eine RegEx hin, die nur 2 oder 3 zulässt (besser wäre allerdings eine andere Input-Methode, also kein TextField)
                                                         ],
                                                         autocorrect: false,
@@ -462,37 +429,37 @@ _saveProfile(Profile profile, String serverAddress, int port, int sshPort, Strin
         DatabaseService.db.updateProfile(profile);
         Navigator.pop(context);
     }
+}
 
-    _showDeleteDialog(BuildContext context, Profile profile) {
-        return AlertDialog(
-            title: Text("Delete profile?"),
-            content: Text("Do you really want to delete this profile called '" +
-                profile.caption + "'?"),
-            actions: [
-                FlatButton(
-                    onPressed: () {
-                        Navigator.pop(context);
-                    },
-                    child: Text(
-                        "Cancel",
-                    ),
+_showDeleteDialog(BuildContext context, Profile profile) {
+    return AlertDialog(
+        title: Text("Delete profile?"),
+        content: Text("Do you really want to delete this profile called '" +
+            profile.caption + "'?"),
+        actions: [
+            FlatButton(
+                onPressed: () {
+                    Navigator.pop(context);
+                },
+                child: Text(
+                    "Cancel",
                 ),
-                FlatButton(
-                    onPressed: () {
-                        DatabaseService.db.deleteProfileById(profile.id);
+            ),
+            FlatButton(
+                onPressed: () {
+                    DatabaseService.db.deleteProfileById(profile.id);
 
-                        //Navigator.popUntil(context, ModalRoute.withName('/settings/profiles'));
-                        var count = 0;
-                        Navigator.popUntil(context, (route) {
-                            return count++ == 2;
-                        });
-                    },
-                    child: Text(
-                        "Delete",
-                        style: TextStyle(color: Colors.red),
-                    ),
+                    //Navigator.popUntil(context, ModalRoute.withName('/settings/profiles'));
+                    var count = 0;
+                    Navigator.popUntil(context, (route) {
+                        return count++ == 2;
+                    });
+                },
+                child: Text(
+                    "Delete",
+                    style: TextStyle(color: Colors.red),
                 ),
-            ],
-        );
-    }
+            ),
+        ],
+    );
 }

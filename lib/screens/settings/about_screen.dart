@@ -10,7 +10,7 @@ class AboutScreen extends StatelessWidget {
         // This method is rerun every time setState is called
         return Scaffold(
             appBar: AppBar(
-                title: Text("About Glutter"),
+                title: Text("About glutter"),
             ),
             body: Builder(
                 builder: (context) => Padding(

@@ -6,7 +6,7 @@ import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
 
 class RemoteControlScreen extends StatefulWidget {
-    RemoteControlScreen({Key key, this.title: "Glutter Remote Control"}) : super(key: key);
+    RemoteControlScreen({Key key, this.title: "Remote Control"}) : super(key: key);
 
     static const String routeName = '/remote-control';
     final String title;

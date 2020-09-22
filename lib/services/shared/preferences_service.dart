@@ -1,15 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService {
-  static Future<void> setDefaultProfileId(int profileId) async {
+  static Future<void> setLastProfileId(int profileId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.setInt('defaultProfileId', profileId);
+    await prefs.setInt('lastProfileId', profileId);
   }
 
-  static Future<int> getDefaultProfileId() async {
+  static Future<int> getLastProfileId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return prefs.getInt('defaultProfileId');
+    return prefs.getInt('lastProfileId');
   }
 }

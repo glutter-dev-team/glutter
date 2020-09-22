@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
+import 'package:glutter/widgets/dialogs.dart';
 
 class ProfileEditScreen extends StatefulWidget {
     ProfileEditScreen({Key key,}) : super(key: key);
@@ -83,7 +84,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                 onPressed: () {
                                     showDialog(
                                         context: context,
-                                        builder: (_) => _showDeleteDialog(context, profile)
+                                        builder: (_) => ConfirmDeleteProfileDialog(context, profile),
                                     );
                                 },
                             )
@@ -379,20 +380,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
         if (_changedValues(profile)) {
             return (await showDialog(
                 context: context,
-                builder: (context) => new AlertDialog(
-                    title: new Text('Are you sure?'),
-                    content: new Text('Do you want to leave without saving? You are going to lose your changes!'),
-                    actions: <Widget>[
-                        new FlatButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: new Text('No'),
-                        ),
-                        new FlatButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: new Text('Yes'),
-                        ),
-                    ],
-                ),
+                builder: (context) => ConfirmLeaveDialog()
             )) ?? false;
         } else {
             Navigator.of(context).pop(false);
@@ -429,37 +417,4 @@ _saveProfile(Profile profile, String serverAddress, int port, int sshPort, Strin
         DatabaseService.db.updateProfile(profile);
         Navigator.pop(context);
     }
-}
-
-_showDeleteDialog(BuildContext context, Profile profile) {
-    return AlertDialog(
-        title: Text("Delete profile?"),
-        content: Text("Do you really want to delete this profile called '" +
-            profile.caption + "'?"),
-        actions: [
-            FlatButton(
-                onPressed: () {
-                    Navigator.pop(context);
-                },
-                child: Text(
-                    "Cancel",
-                ),
-            ),
-            FlatButton(
-                onPressed: () {
-                    DatabaseService.db.deleteProfileById(profile.id);
-
-                    //Navigator.popUntil(context, ModalRoute.withName('/settings/profiles'));
-                    var count = 0;
-                    Navigator.popUntil(context, (route) {
-                        return count++ == 2;
-                    });
-                },
-                child: Text(
-                    "Delete",
-                    style: TextStyle(color: Colors.red),
-                ),
-            ),
-        ],
-    );
 }

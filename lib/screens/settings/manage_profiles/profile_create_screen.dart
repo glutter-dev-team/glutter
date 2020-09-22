@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
+import 'package:glutter/widgets/dialogs.dart';
 
 class ProfileCreateScreen extends StatefulWidget {
     ProfileCreateScreen({Key key, this.title: "Create new profile"}) : super(key: key);
@@ -340,20 +341,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
         if (_changedValues()) {
             return (await showDialog(
                 context: context,
-                builder: (context) => new AlertDialog(
-                    title: new Text('Are you sure?'),
-                    content: new Text('Do you want to leave without saving? You are going to lose your changes!'),
-                    actions: <Widget>[
-                        new FlatButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: new Text('No'),
-                        ),
-                        new FlatButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: new Text('Yes'),
-                        ),
-                    ],
-                ),
+                builder: (context) => ConfirmLeaveDialog()
             )) ?? false;
         } else {
             Navigator.of(context).pop(false);

@@ -35,6 +35,7 @@ dependencies:
     pull_to_refresh: ^1.5.7
     ssh: any
     flutter_secure_storage: any
+    shared_preferences: any
     # process_run: ^0.10.10+1
 
 dev_dependencies:

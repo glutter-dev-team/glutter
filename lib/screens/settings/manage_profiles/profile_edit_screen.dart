@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:glutter/screens/settings/manage_profiles/widgets/dialogs.dart';
+import 'package:glutter/screens/settings/manage_profiles/widgets/profile_form_widgets.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/widgets/dialogs.dart';
+import 'package:glutter/utils/check_values.dart';
 
 class ProfileEditScreen extends StatefulWidget {
     ProfileEditScreen({Key key,}) : super(key: key);
@@ -49,6 +52,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
     @override
     Widget build(BuildContext context) {
         final Profile profile = ModalRoute.of(context).settings.arguments;
+        //Future<Profile> profile = DatabaseService.db.getProfileById(profileFromList.id);
 
         if(!initialWrite) {
             _profileCaptionController.text = profile.caption;
@@ -96,187 +100,16 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                 padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,0),
                                 child: Column(
                                     children: <Widget> [
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                                Expanded(
-                                                    child: TextField(
-                                                        autocorrect: false,
-                                                        controller: _profileCaptionController,
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            labelText: 'Caption / Name / Title',
-                                                            hintText: 'e.g. My NAS @ Home',
-                                                        )
-                                                    ),
-                                                ),
-                                            ],
+                                        ProfileForm(
+                                            profileCaptionController: _profileCaptionController,
+                                            serverAddressController: _serverAddressController,
+                                            glancesPortController: _serverPortController,
+                                            glancesApiVersionController: _serverApiVersionController,
+                                            sshUsernameController: _serverSshUsernameController,
+                                            sshPortController: _serverSshPortController,
+                                            sshPasswordController: _serverSshPasswordController,
                                         ),
-                                        SizedBox(
-                                            height: 15,
-                                        ),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: <Widget>[
-                                                Expanded(
-                                                    child: TextField(
-                                                        controller: _serverAddressController,
-                                                        /*inputFormatters: <TextInputFormatter>[
-                                                            // hier muss eine RegEx hin, die Leerzeichen ausschließt
-                                                            // https://api.flutter.dev/flutter/services/FilteringTextInputFormatter-class.html
-                                                        ],*/
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            labelText: 'Server address',
-                                                            hintText: 'e.g. example.com or 123.45.678.9',
-                                                        )
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
-                                        SizedBox(
-                                            height: 15,
-                                        ),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                                Expanded(
-                                                    child: Column(
-                                                        children: <Widget>[
-                                                            Container(
-                                                                child: TextField(
-                                                                    autocorrect: false,
-                                                                    keyboardType: TextInputType.number,
-                                                                    inputFormatters: <TextInputFormatter>[
-                                                                        FilteringTextInputFormatter.digitsOnly
-                                                                    ],
-                                                                    controller: _serverPortController,
-                                                                    decoration: InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        labelText: 'Server port',
-                                                                        hintText: 'default: 61208',
-                                                                    )
-                                                                )),
-                                                        ],
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
-                                        SizedBox(
-                                            height: 15,
-                                        ),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                                Expanded(
-                                                    child: Column(
-                                                        children: <Widget>[
-                                                            Container(
-                                                                child: TextField(
-                                                                    autocorrect: false,
-                                                                    keyboardType: TextInputType.number,
-                                                                    inputFormatters: <TextInputFormatter>[
-                                                                        FilteringTextInputFormatter.digitsOnly
-                                                                    ],
-                                                                    controller: _serverSshPortController,
-                                                                    decoration: InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        labelText: 'Server SSH-Port',
-                                                                        hintText: 'default: 22',
-                                                                    )
-                                                                )),
-                                                        ],
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
-                                        SizedBox(
-                                            height: 15,
-                                        ),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                                Expanded(
-                                                    child: Column(
-                                                        children: <Widget>[
-                                                            Container(
-                                                                child: TextField(
-                                                                    autocorrect: false,
-                                                                    controller: _serverSshUsernameController,
-                                                                    /*inputFormatters: <TextInputFormatter>[
-                                                                        // hier muss eine RegEx hin, die Leerzeichen ausschließt
-                                                                        // https://api.flutter.dev/flutter/services/FilteringTextInputFormatter-class.html
-                                                                    ],*/
-                                                                    decoration: InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        labelText: 'Server SSH-Username',
-                                                                        hintText: 'username',
-                                                                    )
-                                                                )),
-                                                        ],
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
-                                        SizedBox(
-                                            height: 15,
-                                        ),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                                Expanded(
-                                                    child: Column(
-                                                        children: <Widget>[
-                                                            Container(
-                                                                child: TextField(
-                                                                    autocorrect: false,
-                                                                    obscureText: true,
-                                                                    obscuringCharacter: "*",
-                                                                    controller: _serverSshPasswordController,
-                                                                    decoration: InputDecoration(
-                                                                        border: OutlineInputBorder(),
-                                                                        labelText: 'Server SSH-Password',
-                                                                        hintText: 'password',
-                                                                    )
-                                                                )),
-                                                        ],
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
-                                        SizedBox(
-                                            height: 15,
-                                        ),
-                                        Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: <Widget>[
-                                                Expanded(
-                                                    child: TextField(
-                                                        controller: _serverApiVersionController,
-                                                        keyboardType: TextInputType.number,
-                                                        inputFormatters: <TextInputFormatter>[
-                                                            FilteringTextInputFormatter.digitsOnly
-                                                            // hier muss eine RegEx hin, die nur 2 oder 3 zulässt (besser wäre allerdings eine andere Input-Methode, also kein TextField)
-                                                        ],
-                                                        autocorrect: false,
-                                                        decoration: InputDecoration(
-                                                            border: OutlineInputBorder(),
-                                                            labelText: 'Glances API version',
-                                                            hintText: '2 or 3',
-                                                        )
-                                                    ),
-                                                ),
-                                            ],
-                                        ),
+
                                         SizedBox(
                                             height: 25,
                                         ),
@@ -350,6 +183,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                                 }
                                             }
                                         ),
+                                        SizedBox(height: 90,)
                                     ]
                                 )
                             ),
@@ -359,13 +193,15 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                     floatingActionButton: FloatingActionButton.extended(
                         icon: Icon(Icons.save),
                         onPressed: () => _saveProfile(
+                            context,
                             profile,
+                            _profileCaptionController.text,
                             _serverAddressController.text,
                             int.parse(_serverPortController.text),
-                            int.parse(_serverSshPortController.text),
-                            _profileCaptionController.text,
                             _serverApiVersionController.text,
-                            context
+                            int.parse(_serverSshPortController.text),
+                            _serverSshUsernameController.text,
+                            _serverSshPasswordController.text
                         ),
                         label: new Text('Save profile')
                     ),
@@ -377,7 +213,18 @@ class _ProfileEditState extends State<ProfileEditScreen> {
     /// Overrides the "Back" buttons (in AppBar and back button of device). Before going back: check if user changed anything. If true: show confirmation alert. Else: go back without doing anything else.
     Future<bool> _onWillPop() async {
         final Profile profile = ModalRoute.of(context).settings.arguments;
-        if (_changedValues(profile)) {
+
+        Map values = {
+            profile.caption: _profileCaptionController.text,
+            profile.serverAddress: _serverAddressController.text,
+            profile.port.toString(): _serverPortController.text,
+            profile.glancesApiVersion: _serverApiVersionController.text,
+            profile.sshUsername: _serverSshUsernameController.text,
+            profile.sshPort.toString(): _serverSshPortController.text,
+            //profile.sshPassword: _serverSshPasswordController.text,
+        };
+
+        if (valuesHaveChanged(values)) {
             return (await showDialog(
                 context: context,
                 builder: (context) => ConfirmLeaveDialog()
@@ -387,34 +234,30 @@ class _ProfileEditState extends State<ProfileEditScreen> {
             return null;
         }
     }
-
-    /// Checks if the user changed any values of the profile (compared to the most recent version of the profile in the database)
-    bool _changedValues(Profile profile) {
-        if (_profileCaptionController.text != profile.caption) {
-            return true;
-        } else if (_serverAddressController.text != profile.serverAddress) {
-            return true;
-        } else if (_serverPortController.text != profile.port.toString()) {
-            return true;
-        } else if (_serverApiVersionController.text != profile.glancesApiVersion) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
 
-_saveProfile(Profile profile, String serverAddress, int port, int sshPort, String caption, String apiVersion, BuildContext context) {
-    /// Save current values of text input fields by updating the existing profile in the database.
-    _saveProfile(Profile profile, String serverAddress, int port,
-        String caption, String apiVersion, BuildContext context) {
-        profile.serverAddress = serverAddress;
-        profile.port = port;
-        profile.sshPort = sshPort;
-        profile.caption = caption;
-        profile.glancesApiVersion = apiVersion;
+_saveProfile(
+    BuildContext context,
+    Profile profile,
+    String profileCaption,
+    String serverAddress,
+    int glancesPort,
+    String glancesApiVersion,
+    int sshPort,
+    String sshUsername,
+    String sshPassword
+    ) {
 
-        DatabaseService.db.updateProfile(profile);
-        Navigator.pop(context);
-    }
+    /// Save current values of text input fields by updating the existing profile in the database.
+
+    profile.caption = profileCaption;
+    profile.serverAddress = serverAddress;
+    profile.port = glancesPort;
+    profile.glancesApiVersion = glancesApiVersion;
+    profile.sshUsername = sshUsername;
+    profile.sshPort = sshPort;
+    profile.sshPassword = sshPassword;
+
+    DatabaseService.db.updateProfile(profile);
+    Navigator.pop(context);
 }

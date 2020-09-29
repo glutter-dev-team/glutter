@@ -28,7 +28,6 @@ class ConfirmDeleteProfileDialog extends StatelessWidget {
                     onPressed: () {
                         DatabaseService.db.deleteProfileById(profile.id);
 
-                        //Navigator.popUntil(context, ModalRoute.withName('/settings/profiles'));
                         var count = 0;
                         Navigator.popUntil(context, (route) {
                             return count++ == 2;

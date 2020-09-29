@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
-import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/utils/check_values.dart';
 import 'package:glutter/widgets/dialogs.dart';
 import 'package:glutter/screens/settings/manage_profiles/widgets/profile_form_widgets.dart';
@@ -66,9 +65,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                             sshPasswordController: _serverSshPasswordController,
                                         ),
 
-                                        SizedBox(
-                                            height: 25,
-                                        ),
+                                        SizedBox(height: 25),
 
                                         ConnectionTest(
                                             _profileCaptionController.text,
@@ -79,6 +76,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                             _serverSshPortController.text,
                                             _serverSshPasswordController.text,
                                         ),
+
                                         SizedBox(height: 90),
                                     ]
                                 )

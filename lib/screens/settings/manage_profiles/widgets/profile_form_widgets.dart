@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 
-// Dieses Widget soll das komplette Profile-Formular abbilden (für create und update screens). Wird aktuell noch nicht (wieder) benutzt, weil es merge conflicts gab.
+
 class ProfileForm extends StatelessWidget {
   ProfileForm(
       {this.profileCaptionController,
@@ -29,7 +29,9 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(child: ProfileCaptionTextField(profileCaptionController)),
+          Expanded(
+              child: ProfileCaptionTextField(profileCaptionController)
+          ),
         ],
       ),
       SizedBox(
@@ -40,7 +42,9 @@ class ProfileForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Expanded(child: ServerAddressTextField(serverAddressController)),
+          Expanded(
+              child: ServerAddressTextField(serverAddressController)
+          ),
         ],
       ),
       SizedBox(
@@ -50,7 +54,9 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(child: GlancesPortTextField(glancesPortController)),
+          Expanded(
+              child: GlancesPortTextField(glancesPortController)
+          ),
         ],
       ),
       SizedBox(
@@ -61,7 +67,8 @@ class ProfileForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
-              child: GlancesApiVersionTextField(glancesApiVersionController)),
+              child: GlancesApiVersionTextField(glancesApiVersionController)
+          ),
         ],
       ),
       SizedBox(
@@ -72,7 +79,9 @@ class ProfileForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Expanded(child: SshPortTextField(sshPortController)),
+          Expanded(
+              child: SshPortTextField(sshPortController)
+          ),
         ],
       ),
       SizedBox(
@@ -82,7 +91,9 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(child: SshUsernameTextField(sshUsernameController)),
+          Expanded(
+              child: SshUsernameTextField(sshUsernameController)
+          ),
         ],
       ),
       SizedBox(
@@ -92,7 +103,9 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(child: SshPasswordTextField(sshPasswordController)),
+          Expanded(
+              child: SshPasswordTextField(sshPasswordController)
+          ),
         ],
       ),
     ]);
@@ -114,7 +127,8 @@ class ProfileCaptionTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Caption / Name / Title',
           hintText: 'e.g. My NAS @ Home',
-        ));
+        )
+    );
   }
 }
 
@@ -135,7 +149,8 @@ class ServerAddressTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Server address',
           hintText: 'e.g. example.com or 123.45.678.9',
-        ));
+        )
+    );
   }
 }
 
@@ -157,7 +172,8 @@ class GlancesPortTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Glances port',
           hintText: 'default: 61208',
-        ));
+        )
+    );
   }
 }
 
@@ -179,7 +195,8 @@ class SshPortTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'SSH port',
           hintText: 'default: 22',
-        ));
+        )
+    );
   }
 }
 
@@ -201,7 +218,8 @@ class SshUsernameTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'SSH username',
           hintText: 'username',
-        ));
+        )
+    );
   }
 }
 
@@ -221,7 +239,8 @@ class SshPasswordTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'SSH password',
           hintText: 'password',
-        ));
+        )
+    );
   }
 }
 
@@ -250,7 +269,8 @@ class GlancesApiVersionTextField extends StatelessWidget {
                 border: OutlineInputBorder(),
                 labelText: 'Glances API version',
                 hintText: '2 or 3',
-              )),
+              )
+          ),
         ),
       ],
     );
@@ -355,7 +375,8 @@ class _ConnectionTestState extends State<ConnectionTest> {
                           padding: EdgeInsets.only(left: 5.0),
                           child: Text("Connection test running..."),
                         )
-                      ]);
+                      ]
+                  );
                 case ConnectionState.done:
                   if (snapshot.data == true) {
                     return Row(
@@ -369,7 +390,8 @@ class _ConnectionTestState extends State<ConnectionTest> {
                             padding: EdgeInsets.only(left: 5.0),
                             child: Text("Connection test successful!"),
                           )
-                        ]);
+                        ]
+                    );
                   } else {
                     return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -382,7 +404,8 @@ class _ConnectionTestState extends State<ConnectionTest> {
                             padding: EdgeInsets.only(left: 5.0),
                             child: Text("Connection test failed!"),
                           )
-                        ]);
+                        ]
+                    );
                   }
                   return Text("no result");
                 default:

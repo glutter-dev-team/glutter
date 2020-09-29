@@ -27,22 +27,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
     TextEditingController _serverSshPasswordController = new TextEditingController();
     TextEditingController _serverApiVersionController = new TextEditingController();
 
-    Future connectionTestResult;
     bool initialWrite = false;
-
-    _connectionTest() async {
-        var address = _serverAddressController.text;
-        var port = _serverPortController.text;
-        var sshPort = _serverSshPortController.text;
-        var sshUsername = _serverSshUsernameController.text;
-        var sshPassword = _serverSshPasswordController.text;
-        var apiVersion = _serverApiVersionController.text;
-
-        Profile testProfile = new Profile(address, int.parse(port), apiVersion, "test", int.parse(sshPort), sshUsername, );
-        testProfile.sshPassword = sshPassword;
-        GlancesService glances = new GlancesService(testProfile);
-        connectionTestResult = glances.connectionTest();
-    }
 
     @override
     void initState() {

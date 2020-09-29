@@ -78,7 +78,8 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                                             _serverSshUsernameController.text,
                                             _serverSshPortController.text,
                                             _serverSshPasswordController.text,
-                                        )
+                                        ),
+                                        SizedBox(height: 90),
                                     ]
                                 )
                             ),

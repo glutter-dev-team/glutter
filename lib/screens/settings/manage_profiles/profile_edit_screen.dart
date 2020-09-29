@@ -113,77 +113,17 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                                         SizedBox(
                                             height: 25,
                                         ),
-                                        FlatButton.icon(
-                                            onPressed: () {
-                                                setState(() {
-                                                    _connectionTest();
-                                                });
-                                            },
-                                            icon: Icon(Icons.settings_ethernet),
-                                            label:
-                                            Text("Start connection test")
-                                        ),
-                                        FutureBuilder(
-                                            future: connectionTestResult,
-                                            builder: (BuildContext context, AsyncSnapshot snapshot){
-                                                switch (snapshot.connectionState) {
-                                                    case ConnectionState.none:
-                                                        return Text("");
-                                                    case ConnectionState.active:
-                                                        return Text("Connection active");
-                                                    case ConnectionState.waiting:
-                                                        return Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: <Widget>[
-                                                                Container(
-                                                                    width: 20,
-                                                                    child: new LinearProgressIndicator(
-                                                                        backgroundColor: Colors.grey,
-                                                                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
-                                                                    ),
-                                                                ),
-                                                                Padding(
-                                                                    padding: EdgeInsets.only(left: 5.0),
-                                                                    child: Text("Connection test running..."),
-                                                                )
-                                                            ]
-                                                        );
-                                                    case ConnectionState.done:
-                                                        if (snapshot.data == true) {
-                                                            return Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: <Widget>[
-                                                                    Icon(
-                                                                        Icons.check_circle,
-                                                                        color: Colors.green,),
-                                                                    Padding(
-                                                                        padding: EdgeInsets.only(left: 5.0),
-                                                                        child: Text("Connection test successful!"),
-                                                                    )
-                                                                ]
-                                                            );
 
-                                                        } else {
-                                                            return Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: <Widget>[
-                                                                    Icon(
-                                                                        Icons.error,
-                                                                        color: Colors.red,),
-                                                                    Padding(
-                                                                        padding: EdgeInsets.only(left: 5.0),
-                                                                        child: Text("Connection test failed!"),
-                                                                    )
-                                                                ]
-                                                            );
-                                                        }
-                                                        return Text("no result");
-                                                    default:
-                                                        return Text("default");
-                                                }
-                                            }
+                                        ConnectionTest(
+                                            _profileCaptionController.text,
+                                            _serverAddressController.text,
+                                            _serverPortController.text,
+                                            _serverApiVersionController.text,
+                                            _serverSshUsernameController.text,
+                                            _serverSshPortController.text,
+                                            _serverSshPasswordController.text,
                                         ),
-                                        SizedBox(height: 90,)
+                                        SizedBox(height: 90),
                                     ]
                                 )
                             ),

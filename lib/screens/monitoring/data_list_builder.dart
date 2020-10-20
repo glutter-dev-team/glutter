@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/utils/convert_bytes.dart';
+import 'package:glutter/utils/utils.dart';
 
 enum MonitoringOption {
     CPU,

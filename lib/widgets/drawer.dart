@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../utils/routes.dart';
-import '../utils/launch_url.dart';
+import '../utils/utils.dart';
 
 class AppDrawer extends StatelessWidget {
     @override

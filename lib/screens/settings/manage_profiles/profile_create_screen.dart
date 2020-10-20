@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
-import 'package:glutter/utils/check_values.dart';
+import 'package:glutter/utils/utils.dart';
 import 'package:glutter/widgets/dialogs.dart';
 import 'package:glutter/screens/settings/manage_profiles/widgets/profile_form_widgets.dart';
 

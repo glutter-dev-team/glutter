@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:glutter/screens/settings/about_screen.dart';
 import 'package:glutter/screens/settings/manage_profiles/profile_list_screen.dart';
-import 'package:glutter/utils/launch_url.dart';
+import 'package:glutter/utils/utils.dart';
 import 'package:glutter/widgets/drawer.dart';
 
 class SettingsScreen extends StatefulWidget {

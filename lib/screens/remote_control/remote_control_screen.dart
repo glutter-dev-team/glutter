@@ -42,12 +42,9 @@ class _RemoteControlState extends State<RemoteControlScreen> {
     }
 
     void _onPress(Command cmd) async {
-        Profile server;
-        this.profilesFuture.then((value) => {
-           server = value
-        });
-        
-        RemoteService service = new RemoteService(server);
+        List<Profile> servers = await DatabaseService.db.getProfiles();
+        Profile server = await DatabaseService.db.getProfileById(servers[0].id);
+        var service = new RemoteService(server);
         service.execute(cmd);
     }
 

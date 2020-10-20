@@ -23,7 +23,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardState extends State<DashboardScreen> {
     Future profilesFuture;
     Profile selectedServer;
-    GlancesService service;
+    GlancesService glancesService;
     Future<CPU> cpuFuture;
     Future<Memory> memFuture;
     Future<List<Sensor>> sensFuture;
@@ -37,9 +37,9 @@ class _DashboardState extends State<DashboardScreen> {
             selectedServer = value[0];
             DatabaseService.db.insertSettings(new Settings(value[0].id));
         }));
-        this.service = new GlancesService(this.selectedServer);
-        this.cpuFuture = service.getCpu();
-        this.memFuture = service.getMemory();
+        this.glancesService = new GlancesService(this.selectedServer);
+        this.cpuFuture = glancesService.getCpu();
+        this.memFuture = glancesService.getMemory();
         this.settingsFuture = DatabaseService.db.getSettings();
         super.initState();
 
@@ -47,10 +47,10 @@ class _DashboardState extends State<DashboardScreen> {
             profilesFuture.then((value) => this.setState(() {
                 selectedServer = value[0];
                 DatabaseService.db.insertSettings(new Settings(value[0].id));
-                this.service = new GlancesService(selectedServer);
-                this.cpuFuture = service.getCpu();
-                this.memFuture = service.getMemory();
-                this.sensFuture = service.getSensors();
+                this.glancesService = new GlancesService(selectedServer);
+                this.cpuFuture = glancesService.getCpu();
+                this.memFuture = glancesService.getMemory();
+                this.sensFuture = glancesService.getSensors();
             }));
         });
     }
@@ -64,10 +64,10 @@ class _DashboardState extends State<DashboardScreen> {
 
         this.setState(() {
             this.selectedServer = selectedServer;
-            this.service = new GlancesService(selectedServer);
-            this.cpuFuture = service.getCpu();
-            this.memFuture = service.getMemory();
-            this.sensFuture = service.getSensors();
+            this.glancesService = new GlancesService(selectedServer);
+            this.cpuFuture = glancesService.getCpu();
+            this.memFuture = glancesService.getMemory();
+            this.sensFuture = glancesService.getSensors();
             DatabaseService.db.insertSettings(new Settings(selectedServer.id));
             this.settingsFuture = DatabaseService.db.getSettings();
         });
@@ -129,10 +129,10 @@ class _DashboardState extends State<DashboardScreen> {
                                                             onChanged: (Profile selectedServer) {
                                                                 setState(() {
                                                                     this.selectedServer = selectedServer;
-                                                                    this.service = new GlancesService(selectedServer);
-                                                                    this.cpuFuture = service.getCpu();
-                                                                    this.memFuture = service.getMemory();
-                                                                    this.sensFuture = service.getSensors();
+                                                                    this.glancesService = new GlancesService(selectedServer);
+                                                                    this.cpuFuture = glancesService.getCpu();
+                                                                    this.memFuture = glancesService.getMemory();
+                                                                    this.sensFuture = glancesService.getSensors();
                                                                     DatabaseService.db.insertSettings(new Settings(selectedServer.id));
                                                                     this.settingsFuture = DatabaseService.db.getSettings();
                                                                 });

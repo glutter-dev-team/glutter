@@ -21,7 +21,7 @@ class MonitoringScreen extends StatefulWidget {
 
 class _MonitoringState extends State<MonitoringScreen> {
 
-    GlancesService service;
+    GlancesService glancesService;
     Future<Settings> settingsFuture;
 
     Future profilesFuture;
@@ -47,25 +47,25 @@ class _MonitoringState extends State<MonitoringScreen> {
         profilesFuture.then((value) => this.setState(() {
             this.selectedServer = value[0];
             DatabaseService.db.insertSettings(new Settings(value[0].id));
-            this.service = new GlancesService(selectedServer);
+            this.glancesService = new GlancesService(selectedServer);
             this.selectedOption = MonitoringOption.CPU;
-            this.monitoringFuture = service.getCpu();
+            this.monitoringFuture = glancesService.getCpu();
         }));
     }
 
     _changeDataChoice(MonitoringOption choice) {
         switch (choice) {
             case MonitoringOption.CPU:
-                monitoringFuture = service.getCpu();
+                monitoringFuture = glancesService.getCpu();
                 break;
             case MonitoringOption.Memory:
-                monitoringFuture = service.getMemory();
+                monitoringFuture = glancesService.getMemory();
                 break;
             case MonitoringOption.Network:
-                monitoringFuture = service.getNetworks();
+                monitoringFuture = glancesService.getNetworks();
                 break;
             case MonitoringOption.Sensors:
-                monitoringFuture = service.getSensors();
+                monitoringFuture = glancesService.getSensors();
                 break;
         }
     }
@@ -122,7 +122,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                                 onChanged: (Profile selectedServer) {
                                                                     setState(() {
                                                                         this.selectedServer = selectedServer;
-                                                                        this.service = new GlancesService(selectedServer);
+                                                                        this.glancesService = new GlancesService(selectedServer);
                                                                         DatabaseService.db.insertSettings(new Settings(selectedServer.id));
                                                                         this.settingsFuture = DatabaseService.db.getSettings();
                                                                         _changeDataChoice(this.selectedOption);

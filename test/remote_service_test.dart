@@ -19,7 +19,7 @@ void main() {
 
         /// Tests the correct functionality of getting the CPU-Values from the GlancesService.
         test('RemoteService ExecuteCommand', () async {
-            Command cmd = new Command("sudo service apache2 stop");
+            Command cmd = new Command("sudo service apache2 stop", "Test", 0);
             var result = await remoteService.execute(cmd);
             print(result);
         });

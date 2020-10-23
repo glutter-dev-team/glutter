@@ -12,8 +12,10 @@ class Command {
     String caption;
 
     /// Ctor for Commands
-    Command(String msg) {
+    Command(String msg, String caption, int profileId) {
         this.commandMessage = msg;
+        this.caption = caption;
+        this.profileId = profileId;
     }
 
     /// Converts data from Database into Command.
@@ -28,11 +30,9 @@ class Command {
 
     /// Constructor for Commands by the Database.
     static Command _fromDatabase(int id, int profileId, String commandMessage, String caption) {
-        Command cmd = new Command(commandMessage);
+        Command cmd = new Command(commandMessage, caption, profileId);
 
         cmd.id = id;
-        cmd.profileId = profileId;
-        cmd.caption = caption;
 
         return cmd;
     }

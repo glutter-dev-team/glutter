@@ -55,8 +55,7 @@ class _DashboardState extends State<DashboardScreen> {
         });
     }
 
-    RefreshController _refreshController =
-    RefreshController(initialRefresh: false);
+    RefreshController _refreshController = RefreshController(initialRefresh: false);
 
     void _onRefresh() async{
         // monitor network fetch

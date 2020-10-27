@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:glutter/widgets/profile_selector.dart';
 import '../utils/routes.dart';
 import '../utils/utils.dart';
 
@@ -16,6 +17,14 @@ class AppDrawer extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             children: <Widget>[
                                 _createHeader(),
+                                ListTile(
+                                    title: Row(
+                                        children: <Widget>[
+                                            //Text("Profile: "),
+                                            ProfileSelector()
+                                        ]
+                                    )
+                                ),
                                 _createDrawerItem(
                                     icon: Icons.dashboard,
                                     text: 'Dashboard',

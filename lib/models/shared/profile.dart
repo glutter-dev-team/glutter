@@ -86,5 +86,5 @@ class Profile {
         other != null && other is Profile && this.id == other.id;
 
     @override
-    int get hashCode => super.hashCode;
+    int get hashCode => id.hashCode;
 }

@@ -20,7 +20,6 @@ class AppDrawer extends StatelessWidget {
                                 ListTile(
                                     title: Row(
                                         children: <Widget>[
-                                            //Text("Profile: "),
                                             ProfileSelector()
                                         ]
                                     )

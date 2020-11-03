@@ -18,10 +18,11 @@ class _ProfileSelectorState extends State<ProfileSelector> {
 
     @override
     void initState() {
+        super.initState();
+
         profilesFuture = DatabaseService.db.getProfiles();
         selectedProfile = _getFirstProfileInList();
 
-        super.initState();
         _getLastProfileId().then((value) => _getSelectedProfile(value));
         print("initState completed");
     }
@@ -43,7 +44,6 @@ class _ProfileSelectorState extends State<ProfileSelector> {
     }
 
     Profile _getFirstProfileInList() {
-        profilesFuture = DatabaseService.db.getProfiles();
         Profile result;
         profilesFuture.then((values) => this.setState(() {
             selectedProfile = values[0];
@@ -72,7 +72,7 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                         );
                     case ConnectionState.done:
                         return new Container(
-                            child: DropdownButton<Profile>(
+                            child: selectedProfile != null ?  DropdownButton<Profile>(
                                 items: snapshot.data.map((Profile item) {
                                     return DropdownMenuItem<Profile>(
                                         value: item,
@@ -86,7 +86,7 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                                     });
                                 },
                                 value: selectedProfile,
-                            )
+                            ) : CircularProgressIndicator()
                         );
                     default:
                         return Text("default");

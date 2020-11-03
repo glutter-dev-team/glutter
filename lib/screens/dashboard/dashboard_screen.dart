@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glutter/services/shared/preferences_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:glutter/models/shared/profile.dart';
@@ -9,6 +10,7 @@ import 'package:glutter/models/settings/settings.dart';
 import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/widgets/drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
     DashboardScreen({Key key, this.title: "Dashboard"}) : super(key: key);
@@ -23,6 +25,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardState extends State<DashboardScreen> {
     Future profilesFuture;
     Profile selectedServer;
+    Profile selectedProfile;
     GlancesService glancesService;
     Future<CPU> cpuFuture;
     Future<Memory> memFuture;
@@ -31,23 +34,22 @@ class _DashboardState extends State<DashboardScreen> {
 
     @override
     void initState() {
+        PreferencesService.getLastProfile().then((profile) => this.selectedProfile = profile);
+
         profilesFuture = DatabaseService.db.getProfiles();
 
-        profilesFuture.then((value) => this.setState(() {
-            selectedServer = value[0];
-            DatabaseService.db.insertSettings(new Settings(value[0].id));
-        }));
-        this.glancesService = new GlancesService(this.selectedServer);
+        this.glancesService = new GlancesService(this.selectedProfile);
+
         this.cpuFuture = glancesService.getCpu();
         this.memFuture = glancesService.getMemory();
-        this.settingsFuture = DatabaseService.db.getSettings();
+
         super.initState();
 
         setState(() {
+            PreferencesService.getLastProfile().then((profile) => this.selectedProfile = profile);
             profilesFuture.then((value) => this.setState(() {
                 selectedServer = value[0];
-                DatabaseService.db.insertSettings(new Settings(value[0].id));
-                this.glancesService = new GlancesService(selectedServer);
+                this.glancesService = new GlancesService(this.selectedProfile);
                 this.cpuFuture = glancesService.getCpu();
                 this.memFuture = glancesService.getMemory();
                 this.sensFuture = glancesService.getSensors();
@@ -62,13 +64,12 @@ class _DashboardState extends State<DashboardScreen> {
         await Future.delayed(Duration(milliseconds: 500));
 
         this.setState(() {
+            PreferencesService.getLastProfile().then((profile) => this.selectedProfile = profile);
             this.selectedServer = selectedServer;
             this.glancesService = new GlancesService(selectedServer);
             this.cpuFuture = glancesService.getCpu();
             this.memFuture = glancesService.getMemory();
             this.sensFuture = glancesService.getSensors();
-            DatabaseService.db.insertSettings(new Settings(selectedServer.id));
-            this.settingsFuture = DatabaseService.db.getSettings();
         });
 
         // if failed,use refreshFailed()
@@ -93,7 +94,7 @@ class _DashboardState extends State<DashboardScreen> {
                     child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                            Card(
+                            /*Card(
                                 color: Theme.of(context).accentColor,
                                 child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -127,6 +128,7 @@ class _DashboardState extends State<DashboardScreen> {
                                                                 }).cast<DropdownMenuItem<Profile>>().toList(),
                                                             onChanged: (Profile selectedServer) {
                                                                 setState(() {
+
                                                                     this.selectedServer = selectedServer;
                                                                     this.glancesService = new GlancesService(selectedServer);
                                                                     this.cpuFuture = glancesService.getCpu();
@@ -136,7 +138,7 @@ class _DashboardState extends State<DashboardScreen> {
                                                                     this.settingsFuture = DatabaseService.db.getSettings();
                                                                 });
                                                             },
-                                                            value: selectedServer,
+                                                            value: this.selectedProfile,
                                                             )
                                                         );
                                                     default:
@@ -146,7 +148,7 @@ class _DashboardState extends State<DashboardScreen> {
                                         )
                                     ],
                                 ),
-                            ),
+                            ),*/
                             Card(
                                 child: Column(
                                     mainAxisSize: MainAxisSize.max,

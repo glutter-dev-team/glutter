@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSelector extends StatefulWidget {
   @override

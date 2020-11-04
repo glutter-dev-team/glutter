@@ -1,6 +1,4 @@
 import 'package:test/test.dart';
-import 'dart:async';
-import 'package:fake_async/fake_async.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/remote_control/remote_service.dart';
 import 'package:glutter/models/remote_control/command.dart';

@@ -1,6 +1,5 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math';
-import 'package:flutter/material.dart';
 
 launchURL(url) async {
     if (await canLaunch(url)) {

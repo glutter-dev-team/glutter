@@ -105,13 +105,12 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
 
     Future<bool> _onWillPop() async {
         Map values = {
-            "": _profileCaptionController.text,
-            "": _serverAddressController.text,
-            "": _serverPortController.text,
-            "": _serverApiVersionController.text,
-            "": _serverSshUsernameController.text,
-            "": _serverSshPortController.text,
-            //"": _serverSshPasswordController.text,
+            0: _profileCaptionController.text,
+            1: _serverAddressController.text,
+            2: _serverPortController.text,
+            3: _serverApiVersionController.text,
+            4: _serverSshUsernameController.text,
+            5: _serverSshPortController.text,
         };
         if (valuesHaveChanged(values)) {
             return (await showDialog(

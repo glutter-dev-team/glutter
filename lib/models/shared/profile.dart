@@ -81,4 +81,10 @@ class Profile {
             "sshUsername" : this.sshUsername
         };
     }
+
+    bool operator == (dynamic other) =>
+        other != null && other is Profile && this.id == other.id;
+
+    @override
+    int get hashCode => id.hashCode;
 }

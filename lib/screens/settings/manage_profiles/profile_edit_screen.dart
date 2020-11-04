@@ -6,7 +6,7 @@ import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/widgets/dialogs.dart';
-import 'package:glutter/utils/check_values.dart';
+import 'package:glutter/utils/utils.dart';
 
 class ProfileEditScreen extends StatefulWidget {
     ProfileEditScreen({Key key,}) : super(key: key);

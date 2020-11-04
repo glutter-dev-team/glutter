@@ -47,7 +47,7 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                             );
                         case ConnectionState.done:
                             return new Container(
-                                child: selectedProfile != null ? DropdownButton<Profile>(
+                                child: DropdownButton<Profile>(
                                     items: snapshot.data.map((Profile item) {
                                         return DropdownMenuItem<Profile>(
                                             value: item,
@@ -61,7 +61,7 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                                         });
                                     },
                                     value: selectedProfile,
-                                ) : CircularProgressIndicator()
+                                )
                             );
                         default:
                             return Text("default");

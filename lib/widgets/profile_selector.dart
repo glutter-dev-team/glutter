@@ -13,7 +13,6 @@ class _ProfileSelectorState extends State<ProfileSelector> {
 
     Future profilesFuture;
     Profile selectedProfile;
-    Future prefService;
     int lastProfileId;
 
     @override
@@ -25,10 +24,8 @@ class _ProfileSelectorState extends State<ProfileSelector> {
         PreferencesService.getLastProfile().then((profile) =>
             this.setState(() {
                 this.selectedProfile = profile;
-                //print("print1 (getLastProfile.then): SelectedProfile = " + this.selectedProfile.toString());
             })
         );
-        //print("print2 (end of initState): SelectedProfile = " + this.selectedProfile.toString());
     }
 
     @override

@@ -5,6 +5,7 @@ import 'package:glutter/services/remote_control/remote_service.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class RemoteControlScreen extends StatefulWidget {
     RemoteControlScreen({Key key, this.title: "Remote Control"}) : super(key: key);
@@ -83,29 +84,43 @@ class _RemoteControlState extends State<RemoteControlScreen> {
                                                 return new Column (
                                                     mainAxisSize: MainAxisSize.max,
                                                     children: List.generate(snapshot.data.length, (i) {
-                                                        return Card(
-                                                            child: Column(
-                                                                mainAxisSize: MainAxisSize.max,
-                                                                children: <Widget>[
-                                                                    ListTile(
-                                                                        leading: Icon(Icons.comment),
-                                                                        title: Text(snapshot.data[i].caption)
-                                                                    ),
-                                                                    Text(snapshot.data[i].commandMessage),
-                                                                    Padding(
-                                                                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0)
-                                                                    ),
-                                                                    RaisedButton(
-                                                                        child: Text("Execute"),
-                                                                        onPressed: () {
-                                                                            _onPress(snapshot.data[i]);
-                                                                        },
-                                                                    ),
-                                                                    Padding(
-                                                                        padding: EdgeInsets.all(10),
-                                                                    )
-                                                                ],
-                                                            ),
+                                                        return Slidable(
+                                                            actionPane: SlidableDrawerActionPane(),
+                                                            actionExtentRatio: 0.25,
+                                                            actions: <Widget>[
+                                                                IconSlideAction(
+                                                                    caption: 'Delete',
+                                                                    color: Colors.red,
+                                                                    icon: Icons.delete_forever,
+                                                                    onTap: () => _onDelete(snapshot.data[i]),
+                                                                ),
+                                                            ],
+                                                            secondaryActions: [
+                                                                IconSlideAction(
+                                                                    caption: 'Execute',
+                                                                    color: Colors.blue,
+                                                                    icon: Icons.auto_fix_high,
+                                                                    onTap: () => _onPress(snapshot.data[i]),
+                                                                ),
+                                                            ],
+                                                            child: Card(
+                                                                child: Column(
+                                                                    mainAxisSize: MainAxisSize.max,
+                                                                    children: <Widget>[
+                                                                        ListTile(
+                                                                            leading: Icon(Icons.comment),
+                                                                            title: Text(snapshot.data[i].caption)
+                                                                        ),
+                                                                        Text(snapshot.data[i].commandMessage),
+                                                                        Padding(
+                                                                            padding: EdgeInsets.fromLTRB(0, 20, 0, 0)
+                                                                        ),
+                                                                        Padding(
+                                                                            padding: EdgeInsets.all(10),
+                                                                        )
+                                                                    ],
+                                                                ),
+                                                            )
                                                         );
                                                     })
                                                 );
@@ -128,5 +143,10 @@ class _RemoteControlState extends State<RemoteControlScreen> {
                 }
             ),
         );
+    }
+
+    void _onDelete(Command cmd) {
+        DatabaseService.db.deleteCommandById(cmd.id);
+        _onRefresh();
     }
 }

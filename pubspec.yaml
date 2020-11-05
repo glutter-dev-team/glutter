@@ -36,6 +36,7 @@ dependencies:
     ssh: any
     flutter_secure_storage: any
     shared_preferences: any
+    flutter_slidable: any
     # process_run: ^0.10.10+1
 
 dev_dependencies:

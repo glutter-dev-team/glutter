@@ -1,4 +1,4 @@
-package de.schulenfulda.glutter
+package de.glutter.glutter
 
 import io.flutter.embedding.android.FlutterActivity
 

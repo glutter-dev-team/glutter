@@ -16,7 +16,7 @@ class RemoteService {
     execute(Command cmd) async {
         if(cmd != null) {
             await this._sshClient.connect();
-            var result = await this._sshClient.execute(cmd.commandMessage);
+            await this._sshClient.execute(cmd.commandMessage);
             await this._sshClient.disconnect();
         }
     }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSelector extends StatefulWidget {
   @override
@@ -47,7 +46,7 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                             );
                         case ConnectionState.done:
                             return new Container(
-                                child: selectedProfile != null ? DropdownButton<Profile>(
+                                child: DropdownButton<Profile>(
                                     items: snapshot.data.map((Profile item) {
                                         return DropdownMenuItem<Profile>(
                                             value: item,
@@ -61,7 +60,7 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                                         });
                                     },
                                     value: selectedProfile,
-                                ) : CircularProgressIndicator()
+                                )
                             );
                         default:
                             return Text("default");

@@ -1,19 +1,5 @@
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:math';
-import 'package:flutter/material.dart';
-
-
-void showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(message),
-            action: SnackBarAction(
-                label: 'OK',
-                onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar),
-        ),
-    );
-}
-
 
 launchURL(url) async {
     if (await canLaunch(url)) {

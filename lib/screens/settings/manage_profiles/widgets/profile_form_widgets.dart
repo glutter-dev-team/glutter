@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 
-
 class ProfileForm extends StatelessWidget {
   ProfileForm(
       {this.profileCaptionController,
@@ -29,9 +28,7 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-              child: ProfileCaptionTextField(profileCaptionController)
-          ),
+          Expanded(child: ProfileCaptionTextField(profileCaptionController)),
         ],
       ),
       SizedBox(
@@ -42,9 +39,7 @@ class ProfileForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Expanded(
-              child: ServerAddressTextField(serverAddressController)
-          ),
+          Expanded(child: ServerAddressTextField(serverAddressController)),
         ],
       ),
       SizedBox(
@@ -54,9 +49,7 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-              child: GlancesPortTextField(glancesPortController)
-          ),
+          Expanded(child: GlancesPortTextField(glancesPortController)),
         ],
       ),
       SizedBox(
@@ -66,9 +59,7 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-              child: GlancesApiVersionTextField(glancesApiVersionController)
-          ),
+          Expanded(child: GlancesApiVersionTextField(glancesApiVersionController)),
         ],
       ),
       SizedBox(
@@ -79,9 +70,7 @@ class ProfileForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Expanded(
-              child: SshPortTextField(sshPortController)
-          ),
+          Expanded(child: SshPortTextField(sshPortController)),
         ],
       ),
       SizedBox(
@@ -91,9 +80,7 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-              child: SshUsernameTextField(sshUsernameController)
-          ),
+          Expanded(child: SshUsernameTextField(sshUsernameController)),
         ],
       ),
       SizedBox(
@@ -103,9 +90,7 @@ class ProfileForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-              child: SshPasswordTextField(sshPasswordController)
-          ),
+          Expanded(child: SshPasswordTextField(sshPasswordController)),
         ],
       ),
     ]);
@@ -127,8 +112,7 @@ class ProfileCaptionTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Caption / Name / Title',
           hintText: 'e.g. My NAS @ Home',
-        )
-    );
+        ));
   }
 }
 
@@ -149,8 +133,7 @@ class ServerAddressTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Server address',
           hintText: 'e.g. example.com or 123.45.678.9',
-        )
-    );
+        ));
   }
 }
 
@@ -164,16 +147,13 @@ class GlancesPortTextField extends StatelessWidget {
     return TextField(
         autocorrect: false,
         keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
         controller: glancesPortController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Glances port',
           hintText: 'default: 61208',
-        )
-    );
+        ));
   }
 }
 
@@ -187,16 +167,13 @@ class SshPortTextField extends StatelessWidget {
     return TextField(
         autocorrect: false,
         keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
         controller: sshPortController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'SSH port',
           hintText: 'default: 22',
-        )
-    );
+        ));
   }
 }
 
@@ -218,8 +195,7 @@ class SshUsernameTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'SSH username',
           hintText: 'username',
-        )
-    );
+        ));
   }
 }
 
@@ -239,8 +215,7 @@ class SshPasswordTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'SSH password',
           hintText: 'password',
-        )
-    );
+        ));
   }
 }
 
@@ -269,8 +244,7 @@ class GlancesApiVersionTextField extends StatelessWidget {
                 border: OutlineInputBorder(),
                 labelText: 'Glances API version',
                 hintText: '2 or 3',
-              )
-          ),
+              )),
         ),
       ],
     );
@@ -278,65 +252,41 @@ class GlancesApiVersionTextField extends StatelessWidget {
 }
 
 class ConnectionTest extends StatefulWidget {
+  ConnectionTest(
+      this.profileCaption, this.serverAddress, this.glancesPort, this.glancesApiVersion, this.sshUsername, this.sshPort, this.sshPassword);
 
-    ConnectionTest(
-        this.profileCaption,
-        this.serverAddress,
-        this.glancesPort,
-        this.glancesApiVersion,
-        this.sshUsername,
-        this.sshPort,
-        this.sshPassword
-    );
+  final String profileCaption;
+  final String serverAddress;
+  final String glancesPort;
+  final String glancesApiVersion;
+  final String sshUsername;
+  final String sshPort;
+  final String sshPassword;
 
-    final String profileCaption;
-    final String serverAddress;
-    final String glancesPort;
-    final String glancesApiVersion;
-    final String sshUsername;
-    final String sshPort;
-    final String sshPassword;
-
-    @override
-    _ConnectionTestState createState() => _ConnectionTestState(
-        profileCaption,
-        serverAddress,
-        glancesPort,
-        glancesApiVersion,
-        sshUsername,
-        sshPort,
-        sshPassword
-    );
+  @override
+  _ConnectionTestState createState() =>
+      _ConnectionTestState(profileCaption, serverAddress, glancesPort, glancesApiVersion, sshUsername, sshPort, sshPassword);
 }
 
 class _ConnectionTestState extends State<ConnectionTest> {
+  _ConnectionTestState(
+      this.profileCaption, this.serverAddress, this.glancesPort, this.glancesApiVersion, this.sshUsername, this.sshPort, this.sshPassword);
 
-    _ConnectionTestState(
-        this.profileCaption,
-        this.serverAddress,
-        this.glancesPort,
-        this.glancesApiVersion,
-        this.sshUsername,
-        this.sshPort,
-        this.sshPassword
-    );
+  final String profileCaption;
+  final String serverAddress;
+  final String glancesPort;
+  final String glancesApiVersion;
+  final String sshUsername;
+  final String sshPort;
+  final String sshPassword;
 
-    final String profileCaption;
-    final String serverAddress;
-    final String glancesPort;
-    final String glancesApiVersion;
-    final String sshUsername;
-    final String sshPort;
-    final String sshPassword;
+  Future connectionTestResult;
 
-    Future connectionTestResult;
-
-    _connectionTest() async {
-        Profile testProfile = new Profile(serverAddress, int.parse(glancesPort), glancesApiVersion,
-            "test", int.parse(sshPort), sshUsername);
-        testProfile.sshPassword = sshPassword;
-        GlancesService glances = new GlancesService(testProfile);
-        connectionTestResult = glances.connectionTest();
+  _connectionTest() async {
+    Profile testProfile = new Profile(serverAddress, int.parse(glancesPort), glancesApiVersion, "test", int.parse(sshPort), sshUsername);
+    testProfile.sshPassword = sshPassword;
+    GlancesService glances = new GlancesService(testProfile);
+    connectionTestResult = glances.connectionTest();
   }
 
   @override
@@ -360,52 +310,42 @@ class _ConnectionTestState extends State<ConnectionTest> {
                 case ConnectionState.active:
                   return Text("Connection active");
                 case ConnectionState.waiting:
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 20,
-                          child: new LinearProgressIndicator(
-                            backgroundColor: Colors.grey,
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.orangeAccent),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 5.0),
-                          child: Text("Connection test running..."),
-                        )
-                      ]
-                  );
+                  return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                    Container(
+                      width: 20,
+                      child: new LinearProgressIndicator(
+                        backgroundColor: Colors.grey,
+                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 5.0),
+                      child: Text("Connection test running..."),
+                    )
+                  ]);
                 case ConnectionState.done:
                   if (snapshot.data == true) {
-                    return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Text("Connection test successful!"),
-                          )
-                        ]
-                    );
+                    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5.0),
+                        child: Text("Connection test successful!"),
+                      )
+                    ]);
                   } else {
-                    return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.error,
-                            color: Colors.red,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Text("Connection test failed!"),
-                          )
-                        ]
-                    );
+                    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                      Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5.0),
+                        child: Text("Connection test failed!"),
+                      )
+                    ]);
                   }
                   return Text("no result");
                 default:

@@ -5,16 +5,17 @@ import 'package:glutter/screens/settings/manage_profiles/profile_create_screen.d
 import 'package:glutter/screens/settings/manage_profiles/profile_edit_screen.dart';
 import 'package:glutter/screens/settings/manage_profiles/profile_list_screen.dart';
 import 'package:glutter/screens/settings/settings_screen.dart';
+
 import '../screens/dashboard/dashboard_screen.dart';
 
 class Routes {
-    static const String dashboard = DashboardScreen.routeName;
-    static const String monitoring = MonitoringScreen.routeName;
-    static const String remoteControl = RemoteControlScreen.routeName;
+  static const String dashboard = DashboardScreen.routeName;
+  static const String monitoring = MonitoringScreen.routeName;
+  static const String remoteControl = RemoteControlScreen.routeName;
 
-    static const String settings = SettingsScreen.routeName;
-    static const String profileList = ProfileListScreen.routeName;
-    static const String profileCreate = ProfileCreateScreen.routeName;
-    static const String profileDetail = ProfileEditScreen.routeName;
-    static const String about = AboutScreen.routeName;
+  static const String settings = SettingsScreen.routeName;
+  static const String profileList = ProfileListScreen.routeName;
+  static const String profileCreate = ProfileCreateScreen.routeName;
+  static const String profileDetail = ProfileEditScreen.routeName;
+  static const String about = AboutScreen.routeName;
 }

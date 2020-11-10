@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/widgets/drawer.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:glutter/models/remote_control/command.dart';
+import 'package:glutter/models/shared/profile.dart';
+import 'package:glutter/screens/remote_control/command_create_screen.dart';
 import 'package:glutter/services/remote_control/remote_service.dart';
 import 'package:glutter/services/shared/database_service.dart';
-import 'package:glutter/models/shared/profile.dart';
+import 'package:glutter/widgets/drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class RemoteControlScreen extends StatefulWidget {
     RemoteControlScreen({Key key, this.title: "Remote Control"}) : super(key: key);
@@ -137,9 +138,15 @@ class _RemoteControlState extends State<RemoteControlScreen> {
             ),
             floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.add),
-                onPressed: () async {
-                    Command cmd = new Command("glances -w", "Test for Glances", 1);
-                    await DatabaseService.db.insertCommand(cmd);
+                onPressed: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CommandCreateScreen()),
+                    ).then((value) {
+                        setState(() {
+                            profilesFuture = DatabaseService.db.getProfiles();
+                        });
+                    })
                 }
             ),
         );

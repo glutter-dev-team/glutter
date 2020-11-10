@@ -5,6 +5,7 @@ import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/screens/remote_control/command_create_screen.dart';
 import 'package:glutter/services/remote_control/remote_service.dart';
 import 'package:glutter/services/shared/database_service.dart';
+import 'package:glutter/services/shared/preferences_service.dart';
 import 'package:glutter/widgets/drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -25,7 +26,12 @@ class _RemoteControlState extends State<RemoteControlScreen> {
     @override
     void initState() {
         this.profilesFuture = DatabaseService.db.getProfiles();
-        this.commandsFuture = DatabaseService.db.getCommands();
+
+        PreferencesService.getLastProfileId().then((value) {
+            this.commandsFuture = DatabaseService.db.getCommandsByProfileId(value);
+            this._onRefresh();
+        });
+
         super.initState();
     }
 
@@ -36,7 +42,9 @@ class _RemoteControlState extends State<RemoteControlScreen> {
         await Future.delayed(Duration(milliseconds: 500));
 
         this.setState(() {
-            this.commandsFuture = DatabaseService.db.getCommands();
+            PreferencesService.getLastProfileId().then((value) {
+                this.commandsFuture = DatabaseService.db.getCommandsByProfileId(value);
+            });
         });
 
         // if failed,use refreshFailed()

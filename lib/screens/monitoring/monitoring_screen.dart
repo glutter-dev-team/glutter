@@ -5,6 +5,7 @@ import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
 import 'package:glutter/widgets/drawer.dart';
+import 'package:glutter/widgets/errors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'data_list_builder.dart';
@@ -102,12 +103,12 @@ class _MonitoringState extends State<MonitoringScreen> {
                     child: Column(children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text("Data: "),
+                          Text("Data category: "),
                           DropdownButton<MonitoringOption>(
                             items: this
                                 .monitoringOptions
                                 .map((value) {
-                              return DropdownMenuItem<MonitoringOption>(value: value, child: Text(_getOptionAsString(value)));
+                              return DropdownMenuItem<MonitoringOption>(value: value, child: Text(getMonitoringOptionAsString(value)));
                             })
                                 .cast<DropdownMenuItem<MonitoringOption>>()
                                 .toList(),
@@ -159,118 +160,29 @@ class _MonitoringState extends State<MonitoringScreen> {
                         ),
                       );
                     case ConnectionState.done:
-                      List<List> dataList = buildList(this.selectedOption, snapshot);
-                      return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: dataList.length,
-                          itemBuilder: (BuildContext context, int entity) {
-                            var entityProps = dataList[entity];
-
-                            switch (this.selectedOption) {
-                              case MonitoringOption.CPU:
-                                return Card(
-                                    child: Column(
-                                      children: [
-                                        PurpleCardHeader(
-                                          title: "CPU",
-                                          iconData: Icons.memory,
-                                        ),
-                                        ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            physics: NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: entityProps.length,
-                                            itemBuilder: (BuildContext context, int index) {
-                                              return ListTile(
-                                                title: Text(entityProps[index]["short_desc"]),
-                                                subtitle: Text(entityProps[index]["value"]),
-                                                onTap: () {
-                                                  _showHelpTextDialog(context, entityProps[index]);
-                                                },
-                                              );
-                                            })
-                                      ],
-                                    ));
-                              case MonitoringOption.Memory:
-                                return Card(
-                                    child: Column(
-                                      children: [
-                                        PurpleCardHeader(
-                                          title: "Memory",
-                                          iconData: Icons.storage,
-                                        ),
-                                        ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            physics: AlwaysScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: entityProps.length,
-                                            itemBuilder: (BuildContext context, int index) {
-                                              return ListTile(
-                                                title: Text(entityProps[index]["short_desc"]),
-                                                subtitle: Text(entityProps[index]["value"]),
-                                                onTap: () {
-                                                  _showHelpTextDialog(context, entityProps[index]);
-                                                },
-                                              );
-                                            })
-                                      ],
-                                    ));
-                              case MonitoringOption.Sensors:
-                                return Card(
-                                  child: Column(
-                                    children: [
-                                      PurpleCardHeader(
-                                        title: entityProps[0]["value"],
-                                        iconData: Icons.toys,
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          entityProps[3]["value"], // sensor type
-                                        ),
-                                        subtitle: Text(entityProps[1]["value"] + entityProps[2]["value"]), // sensor value + unit
-                                      )
-                                    ],
-                                  ),
-                                );
-                              case MonitoringOption.Network:
-                                return Card(
-                                    child: Column(
-                                      children: [
-                                        PurpleCardHeader(
-                                          title: entityProps[0]["value"],
-                                          iconData: Icons.settings_ethernet,
-                                        ),
-                                        ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            physics: NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: entityProps.length,
-                                            itemBuilder: (BuildContext context, int index) {
-                                              if (index == 0) {
-                                                return Container();
-                                              } else if (entityProps[index]["short_desc"] == "Is up") {
-                                                IconData isUp;
-                                                if (entityProps[index]["value"]) {
-                                                  isUp = Icons.check;
-                                                } else {
-                                                  isUp = Icons.clear;
-                                                }
-                                                return ListTile(
-                                                  title: Text(entityProps[index]["short_desc"]),
-                                                  subtitle: Row(
-                                                    children: [
-                                                      Icon(
-                                                        isUp,
-                                                        size: 18.0,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  onTap: () {
-                                                    _showHelpTextDialog(context, entityProps[index]);
-                                                  },
-                                                );
-                                              } else {
+                      if (snapshot.data != null) {
+                        List<List> dataList = buildList(this.selectedOption, snapshot);
+                        return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: dataList.length,
+                            itemBuilder: (BuildContext context, int entity) {
+                              var entityProps = dataList[entity];
+                              switch (this.selectedOption) {
+                                case MonitoringOption.CPU:
+                                  return Card(
+                                      child: Column(
+                                        children: [
+                                          PurpleCardHeader(
+                                            title: "CPU",
+                                            iconData: Icons.memory,
+                                          ),
+                                          ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: entityProps.length,
+                                              itemBuilder: (BuildContext context, int index) {
                                                 return ListTile(
                                                   title: Text(entityProps[index]["short_desc"]),
                                                   subtitle: Text(entityProps[index]["value"]),
@@ -278,14 +190,106 @@ class _MonitoringState extends State<MonitoringScreen> {
                                                     _showHelpTextDialog(context, entityProps[index]);
                                                   },
                                                 );
-                                              }
-                                            })
+                                              })
+                                        ],
+                                      ));
+                                case MonitoringOption.Memory:
+                                  return Card(
+                                      child: Column(
+                                        children: [
+                                          PurpleCardHeader(
+                                            title: "Memory",
+                                            iconData: Icons.storage,
+                                          ),
+                                          ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              physics: AlwaysScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: entityProps.length,
+                                              itemBuilder: (BuildContext context, int index) {
+                                                return ListTile(
+                                                  title: Text(entityProps[index]["short_desc"]),
+                                                  subtitle: Text(entityProps[index]["value"]),
+                                                  onTap: () {
+                                                    _showHelpTextDialog(context, entityProps[index]);
+                                                  },
+                                                );
+                                              })
+                                        ],
+                                      ));
+                                case MonitoringOption.Sensors:
+                                  return Card(
+                                    child: Column(
+                                      children: [
+                                        PurpleCardHeader(
+                                          title: entityProps[0]["value"],
+                                          iconData: Icons.toys,
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            entityProps[3]["value"], // sensor type
+                                          ),
+                                          subtitle: Text(entityProps[1]["value"] + entityProps[2]["value"]), // sensor value + unit
+                                        )
                                       ],
-                                    ));
-                              default:
-                                return Container();
-                            }
-                          });
+                                    ),
+                                  );
+                                case MonitoringOption.Network:
+                                  return Card(
+                                      child: Column(
+                                        children: [
+                                          PurpleCardHeader(
+                                            title: entityProps[0]["value"],
+                                            iconData: Icons.settings_ethernet,
+                                          ),
+                                          ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: entityProps.length,
+                                              itemBuilder: (BuildContext context, int index) {
+                                                if (index == 0) {
+                                                  return Container();
+                                                } else if (entityProps[index]["short_desc"] == "Is up") {
+                                                  IconData isUp;
+                                                  if (entityProps[index]["value"]) {
+                                                    isUp = Icons.check;
+                                                  } else {
+                                                    isUp = Icons.clear;
+                                                  }
+                                                  return ListTile(
+                                                    title: Text(entityProps[index]["short_desc"]),
+                                                    subtitle: Row(
+                                                      children: [
+                                                        Icon(
+                                                          isUp,
+                                                          size: 18.0,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    onTap: () {
+                                                      _showHelpTextDialog(context, entityProps[index]);
+                                                    },
+                                                  );
+                                                } else {
+                                                  return ListTile(
+                                                    title: Text(entityProps[index]["short_desc"]),
+                                                    subtitle: Text(entityProps[index]["value"]),
+                                                    onTap: () {
+                                                      _showHelpTextDialog(context, entityProps[index]);
+                                                    },
+                                                  );
+                                                }
+                                              })
+                                        ],
+                                      ));
+                                default:
+                                  return Container();
+                              }
+                            });
+                      }
+                      return showNoDataReceived(getMonitoringOptionAsString(this.selectedOption), this.selectedProfile);
+
                     default:
                       return Text("default");
                   }
@@ -352,11 +356,4 @@ class PurpleCardHeader extends StatelessWidget {
       ),
     );
   }
-}
-
-String _getOptionAsString(MonitoringOption option) {
-  // Removes the enum name from the enum's value and returns its value only. See example below.
-  // input: MonitoringOption.Sensors
-  // output: Sensors
-  return option.toString().substring(option.toString().indexOf('.') + 1);
 }

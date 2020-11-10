@@ -6,6 +6,7 @@ import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
 import 'package:glutter/widgets/drawer.dart';
+import 'package:glutter/widgets/errors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -76,7 +77,7 @@ class _DashboardState extends State<DashboardScreen> {
             onRefresh: _onRefresh,
             child: SingleChildScrollView(
                 child: FutureBuilder<Profile>(
-                    future: PreferencesService.getLastProfile(), //returns bool
+                    future: PreferencesService.getLastProfile(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         this.selectedProfile = snapshot.data;
@@ -105,16 +106,20 @@ class _DashboardState extends State<DashboardScreen> {
                       case ConnectionState.waiting:
                         return Center(child: Container(child: new CircularProgressIndicator(), alignment: Alignment(0.0, 0.0)));
                       case ConnectionState.done:
-                        return new Container(
-                            child: CircularPercentIndicator(
-                          radius: 150.0,
-                          animation: true,
-                          lineWidth: 15.0,
-                          percent: (snapshot.data.totalLoad / 100),
-                          center: new Text(snapshot.data.totalLoad.toString() + "%"),
-                          progressColor: Theme.of(context).accentColor,
-                          backgroundColor: Theme.of(context).primaryColor,
-                        ));
+                        if (snapshot.data != null) {
+                          return new Container(
+                              child: CircularPercentIndicator(
+                                radius: 150.0,
+                                animation: true,
+                                lineWidth: 15.0,
+                                percent: (snapshot.data.totalLoad / 100),
+                                center: new Text(snapshot.data.totalLoad.toString() + "%"),
+                                progressColor: Theme.of(context).accentColor,
+                                backgroundColor: Theme.of(context).primaryColor,
+                              ));
+                        }
+                        return showNoDataReceived("CPU", this.selectedProfile);
+
                       default:
                         return Text("default");
                     }
@@ -138,16 +143,20 @@ class _DashboardState extends State<DashboardScreen> {
                       case ConnectionState.waiting:
                         return Container(child: Container(child: new CircularProgressIndicator(), alignment: Alignment(0.0, 0.0)));
                       case ConnectionState.done:
-                        return new Center(
-                            child: CircularPercentIndicator(
-                          radius: 150.0,
-                          animation: true,
-                          lineWidth: 15.0,
-                          percent: (snapshot.data.usagePercent / 100),
-                          center: new Text(snapshot.data.usagePercent.toString() + "%"),
-                          progressColor: Theme.of(context).accentColor,
-                          backgroundColor: Theme.of(context).primaryColor,
-                        ));
+                        if (snapshot.data != null) {
+                          return new Center(
+                              child: CircularPercentIndicator(
+                                radius: 150.0,
+                                animation: true,
+                                lineWidth: 15.0,
+                                percent: (snapshot.data.usagePercent / 100),
+                                center: new Text(snapshot.data.usagePercent.toString() + "%"),
+                                progressColor: Theme.of(context).accentColor,
+                                backgroundColor: Theme.of(context).primaryColor,
+                              ));
+                        }
+                        return showNoDataReceived("Memory", this.selectedProfile);
+
                       default:
                         return Text("default");
                     }
@@ -187,10 +196,9 @@ class _DashboardState extends State<DashboardScreen> {
                                   backgroundColor: Theme.of(context).primaryColor,
                                 ));
                               }));
-                        } else {
-                          return new Text("No Sensor Data");
                         }
-                        return null;
+                        return showNoDataReceived("Sensors", this.selectedProfile);
+
                       default:
                         return Text("default");
                     }

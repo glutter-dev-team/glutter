@@ -36,7 +36,6 @@ dependencies:
     shared_preferences: any
     community_material_icon: ^5.4.55
     flutter_slidable: any
-    # process_run: ^0.10.10+1
 
 dev_dependencies:
     flutter_test:

@@ -32,19 +32,11 @@ Widget showNoDataReceived(String dataName, Profile currentProfile) {
             child: Text(
               "Make sure you are connected to a network where you can reach your server address http://" +
                 currentProfile.serverAddress + ":" + currentProfile.port.toString(),
-              //style: TextStyle(color: Colors.grey.shade400)
-              //style: TextStyle(color: Colors.redAccent)
             )
           )
         ],
       ),
     )
-  );
-
-  return Text(
-    "No data received from server " + currentProfile.caption + " for " + dataName + ".\n\n"
-      "Make sure you are connected to a network where you can reach out to your server address http://" + currentProfile.serverAddress + ":" + currentProfile.port.toString(),
-    style: TextStyle(color: Colors.redAccent)
   );
 }
 

@@ -25,7 +25,12 @@ class Sensor {
 
   /// For deserialization of JSON and conversion to Sensor-Object.
   factory Sensor.fromJson(dynamic json) {
-    return Sensor(json['label'] as String, json['value'] as int,
-        json['unit'] as String, json['type'] as String, ['key'] as String);
+    return Sensor(
+        json['label'] as String,
+        json['value'] as int,
+        json['unit'] as String,
+        json['type'] as String,
+        json['key'] as String
+    );
   }
 }

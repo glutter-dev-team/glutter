@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:glutter/screens/settings/manage_profiles/profile_list_screen.dart';
 import 'package:glutter/widgets/profile_selector.dart';
 
 import '../utils/routes.dart';
@@ -17,7 +19,23 @@ class AppDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createHeader(),
-            ListTile(title: Row(children: <Widget>[ProfileSelector()])),
+            ListTile(
+                title: Row(children: <Widget>[
+                  ProfileSelector(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: IconButton( // Button "edit profile list" which appears next to ProfileSelector Dropdown-Menu
+                      icon: Icon(CommunityMaterialIcons.playlist_edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfileListScreen()),
+                        );
+                      },
+                    )
+                  )
+                ])
+            ),
             _createDrawerItem(
                 icon: Icons.dashboard, text: 'Dashboard', onTap: () => Navigator.pushReplacementNamed(context, Routes.dashboard)),
             _createDrawerItem(

@@ -3,6 +3,13 @@ import 'package:glutter/utils/utils.dart';
 
 enum MonitoringOption { CPU, Memory, Network, Sensors }
 
+/// Removes the enum name from the enum's value and returns its value only. See example below.
+/// input: MonitoringOption.Sensors
+/// output: Sensors
+String getMonitoringOptionAsString(MonitoringOption option) {
+  return option.toString().substring(option.toString().indexOf('.') + 1);
+}
+
 List<List> buildList(MonitoringOption choice, AsyncSnapshot snapshot) {
   switch (choice) {
     case MonitoringOption.Memory:
@@ -80,7 +87,6 @@ List<List> memoryListBuilder(AsyncSnapshot snapshot) {
 
   dataList.add(memoryList);
 
-  print(">>> full memory data list: " + dataList.toString());
   return dataList;
 }
 
@@ -190,7 +196,6 @@ List<List> cpuListBuilder(AsyncSnapshot snapshot) {
 
   dataList.add(cpuList);
 
-  print(">>> full cpu data list: " + dataList.toString());
   return dataList;
 }
 
@@ -228,7 +233,6 @@ List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
     dataList.add(sensorsList);
   }
 
-  print(">>> full sensors data list: " + dataList.toString());
   return dataList;
 }
 
@@ -299,6 +303,5 @@ List<List> networkListBuilder(AsyncSnapshot snapshot) {
     dataList.add(networkList);
   }
 
-  print(">>> full network data list: " + dataList.toString());
   return dataList;
 }

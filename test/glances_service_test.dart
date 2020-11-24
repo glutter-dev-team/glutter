@@ -1,6 +1,7 @@
 import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/monitoring/network.dart';
+import 'package:glutter/models/monitoring/pluginsList.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
@@ -8,7 +9,7 @@ import 'package:test/test.dart';
 
 void main() {
   /// Test-Constant "TestServer" -> Add your connection-values here!
-  final Profile testServer = new Profile('192.168.2.126', 61208, '2', 'Testserver', 22, 'admin');
+  final Profile testServer = new Profile('INSERT_ADDRESS_HERE', 61208, '2', 'Testserver', 22, 'admin');
 
   /// Test-Constant "service", generated from the TestServer-Constant.
   final GlancesService service = new GlancesService(testServer);
@@ -49,6 +50,13 @@ void main() {
       bool isSuccess = await service.connectionTest();
 
       expect(isSuccess, equals(true));
+    });
+
+    /// Tests the correct functionality of getting the PluginsList-Value from the GlancesService.
+    test('GlancesServiceTest PluginsList', () async {
+      PluginsList pluginsList = await service.getPluginsList();
+
+      expect(pluginsList.installedPlugins.length, greaterThan(0));
     });
   });
 }

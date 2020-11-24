@@ -1,5 +1,14 @@
 /// Represents values from Glances-API for Sensors.
 class Sensor {
+  /// Constructor for Sensor-Objects, commonly used by Factory .fromJson.
+  Sensor(String label, int value, String unit, String type, String key) {
+    this.label = label;
+    this.value = value;
+    this.unit = unit;
+    this.type = type;
+    this.key = key;
+  }
+
   /// Name of the specified sensor.
   String label;
 
@@ -13,15 +22,6 @@ class Sensor {
   String type;
 
   String key;
-
-  /// Constructor for Sensor-Objects, commonly used by Factory .fromJson.
-  Sensor(String label, int value, String unit, String type, String key) {
-    this.label = label;
-    this.value = value;
-    this.unit = unit;
-    this.type = type;
-    this.key = key;
-  }
 
   /// For deserialization of JSON and conversion to Sensor-Object.
   factory Sensor.fromJson(dynamic json) {

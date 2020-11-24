@@ -1,5 +1,43 @@
 /// Represents the CPU-Values from the Glances-API.
 class CPU {
+  /// Constructor for JSON-Decoding.
+  CPU(
+      double total,
+      double user,
+      double system,
+      double idle,
+      double nice,
+      double ioWait,
+      double irq,
+      double softIrq,
+      double steal,
+      double guest,
+      double guestNice,
+      int ctxSwitches,
+      int interrupts,
+      int softInterrupts,
+      int sysCalls,
+      double timeSinceUpdate,
+      int cpuCore) {
+    this.totalLoad = total;
+    this.user = user;
+    this.system = system;
+    this.idle = idle;
+    this.nice = nice;
+    this.ioWait = ioWait;
+    this.interruptRequest = irq;
+    this.softInterruptRequest = softIrq;
+    this.steal = steal;
+    this.guest = guest;
+    this.guestNice = guestNice;
+    this.ctxSwitches = ctxSwitches;
+    this.interrupts = interrupts;
+    this.softwareInterrupts = softInterrupts;
+    this.systemCalls = sysCalls;
+    this.timeSinceUpdate = timeSinceUpdate;
+    this.cpuCore = cpuCore;
+  }
+
   /// The ID for the database.
   int id;
 
@@ -57,44 +95,6 @@ class CPU {
 
   /// Number of available CPU-Cores.
   int cpuCore;
-
-  /// Constructor for JSON-Decoding.
-  CPU(
-      double total,
-      double user,
-      double system,
-      double idle,
-      double nice,
-      double ioWait,
-      double irq,
-      double softIrq,
-      double steal,
-      double guest,
-      double guestNice,
-      int ctxSwitches,
-      int interrupts,
-      int softInterrupts,
-      int sysCalls,
-      double timeSinceUpdate,
-      int cpuCore) {
-    this.totalLoad = total;
-    this.user = user;
-    this.system = system;
-    this.idle = idle;
-    this.nice = nice;
-    this.ioWait = ioWait;
-    this.interruptRequest = irq;
-    this.softInterruptRequest = softIrq;
-    this.steal = steal;
-    this.guest = guest;
-    this.guestNice = guestNice;
-    this.ctxSwitches = ctxSwitches;
-    this.interrupts = interrupts;
-    this.softwareInterrupts = softInterrupts;
-    this.systemCalls = sysCalls;
-    this.timeSinceUpdate = timeSinceUpdate;
-    this.cpuCore = cpuCore;
-  }
 
   /// For deserialization of JSON and conversion to CPU-Object.
   factory CPU.fromJson(Map json) {

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/monitoring/network.dart';
+import 'package:glutter/models/monitoring/pluginsList.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:http/http.dart';
@@ -114,5 +115,21 @@ class GlancesService {
 
     // Otherwise return false.
     return false;
+  }
+
+  /// Returns the PluginsList-Object of the current Server.
+  Future<PluginsList> getPluginsList() async {
+    Response rawResponse;
+    PluginsList pluginsList;
+
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Plugins-List.");
+    }
+
+    pluginsList = PluginsList.fromJson(jsonDecode(rawResponse.body));
+
+    return pluginsList;
   }
 }

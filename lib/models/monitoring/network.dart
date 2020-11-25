@@ -1,5 +1,31 @@
 /// Represents the Network-Values from the Glances-API.
 class Network {
+  /// Constructor for Network-Objects.
+  Network(
+      String interfaceName,
+      double timeSinceUpdate,
+      int cumulativeReceive,
+      int receive,
+      int cumulativeTx,
+      int tx,
+      int cumulativeCx,
+      int cx,
+      bool isUp,
+      int speed,
+      String key) {
+    this.interfaceName = interfaceName;
+    this.timeSinceUpdate = timeSinceUpdate;
+    this.cumulativeReceive = cumulativeReceive;
+    this.receive = receive;
+    this.cumulativeTx = cumulativeTx;
+    this.tx = tx;
+    this.cumulativeCx = cumulativeCx;
+    this.cx = cx;
+    this.isUp = isUp;
+    this.speed = speed;
+    this.key = key;
+  }
+
   /// The name of the current network-interface.
   String interfaceName;
 
@@ -29,32 +55,6 @@ class Network {
   int speed;
 
   String key;
-
-  /// Constructor for Network-Objects.
-  Network(
-      String interfaceName,
-      double timeSinceUpdate,
-      int cumulativeReceive,
-      int receive,
-      int cumulativeTx,
-      int tx,
-      int cumulativeCx,
-      int cx,
-      bool isUp,
-      int speed,
-      String key) {
-    this.interfaceName = interfaceName;
-    this.timeSinceUpdate = timeSinceUpdate;
-    this.cumulativeReceive = cumulativeReceive;
-    this.receive = receive;
-    this.cumulativeTx = cumulativeTx;
-    this.tx = tx;
-    this.cumulativeCx = cumulativeCx;
-    this.cx = cx;
-    this.isUp = isUp;
-    this.speed = speed;
-    this.key = key;
-  }
 
   /// For deserialization of JSON and conversion to Network-Object.
   factory Network.fromJson(dynamic json) {

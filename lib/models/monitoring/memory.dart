@@ -1,5 +1,20 @@
 /// Represents the Memory-Values (RAM) from the Glances-API.
 class Memory {
+  /// Constructor for Memory-Object.
+  Memory(int total, int available, double usagePercent, int used, int free,
+      int active, int inactive, int buffers, int cached, int shared) {
+    this.total = total;
+    this.available = available;
+    this.usagePercent = usagePercent;
+    this.used = used;
+    this.free = free;
+    this.active = active;
+    this.inactive = inactive;
+    this.buffers = buffers;
+    this.cached = cached;
+    this.shared = shared;
+  }
+
   /// Total physical memory installed.
   int total;
 
@@ -31,21 +46,6 @@ class Memory {
 
   /// BSD: Memory that may be simultaneously accessed by multiple processes.
   int shared;
-
-  /// Constructor for Memory-Object.
-  Memory(int total, int available, double usagePercent, int used, int free,
-      int active, int inactive, int buffers, int cached, int shared) {
-    this.total = total;
-    this.available = available;
-    this.usagePercent = usagePercent;
-    this.used = used;
-    this.free = free;
-    this.active = active;
-    this.inactive = inactive;
-    this.buffers = buffers;
-    this.cached = cached;
-    this.shared = shared;
-  }
 
   /// For deserialization of JSON and conversion to Memory-Object.
   factory Memory.fromJson(dynamic json) {

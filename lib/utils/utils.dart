@@ -27,3 +27,10 @@ bool valuesHaveChanged(Map values) {
   });
   return changed;
 }
+
+/// Removes the enum name from the enum's value and returns its value only. See example below.
+/// input: MonitoringOption.Sensors
+/// output: Sensors
+String getEnumOptionAsString(option) {
+  return option.toString().substring(option.toString().indexOf('.') + 1);
+}

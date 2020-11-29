@@ -7,8 +7,8 @@ import 'package:glutter/services/shared/preferences_service.dart';
 import 'package:glutter/widgets/drawer.dart';
 import 'package:glutter/widgets/errors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import 'data_list_builder.dart';
+import 'package:glutter/utils/utils.dart';
+import 'package:glutter/screens/monitoring/data_list_builder.dart';
 
 class MonitoringScreen extends StatefulWidget {
   MonitoringScreen({Key key, this.title: "Monitoring"}) : super(key: key);
@@ -105,10 +105,11 @@ class _MonitoringState extends State<MonitoringScreen> {
                         children: <Widget>[
                           Text("Data category: "),
                           DropdownButton<MonitoringOption>(
-                            items: this
-                                .monitoringOptions
-                                .map((value) {
-                              return DropdownMenuItem<MonitoringOption>(value: value, child: Text(getMonitoringOptionAsString(value)));
+                            items: this.monitoringOptions.map((value) {
+                              return DropdownMenuItem<MonitoringOption>(
+                                  value: value,
+                                  child: Text(getEnumOptionAsString(value))
+                              );
                             })
                                 .cast<DropdownMenuItem<MonitoringOption>>()
                                 .toList(),
@@ -288,7 +289,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                               }
                             });
                       }
-                      return showNoDataReceived(getMonitoringOptionAsString(this.selectedOption), this.selectedProfile);
+                      return showNoDataReceived(getEnumOptionAsString(this.selectedOption), this.selectedProfile);
 
                     default:
                       return Text("default");

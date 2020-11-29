@@ -109,14 +109,14 @@ class _DashboardState extends State<DashboardScreen> {
                         if (snapshot.data != null) {
                           return new Container(
                               child: CircularPercentIndicator(
-                                radius: 150.0,
-                                animation: true,
-                                lineWidth: 15.0,
-                                percent: (snapshot.data.totalLoad / 100),
-                                center: new Text(snapshot.data.totalLoad.toString() + "%"),
-                                progressColor: Theme.of(context).accentColor,
-                                backgroundColor: Theme.of(context).primaryColor,
-                              ));
+                            radius: 150.0,
+                            animation: true,
+                            lineWidth: 15.0,
+                            percent: (snapshot.data.totalLoad / 100),
+                            center: new Text(snapshot.data.totalLoad.toString() + "%"),
+                            progressColor: Theme.of(context).accentColor,
+                            backgroundColor: Theme.of(context).primaryColor,
+                          ));
                         }
                         return showNoDataReceived("CPU", this.selectedProfile);
 
@@ -146,14 +146,14 @@ class _DashboardState extends State<DashboardScreen> {
                         if (snapshot.data != null) {
                           return new Center(
                               child: CircularPercentIndicator(
-                                radius: 150.0,
-                                animation: true,
-                                lineWidth: 15.0,
-                                percent: (snapshot.data.usagePercent / 100),
-                                center: new Text(snapshot.data.usagePercent.toString() + "%"),
-                                progressColor: Theme.of(context).accentColor,
-                                backgroundColor: Theme.of(context).primaryColor,
-                              ));
+                            radius: 150.0,
+                            animation: true,
+                            lineWidth: 15.0,
+                            percent: (snapshot.data.usagePercent / 100),
+                            center: new Text(snapshot.data.usagePercent.toString() + "%"),
+                            progressColor: Theme.of(context).accentColor,
+                            backgroundColor: Theme.of(context).primaryColor,
+                          ));
                         }
                         return showNoDataReceived("Memory", this.selectedProfile);
 

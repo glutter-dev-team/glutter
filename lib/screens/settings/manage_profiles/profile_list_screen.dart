@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glutter/screens/settings/manage_profiles/profile_create_screen.dart';
 import 'package:glutter/screens/settings/manage_profiles/profile_edit_screen.dart';
 import 'package:glutter/services/shared/database_service.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProfileListScreen extends StatefulWidget {
   ProfileListScreen({Key key, this.title: "Profiles"}) : super(key: key);
@@ -22,46 +23,46 @@ class _ProfileListState extends State<ProfileListScreen> {
     super.initState();
   }
 
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 500));
+
+    this.setState(() {
+      this.profilesFuture = DatabaseService.db.getProfiles();
+    });
+
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          // overflow menu
-          /*PopupMenuButton(
-                        onSelected: _select,
-                        itemBuilder: (BuildContext context) {
-                            return choices.skip(2).map((Choice choice) {
-                                return PopupMenuItem(
-                                    //value: choice,
-                                    child: Text(choice.title),
-                                );
-                            }).toList();
-                        },
-                    ),*/
-        ],
-      ),
-      body: Builder(
-        builder: (context) => Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-              Expanded(
-                  child: ListView(
+      appBar: AppBar(title: Text(widget.title)),
+      body: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: false,
+          header: ClassicHeader(),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          child: Builder(
+            builder: (context) => Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                  Expanded(
+                      child: ListView(
                     padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 75.0),
                     children: <Widget>[
                       FutureBuilder(
                           future: profilesFuture,
                           builder: (BuildContext context, AsyncSnapshot snapshot) {
                             switch (snapshot.connectionState) {
-                            //case ConnectionState.none:
-                            //    return Text("none");
                               case ConnectionState.active:
                                 return Text("active");
                               case ConnectionState.waiting:
                                 return Center(
-                                  //Text("Active and maybe waiting");
                                   child: Container(
                                     child: new CircularProgressIndicator(),
                                     alignment: Alignment(0.0, 0.0),
@@ -76,23 +77,21 @@ class _ProfileListState extends State<ProfileListScreen> {
                                     itemBuilder: (BuildContext context, int index) {
                                       return ListTile(
                                           title: Text(snapshot.data[index].caption),
-                                          subtitle: Text(snapshot.data[index].serverAddress), //snapshot.data.total.toString()
+                                          subtitle: Text(snapshot.data[index].serverAddress),
                                           trailing: Icon(Icons.edit),
                                           onTap: () => {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => ProfileEditScreen(),
-                                                settings: RouteSettings(
-                                                  arguments: snapshot.data[index],
-                                                ),
-                                              ),
-                                            ).then((value) {
-                                              setState(() {
-                                                profilesFuture = DatabaseService.db.getProfiles();
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => ProfileEditScreen(),
+                                                    settings: RouteSettings(
+                                                      arguments: snapshot.data[index],
+                                                    ),
+                                                  ),
+                                                ).then((value) {
+                                                  this._onRefresh();
+                                                }),
                                               });
-                                            }),
-                                          });
                                     });
                               default:
                                 return Text("default");
@@ -100,8 +99,8 @@ class _ProfileListState extends State<ProfileListScreen> {
                           }),
                     ],
                   )),
-            ])),
-      ),
+                ])),
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           Navigator.push(
@@ -109,7 +108,7 @@ class _ProfileListState extends State<ProfileListScreen> {
             MaterialPageRoute(builder: (context) => ProfileCreateScreen()),
           ).then((value) {
             setState(() {
-              profilesFuture = DatabaseService.db.getProfiles();
+              this._onRefresh();
             });
           })
         },

@@ -16,8 +16,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsState extends State<SettingsScreen> {
-  bool _themeBrightnessLight = true;
-
   @override
   void initState() {
     super.initState();

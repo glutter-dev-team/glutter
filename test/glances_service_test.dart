@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 
 void main() {
   /// Test-Constant "TestServer" -> Add your connection-values here!
-  final Profile testServer = new Profile('INSERT_ADDRESS_HERE', 61208, '2', 'Testserver', 22, 'admin');
+  final Profile testServer = new Profile('seafileserver', 61208, '2', 'Testserver', 22, 'admin');
 
   /// Test-Constant "service", generated from the TestServer-Constant.
   final GlancesService service = new GlancesService(testServer);

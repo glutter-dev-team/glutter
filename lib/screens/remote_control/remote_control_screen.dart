@@ -136,7 +136,7 @@ class _RemoteControlState extends State<RemoteControlScreen> {
                                             }
                                             return null;
                                         default:
-                                            return Text("default");
+                                            return Text("No commands available for this server");
                                     }
                                 },
                             )
@@ -151,9 +151,7 @@ class _RemoteControlState extends State<RemoteControlScreen> {
                         context,
                         MaterialPageRoute(builder: (context) => CommandCreateScreen()),
                     ).then((value) {
-                        setState(() {
-                            profilesFuture = DatabaseService.db.getProfiles();
-                        });
+                        _onRefresh();
                     })
                 }
             ),

@@ -40,3 +40,7 @@ Widget showNoDataReceived(String dataName, Profile currentProfile) {
   );
 }
 
+Widget internalErrorText() {
+  return Text("An internal error occurred. Please try again.");
+}
+

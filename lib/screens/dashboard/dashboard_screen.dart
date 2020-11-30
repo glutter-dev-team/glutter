@@ -201,7 +201,7 @@ class _DashboardState extends State<DashboardScreen> {
                 return showNoDataReceived("CPU", this.selectedProfile);
 
               default:
-                return Text("An internal error occured. Please try again.");
+                return internalErrorText();
             }
           }
         ),
@@ -240,7 +240,7 @@ class _DashboardState extends State<DashboardScreen> {
                 return showNoDataReceived("Memory", this.selectedProfile);
 
               default:
-                return Text("An internal error occured. Please try again.");
+                return internalErrorText();
             }
           }
         ),
@@ -291,7 +291,7 @@ class _DashboardState extends State<DashboardScreen> {
                 return SizedBox();
 
               default:
-                return Text("An internal error occured. Please try again.");
+                return internalErrorText();
             }
           }
         )

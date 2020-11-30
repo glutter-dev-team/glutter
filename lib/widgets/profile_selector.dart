@@ -36,21 +36,27 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                 return Center(child: Container(child: new CircularProgressIndicator(), alignment: Alignment(0.0, 0.0)));
               case ConnectionState.done:
                 return new Container(
-                    child: DropdownButton<Profile>(
-                  items: snapshot.data
-                      .map((Profile item) {
-                        return DropdownMenuItem<Profile>(value: item, child: Text(item.caption + " (" + item.serverAddress + ")"));
-                      })
-                      .cast<DropdownMenuItem<Profile>>()
-                      .toList(),
-                  onChanged: (Profile newSelectedProfile) {
-                    setState(() {
-                      selectedProfile = newSelectedProfile;
-                      PreferencesService.setLastProfileId(newSelectedProfile.id);
-                    });
-                  },
-                  value: selectedProfile,
-                ));
+                    width: 200,
+                    height: 60,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<Profile>(
+                      isExpanded: true,
+                      items: snapshot.data
+                          .map((Profile item) {
+                            return DropdownMenuItem<Profile>(value: item, child: Text(item.caption + " (" + item.serverAddress + ")"));
+                          })
+                          .cast<DropdownMenuItem<Profile>>()
+                          .toList(),
+                      onChanged: (Profile newSelectedProfile) {
+                        setState(() {
+                          selectedProfile = newSelectedProfile;
+                          PreferencesService.setLastProfileId(newSelectedProfile.id);
+                        });
+                      },
+                      value: selectedProfile,
+                    )
+                )
+            );
               default:
                 return Text("default");
             }

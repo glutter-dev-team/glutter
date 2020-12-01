@@ -107,79 +107,88 @@ class _DashboardState extends State<DashboardScreen> {
             switch (snapshot.connectionState) {
               case ConnectionState.active:
               case ConnectionState.waiting:
-                return Card(
-                  child: Column(
+                return Column(
+                  children: [
+                    Card(
+                    child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(
-                          'Server ' + this.selectedProfile.caption,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                          )
-                        ),
-                        subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
-                        trailing: Container(
-                          width: 150,
-                          child: new CircularProgressIndicator(),
-                          alignment: Alignment(1.0, 0.0)
+                        children: <Widget>[
+                          ListTile(
+                              title: Text(
+                                  'Server ' + this.selectedProfile.caption,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  )
+                              ),
+                              subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
+                              trailing: Container(
+                                  width: 150,
+                                  child: new CircularProgressIndicator(),
+                                  alignment: Alignment(1.0, 0.0)
+                                  )
+                              )
+                            ]
                         )
-                      )
-                    ]
-                  )
+                    )
+                  ],
                 );
               case ConnectionState.done:
                 bool serverIsOnline = (snapshot.data != null) ? true : false;
                 String status = serverIsOnline ? "online" : "unreachable";
-                return Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(
-                          'Server ' + this.selectedProfile.caption,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                          )
-                        ),
-                        subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
-                        trailing: Container(
-                          width: 150,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                status,
-                                style: TextStyle(
-                                    color: serverIsOnline ? Colors.green : Colors.grey,
-                                    fontStyle: FontStyle.italic,
-                                    fontSize: 15.0
+                return Column(
+                  children: [
+                    Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                                title: Text(
+                                    'Server ' + this.selectedProfile.caption,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    )
                                 ),
-                              ),
-                              SizedBox(width: 7.5),
-                              Container(
-                                width: 30,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: serverIsOnline ? Colors.green : null
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: serverIsOnline ? Icon(Icons.check) : Icon(Icons.help_outline)
-                                ),
-                              ),
-                            ]
-                          )
-                        )
-                      ),
-                      !serverIsOnline ? Card(
-                          child: showNoDataReceived(this.selectedProfile)
-                      ) : SizedBox()
-                    ]
-                  )
+                                subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
+                                trailing: Container(
+                                    width: 150,
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            status,
+                                            style: TextStyle(
+                                                color: serverIsOnline ? Colors.green : Colors.grey,
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 15.0
+                                            ),
+                                          ),
+                                          SizedBox(width: 7.5),
+                                          Container(
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: serverIsOnline ? Colors.green : null
+                                            ),
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                child: serverIsOnline ? Icon(Icons.check) : Icon(Icons.help_outline)
+                                            ),
+                                          ),
+                                        ]
+                                    )
+                                )
+                            ),
+                          ]
+                      )
+                    ),
+                    !serverIsOnline ? Card(
+                      child: showNoDataReceived(this.selectedProfile)
+                    ) : SizedBox()
+                  ],
                 );
+
                 return SizedBox();
 
               default:

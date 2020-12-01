@@ -89,7 +89,10 @@ class _DashboardState extends State<DashboardScreen> {
               if (snapshot.connectionState == ConnectionState.done) {
                 this.selectedProfile = snapshot.data;
                 _refreshDashboardData();
-                return _createMainDashboardColumn();
+                if (this.selectedProfile != null) {
+                  return _createMainDashboardColumn();
+                }
+                return showNoProfileSelected(context);
               } else {
                 return Center(child: CircularProgressIndicator());
               }

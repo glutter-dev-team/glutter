@@ -93,13 +93,16 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
   }
 
   Future<bool> _onWillPop() async {
+    // Die Funktion valuesHaveChanged vergleicht die Keys mit den Values in der folgenden Map.
+    // Daher muss hier auf dem ProfileCreateScreen eine Map mit leeren Strings auf einer Seite erstellt
+    // werden (weil das Formular anfangs leer war), damit der Vergleich funktioniert.
     Map values = {
-      0: _profileCaptionController.text,
-      1: _serverAddressController.text,
-      2: _serverPortController.text,
-      3: _serverApiVersionController.text,
-      4: _serverSshUsernameController.text,
-      5: _serverSshPortController.text,
+      _profileCaptionController.text: "",
+      _serverAddressController.text: "",
+      _serverPortController.text: "",
+      _serverApiVersionController.text: "",
+      _serverSshUsernameController.text: "",
+      _serverSshPortController.text: "",
     };
     if (valuesHaveChanged(values)) {
       return (await showDialog(context: context, builder: (context) => ConfirmLeaveDialog())) ?? false;

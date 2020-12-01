@@ -4,7 +4,7 @@ import 'package:glutter/screens/settings/manage_profiles/profile_create_screen.d
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
 
-Widget showNoDataReceived(String dataName, Profile currentProfile) {
+Widget showNoDataReceived(Profile currentProfile, [String dataName=""]) {
   String title;
   if (dataName != "") {
     title = "No data received from server " + currentProfile.caption + " for " + dataName;
@@ -16,31 +16,36 @@ Widget showNoDataReceived(String dataName, Profile currentProfile) {
       padding: EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Icon(
-            Icons.dangerous,
-            color: Colors.redAccent,
+          Row(
+            children: [
+              Icon(
+                Icons.dangerous,
+                color: Colors.redAccent,
+              ),
+              SizedBox(width: 10.0,),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 10.0,),
           Text(
-            title,
-            style: TextStyle(
-                fontSize: 15.0,
-                color: Colors.redAccent,
-                fontWeight: FontWeight.bold
-            ),
-          ),
-          SizedBox(height: 10.0,),
-          Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            child: Text(
-              "Make sure you are connected to a network where you can reach your server address http://" +
-                currentProfile.serverAddress + ":" + currentProfile.port.toString(),
-            )
+            "Make sure you are connected to a network where you can reach your server address http://" +
+              currentProfile.serverAddress + ":" + currentProfile.port.toString(),
           )
         ],
       ),
     )
   );
+}
+
+Widget internalErrorText() {
+  return Text("An internal error occurred. Please try again.");
 }
 
 Widget showNoProfileSelected(BuildContext context) {

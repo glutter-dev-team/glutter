@@ -150,9 +150,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
-                      return Text("none");
                     case ConnectionState.active:
-                      return Text("active");
                     case ConnectionState.waiting:
                       return Center(
                         child: Container(
@@ -289,7 +287,7 @@ class _MonitoringState extends State<MonitoringScreen> {
                               }
                             });
                       }
-                      return showNoDataReceived(getEnumOptionAsString(this.selectedOption), this.selectedProfile);
+                      return showNoDataReceived(this.selectedProfile, getEnumOptionAsString(this.selectedOption));
 
                     default:
                       return Text("default");

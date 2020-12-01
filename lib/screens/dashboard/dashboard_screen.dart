@@ -10,7 +10,6 @@ import 'package:glutter/widgets/drawer.dart';
 import 'package:glutter/widgets/errors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:glutter/models/monitoring/pluginsList.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key, this.title: "Dashboard"}) : super(key: key);
@@ -102,67 +101,91 @@ class _DashboardState extends State<DashboardScreen> {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                title: Text(
-                  'Server ' + this.selectedProfile.caption,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+        FutureBuilder(
+          future: pluginsListFuture,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          'Server ' + this.selectedProfile.caption,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          )
+                        ),
+                        subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
+                        trailing: Container(
+                          width: 150,
+                          child: new CircularProgressIndicator(),
+                          alignment: Alignment(1.0, 0.0)
+                        )
+                      )
+                    ]
                   )
-                ),
-                subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
-                trailing: Container(
-                  width: 150,
-                  child: FutureBuilder(
-                    future: pluginsListFuture,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.active:
-                        case ConnectionState.waiting:
-                          return Container(child: new CircularProgressIndicator(), alignment: Alignment(1.0, 0.0));
-                        case ConnectionState.done:
-                          bool online = (snapshot.data != null) ? true : false;
-                          String status = online ? "online" : "unreachable";
-                          return Row(
+                );
+              case ConnectionState.done:
+                bool serverIsOnline = (snapshot.data != null) ? true : false;
+                String status = serverIsOnline ? "online" : "unreachable";
+                return Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          'Server ' + this.selectedProfile.caption,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          )
+                        ),
+                        subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
+                        trailing: Container(
+                          width: 150,
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
                                 status,
                                 style: TextStyle(
-                                  color: online ? Colors.green : Colors.grey,
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 15.0
+                                    color: serverIsOnline ? Colors.green : Colors.grey,
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 15.0
                                 ),
                               ),
                               SizedBox(width: 7.5),
                               Container(
                                 width: 30,
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: online ? Colors.green : null
+                                  shape: BoxShape.circle,
+                                  color: serverIsOnline ? Colors.green : null
                                 ),
                                 child: Container(
-                                    alignment: Alignment.center,
-                                    child: online ? Icon(Icons.check) : Icon(Icons.help_outline)
+                                  alignment: Alignment.center,
+                                  child: serverIsOnline ? Icon(Icons.check) : Icon(Icons.help_outline)
                                 ),
                               ),
                             ]
-                          );
-                          return SizedBox();
-
-                        default:
-                          return SizedBox();
-                      }
-                    }
+                          )
+                        )
+                      ),
+                      !serverIsOnline ? Card(
+                          child: showNoDataReceived(this.selectedProfile)
+                      ) : SizedBox()
+                    ]
                   )
-                )
-              )
-            ]
-          ),
+                );
+                return SizedBox();
+
+              default:
+                return SizedBox();
+            }
+          }
         ),
         FutureBuilder(
           future: cpuFuture,
@@ -170,10 +193,16 @@ class _DashboardState extends State<DashboardScreen> {
             switch (snapshot.connectionState) {
               case ConnectionState.active:
               case ConnectionState.waiting:
-                return Center(
-                  child: Container(
-                    child: new CircularProgressIndicator(),
-                    alignment: Alignment(0.0, 0.0)
+                return Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      const ListTile(
+                          leading: Icon(Icons.memory),
+                          title: Text("CPU Usage")
+                      ),
+                      _progressIndicatorContainer(),
+                    ]
                   )
                 );
               case ConnectionState.done:
@@ -182,7 +211,10 @@ class _DashboardState extends State<DashboardScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        const ListTile(leading: Icon(Icons.memory), title: Text("CPU Usage")),
+                        const ListTile(
+                            leading: Icon(Icons.memory),
+                            title: Text("CPU Usage")
+                        ),
                         Container(
                           child: CircularPercentIndicator(
                             radius: 150.0,
@@ -198,7 +230,7 @@ class _DashboardState extends State<DashboardScreen> {
                     )
                   );
                 }
-                return showNoDataReceived("CPU", this.selectedProfile);
+                return SizedBox();
 
               default:
                 return internalErrorText();
@@ -211,7 +243,18 @@ class _DashboardState extends State<DashboardScreen> {
             switch (snapshot.connectionState) {
               case ConnectionState.active:
               case ConnectionState.waiting:
-                return Container(child: Container(child: new CircularProgressIndicator(), alignment: Alignment(0.0, 0.0)));
+                return Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      const ListTile(
+                        leading: Icon(Icons.storage),
+                        title: Text("Memory Usage"),
+                      ),
+                      _progressIndicatorContainer()
+                    ]
+                  )
+                );
               case ConnectionState.done:
                 if (snapshot.data != null) {
                   return Card(
@@ -237,7 +280,7 @@ class _DashboardState extends State<DashboardScreen> {
                     ),
                   );
                 }
-                return showNoDataReceived("Memory", this.selectedProfile);
+                return SizedBox();
 
               default:
                 return internalErrorText();
@@ -250,7 +293,18 @@ class _DashboardState extends State<DashboardScreen> {
             switch (snapshot.connectionState) {
               case ConnectionState.active:
               case ConnectionState.waiting:
-                return Container(child: Container(child: new CircularProgressIndicator(), alignment: Alignment(0.0, 0.0)));
+                return Card(
+                    child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          const ListTile(
+                            leading: Icon(Icons.toys),
+                            title: Text("Sensors"),
+                          ),
+                          _progressIndicatorContainer()
+                        ]
+                    )
+                );
               case ConnectionState.done:
                 if (snapshot.data != null) {
                   if (snapshot.data.length > 0) {
@@ -282,11 +336,7 @@ class _DashboardState extends State<DashboardScreen> {
                         ],
                       ),
                     );
-                  } else {
-                    return SizedBox();
                   }
-                } else {
-                  return showNoDataReceived("Sensors", this.selectedProfile);
                 }
                 return SizedBox();
 
@@ -298,4 +348,14 @@ class _DashboardState extends State<DashboardScreen> {
       ],
     );
   }
+}
+
+Widget _progressIndicatorContainer() {
+  return Container(
+      alignment: Alignment(0.0, 0.0),
+      child: Padding(
+        padding: EdgeInsets.all(25.0),
+        child: new CircularProgressIndicator(),
+      )
+  );
 }

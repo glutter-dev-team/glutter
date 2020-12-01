@@ -21,15 +21,14 @@ class RemoteControlScreen extends StatefulWidget {
 
 class _RemoteControlState extends State<RemoteControlScreen> {
     Future commandsFuture;
-    Future profilesFuture;
+    int _lastProfileId;
 
     @override
     void initState() {
-        this.profilesFuture = DatabaseService.db.getProfiles();
-
         PreferencesService.getLastProfileId().then((value) {
             this.commandsFuture = DatabaseService.db.getCommandsByProfileId(value);
             this._onRefresh();
+            this._lastProfileId = value;
         });
 
         super.initState();
@@ -44,6 +43,7 @@ class _RemoteControlState extends State<RemoteControlScreen> {
         this.setState(() {
             PreferencesService.getLastProfileId().then((value) {
                 this.commandsFuture = DatabaseService.db.getCommandsByProfileId(value);
+                this._lastProfileId = value;
             });
         });
 
@@ -52,8 +52,7 @@ class _RemoteControlState extends State<RemoteControlScreen> {
     }
 
     void _onPress(Command cmd) async {
-        List<Profile> servers = await DatabaseService.db.getProfiles();
-        Profile server = await DatabaseService.db.getProfileById(servers[0].id);
+        Profile server = await DatabaseService.db.getProfileById(this._lastProfileId);
         var service = new RemoteService(server);
         service.execute(cmd);
     }
@@ -134,7 +133,7 @@ class _RemoteControlState extends State<RemoteControlScreen> {
                                                     })
                                                 );
                                             }
-                                            return null;
+                                            return Container();
                                         default:
                                             return Text("No commands available for this server");
                                     }

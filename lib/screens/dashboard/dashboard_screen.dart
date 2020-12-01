@@ -3,6 +3,7 @@ import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/monitoring/pluginsList.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
+import 'package:glutter/models/monitoring/system.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
@@ -29,6 +30,7 @@ class _DashboardState extends State<DashboardScreen> {
   Future<CPU> cpuFuture;
   Future<Memory> memFuture;
   Future<List<Sensor>> sensFuture;
+  Future<System> systemFuture;
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class _DashboardState extends State<DashboardScreen> {
     this.memFuture = glancesService.getMemory();
     this.sensFuture = glancesService.getSensors();
     this.pluginsListFuture = glancesService.getPluginsList();
+    this.systemFuture = glancesService.getSystem();
   }
 
   @override
@@ -102,44 +105,15 @@ class _DashboardState extends State<DashboardScreen> {
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         FutureBuilder(
-          future: pluginsListFuture,
+          future: systemFuture,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.active:
               case ConnectionState.waiting:
                 return Column(
-                  children: [
-                    Card(
-                    child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
-                              title: Text(
-                                  'Server ' + this.selectedProfile.caption,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                  )
-                              ),
-                              subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
-                              trailing: Container(
-                                  width: 150,
-                                  child: new CircularProgressIndicator(),
-                                  alignment: Alignment(1.0, 0.0)
-                                  )
-                              )
-                            ]
-                        )
-                    )
-                  ],
-                );
-              case ConnectionState.done:
-                bool serverIsOnline = (snapshot.data != null) ? true : false;
-                String status = serverIsOnline ? "online" : "unreachable";
-                return Column(
-                  children: [
-                    Card(
-                    child: Column(
+                    children: [
+                      Card(
+                      child: Column(
                       mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             ListTile(
@@ -150,7 +124,65 @@ class _DashboardState extends State<DashboardScreen> {
                                       fontSize: 20.0,
                                     )
                                 ),
-                                subtitle: Text('Address: ' + this.selectedProfile.serverAddress),
+                                subtitle: Text(
+                                    'Address: ' + this.selectedProfile.serverAddress
+                                ),
+                                trailing: Container(
+                                    width: 50,
+                                    child: new CircularProgressIndicator(),
+                                    alignment: Alignment(1.0, 0.0)
+                                    )
+                                )
+                              ]
+                          )
+                      )
+                    ],
+                  );
+              case ConnectionState.done:
+                bool serverIsOnline = (snapshot.data != null) ? true : false;
+                String status = serverIsOnline ? "online" : "unreachable";
+                String hrName = "";
+                String hostname = "";
+                if (snapshot.data != null) {
+                  System system = snapshot.data;
+                  hrName = system.hrName;
+                  hostname = system.hostname;
+                }
+                return Column(
+                  children: [
+                    Card(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                                title: Text(
+                                    'Server ' + this.selectedProfile.caption,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    )
+                                ),
+                                subtitle: Table(
+                                  columnWidths: {
+                                    0: FlexColumnWidth(3),
+                                    1: FlexColumnWidth(7),
+                                  },
+                                  //border: TableBorder.all(color: Colors.black),
+                                  children: [
+                                    TableRow(children: [
+                                      Text('Address:'),
+                                      Text(this.selectedProfile.serverAddress),
+                                    ]),
+                                    TableRow(children: [
+                                      Text("Host:"),
+                                      Text(hostname),
+                                    ]),
+                                    TableRow(children: [
+                                      Text("OS:"),
+                                      Text(hrName),
+                                    ]),
+                                  ],
+                                ),
                                 trailing: Container(
                                     width: 150,
                                     child: Row(

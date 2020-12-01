@@ -6,6 +6,7 @@ import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/monitoring/network.dart';
 import 'package:glutter/models/monitoring/pluginsList.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
+import 'package:glutter/models/monitoring/system.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:http/http.dart';
 
@@ -131,5 +132,21 @@ class GlancesService {
     pluginsList = PluginsList.fromJson(jsonDecode(rawResponse.body));
 
     return pluginsList;
+  }
+
+  /// Returns the System-Object of the current Server.
+  Future<System> getSystem() async {
+    Response rawResponse;
+    System system;
+
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/system");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get System info.");
+    }
+
+    system = System.fromJson(jsonDecode(rawResponse.body));
+
+    return system;
   }
 }

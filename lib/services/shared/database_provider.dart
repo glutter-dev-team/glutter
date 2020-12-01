@@ -13,11 +13,6 @@ class DatabaseProvider {
         ");";
   }
 
-  /// Provides the SQL-Script for creating the Settings-Table.
-  static String createSettingsTable() {
-    return "CREATE TABLE settings ( " + "id	INTEGER NOT NULL PRIMARY KEY, " + "defaultProfileId INTEGER NOT NULL" + ");";
-  }
-
   /// Provides the SQL-Script for creating the Commands-Table.
   static String createCommandsTable() {
     return "CREATE TABLE commands ( " +

@@ -130,7 +130,12 @@ class _MonitoringState extends State<MonitoringScreen> {
                                   if (snapshot.connectionState == ConnectionState.done) {
                                     this.selectedProfile = snapshot.data;
                                     _refreshMonitoringData(this.selectedOption);
-                                    return _createMonitoring();
+
+                                    if (this.selectedProfile != null) {
+                                      return _createMonitoring();
+                                    }
+
+                                    return showNoProfileSelected(context);
                                   } else {
                                     return Center(child: CircularProgressIndicator());
                                   }

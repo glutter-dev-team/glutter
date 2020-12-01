@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:glutter/models/remote_control/command.dart';
-import 'package:glutter/models/settings/settings.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/shared/database_provider.dart';
 import 'package:path_provider/path_provider.dart';
@@ -42,7 +41,6 @@ class DatabaseService {
 
     return await openDatabase(path, version: 1, onOpen: (db) {}, onCreate: (Database db, int version) async {
       await db.execute(DatabaseProvider.createProfileTable());
-      await db.execute(DatabaseProvider.createSettingsTable());
       await db.execute(DatabaseProvider.createCommandsTable());
     });
   }
@@ -116,6 +114,7 @@ class DatabaseService {
     _storage.delete(key: profile.caption);
 
     db.delete("profiles", where: "id = ?", whereArgs: [id]);
+    db.delete("commands", where: "profileId = ?", whereArgs: [id]);
   }
 
   /// Deletes every profile in the database.
@@ -126,41 +125,7 @@ class DatabaseService {
     _storage.deleteAll();
 
     db.rawDelete("Delete from profiles");
-  }
-
-  /// Deletes every settings-row in the database.
-  Future<void> deleteAllSettings() async {
-    final db = await database;
-
-    db.rawDelete("Delete from settings");
-  }
-
-  /// Inserts one settings into the database and deletes any further settings-row.
-  Future<void> insertSettings(Settings settings) async {
-    final Database db = await database;
-
-    /// We only can have one settings-Row!
-    await this.deleteAllSettings();
-
-    await db.insert("settings", settings.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
-  }
-
-  /// Loads the settings-rows from the database.
-  Future<Settings> getSettings() async {
-    final Database db = await database;
-
-    final List<Map<String, dynamic>> maps = await db.query('settings');
-
-    // returns the first (and hopefully only) settings-object.
-    return Settings.fromMap(maps[0]);
-  }
-
-  /// Updates one Settings-Row, which already exists in the database.
-  Future<void> updateSettings(Settings newSettings) async {
-    final db = await database;
-
-    var res = await db.update("settings", newSettings.toMap(), where: "id = ?", whereArgs: [newSettings.id]);
-    return res;
+    db.rawDelete("Delete from commands");
   }
 
   /// Inserts one Command into the database

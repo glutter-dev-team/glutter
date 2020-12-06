@@ -13,7 +13,7 @@ Widget showNoDataReceived(Profile currentProfile, [String dataName=""]) {
   }
   return Container(
     child: Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(10.0),
       child: Column(
         children: [
           Row(

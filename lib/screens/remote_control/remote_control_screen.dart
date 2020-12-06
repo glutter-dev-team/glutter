@@ -6,6 +6,7 @@ import 'package:glutter/screens/remote_control/command_create_screen.dart';
 import 'package:glutter/services/remote_control/remote_service.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
+import 'package:glutter/widgets/dialogs.dart';
 import 'package:glutter/widgets/drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -51,10 +52,14 @@ class _RemoteControlState extends State<RemoteControlScreen> {
         _refreshController.refreshCompleted();
     }
 
-    void _onPress(Command cmd) async {
+    _onPress(BuildContext context, Command cmd) async {
         Profile server = await DatabaseService.db.getProfileById(this._lastProfileId);
         var service = new RemoteService(server);
-        service.execute(cmd);
+        String answer = await service.execute(cmd);
+        return await showDialog(
+            context: context,
+            builder: (context) => CommandResultDialog(cmd, answer)
+        );
     }
 
     @override
@@ -108,7 +113,7 @@ class _RemoteControlState extends State<RemoteControlScreen> {
                                                                     caption: 'Execute',
                                                                     color: Colors.blue,
                                                                     icon: Icons.auto_fix_high,
-                                                                    onTap: () => _onPress(snapshot.data[i]),
+                                                                    onTap: () => _onPress(context, snapshot.data[i]),
                                                                 ),
                                                             ],
                                                             child: Card(
@@ -119,7 +124,12 @@ class _RemoteControlState extends State<RemoteControlScreen> {
                                                                             leading: Icon(Icons.comment),
                                                                             title: Text(snapshot.data[i].caption)
                                                                         ),
-                                                                        Text(snapshot.data[i].commandMessage),
+                                                                        Text(
+                                                                            snapshot.data[i].commandMessage,
+                                                                            style: TextStyle(
+                                                                                fontFamily: "RobotoMono",
+                                                                            ),
+                                                                        ),
                                                                         Padding(
                                                                             padding: EdgeInsets.fromLTRB(0, 20, 0, 0)
                                                                         ),

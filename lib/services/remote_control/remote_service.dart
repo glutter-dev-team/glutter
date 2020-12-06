@@ -14,11 +14,13 @@ class RemoteService {
   }
 
   /// Executes SSH-Command to the current server
-  execute(Command cmd) async {
+  Future<String> execute(Command cmd) async {
     if (cmd != null) {
       await this._sshClient.connect();
-      await this._sshClient.execute(cmd.commandMessage);
+      var answer = await this._sshClient.execute(cmd.commandMessage);
       await this._sshClient.disconnect();
+      return answer;
     }
+    return "";
   }
 }

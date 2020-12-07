@@ -74,8 +74,8 @@ class _CommandCreateState extends State<CommandCreateScreen> {
 
   Future<bool> _onWillPop() async {
     Map values = {
-      0: _commandCaptionController.text,
-      1: _commandMessageController.text,
+      _commandCaptionController.text: "",
+      _commandMessageController.text: "",
     };
     if (valuesHaveChanged(values)) {
       return (await showDialog(
@@ -94,7 +94,7 @@ _getProfileIdAndCreateCommand(String commandCaption, String commandMessage, Buil
 }
 
 _createCommand(String commandCaption, String commandMessage, int profileId, BuildContext context) {
-  Command command = new Command(commandCaption, commandMessage, profileId);
+  Command command = new Command(commandMessage, commandCaption, profileId);
   DatabaseService.db.insertCommand(command);
   Navigator.pop(context);
 }

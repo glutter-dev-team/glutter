@@ -89,3 +89,8 @@ flutter:
         - assets/images/glutter_app_icon_xxxhdpi.png
         - assets/images/glutter_app_icon_light_xxxhdpi.png
         - assets/images/glutter_app_icon_dark_xxxhdpi.png
+
+    fonts:
+        - family: RobotoMono
+          fonts:
+              - asset: assets/fonts/RobotoMono-Regular.ttf

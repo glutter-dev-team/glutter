@@ -126,7 +126,7 @@ showHelpTextDialog(BuildContext context, entityProp) {
             Padding(
               padding: EdgeInsets.only(left: 5.0),
               child: Text(
-                entityProp["short_desc"],
+                entityProp["label"],
                 style: TextStyle(color: Theme.of(context).accentColor),
               ),
             ),

@@ -71,7 +71,7 @@ class _MemoryTabState extends State<MemoryTab> {
               case ConnectionState.done:
                 if (snapshot.data != null) {
                   Memory memory = snapshot.data;
-                  List<List> dataList = memoryListBuilder(snapshot);
+                  List<List> dataList = DataListBuilder.memoryList(snapshot);
                   return Padding(
                     padding: EdgeInsets.all(10.0),
                     child: ListView.builder(
@@ -93,7 +93,7 @@ class _MemoryTabState extends State<MemoryTab> {
                                   (index == 0) ? SizedBox(height: 7.5,) : SizedBox(),
                                   ListTile(
                                     title: Text(
-                                      entityProps[index]["short_desc"]
+                                      entityProps[index]["label"]
                                     ),
                                     trailing: Text(
                                       entityProps[index]["value"]

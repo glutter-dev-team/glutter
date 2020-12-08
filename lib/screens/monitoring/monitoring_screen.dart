@@ -95,7 +95,7 @@ class PurpleCardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).accentColor, //Colors.deepPurple,
+        color: Theme.of(context).accentColor,
         borderRadius: new BorderRadius.only(topLeft: const Radius.circular(4.0), topRight: const Radius.circular(4.0)),
       ),
       child: ListTile(

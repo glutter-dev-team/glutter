@@ -6,7 +6,6 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
     return Scaffold(
         appBar: AppBar(
           title: Text("About glutter"),
@@ -24,7 +23,9 @@ class AboutScreen extends StatelessWidget {
                     )
                   ],
                 )
-              ])),
-        ));
+              ])
+          ),
+        )
+    );
   }
 }

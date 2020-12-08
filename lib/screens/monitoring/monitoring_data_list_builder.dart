@@ -7,7 +7,6 @@ import 'package:glutter/utils/utils.dart';
 
 /// Build different lists of maps that contain (help-) texts and custom formatted information for the ListView-Builders in CpuTab, MemoryTab, NetworkTab and SensorsTab (on MonitoringScreen).
 class DataListBuilder {
-
   /// CpuTab
   static List<List> cpuList(AsyncSnapshot snapshot) {
     List<List> dataList = new List();

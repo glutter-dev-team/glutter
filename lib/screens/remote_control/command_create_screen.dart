@@ -28,10 +28,7 @@ class _CommandCreateState extends State<CommandCreateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
     return GestureDetector(
-      // dismiss focus (keyboard) if users taps anywhere in a "dead space" within the app
-      // copied from https://flutterigniter.com/dismiss-keyboard-form-lose-focus/
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
 

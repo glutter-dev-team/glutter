@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:io';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:glutter/models/remote_control/command.dart';
 import 'package:glutter/models/shared/profile.dart';
@@ -37,7 +36,7 @@ class DatabaseService {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
     /// Database-Path and Database-Name! Do not edit!
-    String path = documentsDirectory.path + "glutter_1_1.db";
+    String path = documentsDirectory.path + "glutter.db";
 
     return await openDatabase(path, version: 1, onOpen: (db) {}, onCreate: (Database db, int version) async {
       await db.execute(DatabaseProvider.createProfileTable());

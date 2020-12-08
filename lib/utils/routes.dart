@@ -5,7 +5,6 @@ import 'package:glutter/screens/settings/manage_profiles/profile_create_screen.d
 import 'package:glutter/screens/settings/manage_profiles/profile_edit_screen.dart';
 import 'package:glutter/screens/settings/manage_profiles/profile_list_screen.dart';
 import 'package:glutter/screens/settings/settings_screen.dart';
-
 import '../screens/dashboard/dashboard_screen.dart';
 
 class Routes {

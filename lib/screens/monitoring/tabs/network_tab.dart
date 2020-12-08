@@ -160,7 +160,6 @@ class _NetworksTabState extends State<NetworksTab> {
                     return showNoDataReceived(this.selectedProfile, "Networks");
                   }
                   return SizedBox();
-
                 default:
                   return internalErrorText();
               }

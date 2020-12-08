@@ -58,7 +58,7 @@ class CommandResultDialog extends StatelessWidget {
             ),
             decoration: InputDecoration.collapsed(
               border: InputBorder.none,
-              hintText: "", // Dart-Analysis sagt, ein hintText ist required
+              hintText: "",
             ),
           ),
         ],

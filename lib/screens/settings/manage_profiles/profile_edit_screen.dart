@@ -36,7 +36,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     final Profile profile = ModalRoute.of(context).settings.arguments;
-    //Future<Profile> profile = DatabaseService.db.getProfileById(profileFromList.id);
 
     if (!initialWrite) {
       _profileCaptionController.text = profile.caption;
@@ -50,10 +49,7 @@ class _ProfileEditState extends State<ProfileEditScreen> {
       initialWrite = true;
     }
 
-    // This method is rerun every time setState is called
     return GestureDetector(
-      // dismiss focus (keyboard) if users taps anywhere in a "dead space" within the app
-      // copied from https://flutterigniter.com/dismiss-keyboard-form-lose-focus/
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
 
@@ -105,7 +101,8 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                           _serverSshPasswordController.text,
                         ),
                         SizedBox(height: 90),
-                      ])),
+                      ])
+                  ),
                 ),
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -122,7 +119,9 @@ class _ProfileEditState extends State<ProfileEditScreen> {
                       _serverSshUsernameController.text,
                       _serverSshPasswordController.text),
                   label: new Text('Save profile')),
-            )));
+            )
+        )
+    );
   }
 
   /// Overrides the "Back" buttons (in AppBar and back button of device). Before going back: check if user changed anything. If true: show confirmation alert. Else: go back without doing anything else.
@@ -136,7 +135,6 @@ class _ProfileEditState extends State<ProfileEditScreen> {
       profile.glancesApiVersion: _serverApiVersionController.text,
       profile.sshUsername: _serverSshUsernameController.text,
       profile.sshPort.toString(): _serverSshPortController.text,
-      //profile.sshPassword: _serverSshPasswordController.text,
     };
 
     if (valuesHaveChanged(values)) {
@@ -148,10 +146,16 @@ class _ProfileEditState extends State<ProfileEditScreen> {
   }
 }
 
-_saveProfile(BuildContext context, Profile profile, String profileCaption, String serverAddress, int glancesPort, String glancesApiVersion,
-    int sshPort, String sshUsername, String sshPassword) {
-  /// Save current values of text input fields by updating the existing profile in the database.
-
+_saveProfile(
+    BuildContext context,
+    Profile profile,
+    String profileCaption,
+    String serverAddress,
+    int glancesPort,
+    String glancesApiVersion,
+    int sshPort,
+    String sshUsername,
+    String sshPassword) {
   profile.caption = profileCaption;
   profile.serverAddress = serverAddress;
   profile.port = glancesPort;

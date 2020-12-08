@@ -9,6 +9,7 @@ class Command {
   /// The actual SSH-Command
   String commandMessage;
 
+  /// Caption of the SSH-Command
   String caption;
 
   /// Ctor for Commands

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/screens/monitoring/monitoring_data_list_builder.dart';
 import 'package:glutter/screens/monitoring/monitoring_screen.dart';
@@ -70,7 +69,6 @@ class _MemoryTabState extends State<MemoryTab> {
                 return progressIndicatorContainer();
               case ConnectionState.done:
                 if (snapshot.data != null) {
-                  Memory memory = snapshot.data;
                   List<List> dataList = DataListBuilder.memoryList(snapshot);
                   return Padding(
                     padding: EdgeInsets.all(10.0),
@@ -122,7 +120,6 @@ class _MemoryTabState extends State<MemoryTab> {
                   );
                 }
                 return SizedBox();
-
               default:
                 return internalErrorText();
             }

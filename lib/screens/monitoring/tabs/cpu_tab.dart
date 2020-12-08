@@ -73,7 +73,7 @@ class _CpuTabState extends State<CpuTab> {
               case ConnectionState.done:
                 if (snapshot.data != null) {
                   CPU cpu = snapshot.data;
-                  List<List> dataList = buildList(MonitoringOption.CPU, snapshot);
+                  List<List> dataList = DataListBuilder.cpuList(snapshot);
                   return Padding(
                     padding: EdgeInsets.all(10.0),
                     child: ListView.builder(
@@ -95,7 +95,7 @@ class _CpuTabState extends State<CpuTab> {
                                   (index == 0) ? SizedBox(height: 7.5,) : SizedBox(),
                                   ListTile(
                                     title: Text(
-                                        entityProps[index]["short_desc"]
+                                        entityProps[index]["label"]
                                     ),
                                     trailing: Text(
                                         entityProps[index]["value"],

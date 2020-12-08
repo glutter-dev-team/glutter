@@ -58,7 +58,7 @@ class _ProfileSelectorState extends State<ProfileSelector> {
                 )
             );
               default:
-                return Text("default");
+                return SizedBox();
             }
           }),
     );

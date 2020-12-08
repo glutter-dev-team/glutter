@@ -3,10 +3,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:glutter/models/remote_control/command.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/screens/remote_control/command_create_screen.dart';
+import 'package:glutter/screens/remote_control/widgets/command_result.dart';
 import 'package:glutter/services/remote_control/remote_service.dart';
 import 'package:glutter/services/shared/database_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
-import 'package:glutter/widgets/dialogs.dart';
 import 'package:glutter/widgets/drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

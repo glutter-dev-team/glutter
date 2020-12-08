@@ -74,7 +74,7 @@ class _SettingsState extends State<SettingsScreen> {
                                       height: 75.0,
                                       child: Image(image: AssetImage('assets/images/glutter_app_icon_dark_xxxhdpi.png')),
                                     ),
-                                    applicationVersion: '0.0.1',
+                                    applicationVersion: '1.0.0',
                                     applicationLegalese: 'Copyright © 2020 Hendrik Laudemann, Moritz Jökel. All rights reserved.',
                                     children: [
                                       SizedBox(height: 20),

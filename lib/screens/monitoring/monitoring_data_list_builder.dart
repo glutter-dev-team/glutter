@@ -5,23 +5,7 @@ import 'package:glutter/models/monitoring/network.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
 import 'package:glutter/utils/utils.dart';
 
-enum MonitoringOption { CPU, Memory, Networks, Sensors }
-
-List<List> buildList(MonitoringOption choice, AsyncSnapshot snapshot) {
-  switch (choice) {
-    case MonitoringOption.Memory:
-      return memoryListBuilder(snapshot);
-    case MonitoringOption.CPU:
-      return cpuListBuilder(snapshot);
-    case MonitoringOption.Sensors:
-      return sensorsListBuilder(snapshot);
-    case MonitoringOption.Networks:
-      return networkListBuilder(snapshot);
-    default:
-      return null;
-  }
-}
-
+/// Build a list of maps that contain texts and custom formatted information for the ListView-Builder in MemoryTab (on MonitoringScreen).
 List<List> memoryListBuilder(AsyncSnapshot snapshot) {
   List<List> dataList = new List();
   List<Map> memoryList = new List();
@@ -35,8 +19,7 @@ List<List> memoryListBuilder(AsyncSnapshot snapshot) {
 
   var available = new Map();
   available["short_desc"] = "Available memory";
-  available["help_text"] =
-  "The actual amount of available memory that can be given instantly to processes that request more memory in bytes. This is calculated by summing different memory values depending on the platform (e.g. free + buffers + cached on Linux) and it is supposed to be used to monitor actual memory usage in a cross platform fashion.";
+  available["help_text"] = "The actual amount of available memory that can be given instantly to processes that request more memory in bytes. This is calculated by summing different memory values depending on the platform (e.g. free + buffers + cached on Linux) and it is supposed to be used to monitor actual memory usage in a cross platform fashion.";
   available["value"] = convertBytes(memory.available, 2).toString();
   memoryList.add(available);
 
@@ -88,6 +71,7 @@ List<List> memoryListBuilder(AsyncSnapshot snapshot) {
   return dataList;
 }
 
+/// Build a list of maps that contain texts and custom formatted information for the ListView-Builder in CpuTab (on MonitoringScreen).
 List<List> cpuListBuilder(AsyncSnapshot snapshot) {
   List<List> dataList = new List();
   List<Map> cpuList = new List();
@@ -198,6 +182,7 @@ List<List> cpuListBuilder(AsyncSnapshot snapshot) {
   return dataList;
 }
 
+/// Build a list of maps that contain texts and custom formatted information for the ListView-Builder in SensorsTab (on MonitoringScreen).
 List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
   List<List> dataList = new List();
 
@@ -235,7 +220,8 @@ List<List> sensorsListBuilder(AsyncSnapshot snapshot) {
   return dataList;
 }
 
-List<List> networkListBuilder(AsyncSnapshot snapshot) {
+/// Build a list of maps that contain texts and custom formatted information for the ListView-Builder in NetworksTab (on MonitoringScreen).
+List<List> networksListBuilder(AsyncSnapshot snapshot) {
   List<List> dataList = new List();
 
   for (var i = 0; i < snapshot.data.length; i++) {

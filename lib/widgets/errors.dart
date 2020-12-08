@@ -44,10 +44,12 @@ Widget showNoDataReceived(Profile currentProfile, [String dataName=""]) {
   );
 }
 
+/// Show a text for unexpected error cases.
 Widget internalErrorText() {
   return Text("An internal error occurred. Please try again.");
 }
 
+/// Ask the user to select (or create and select) a glutter profile in order to receive the requested information.
 Widget showNoProfileSelected(BuildContext context) {
   String title = "No Profile selected";
   return Container(

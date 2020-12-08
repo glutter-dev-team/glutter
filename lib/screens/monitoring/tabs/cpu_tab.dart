@@ -73,7 +73,7 @@ class _CpuTabState extends State<CpuTab> {
               case ConnectionState.done:
                 if (snapshot.data != null) {
                   CPU cpu = snapshot.data;
-                  List<List> dataList = buildList(MonitoringOption.CPU, snapshot);
+                  List<List> dataList = cpuListBuilder(snapshot);
                   return Padding(
                     padding: EdgeInsets.all(10.0),
                     child: ListView.builder(

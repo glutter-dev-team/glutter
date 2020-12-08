@@ -71,7 +71,7 @@ class _NetworksTabState extends State<NetworksTab> {
                   return progressIndicatorContainer();
                 case ConnectionState.done:
                   if (snapshot.data != null && snapshot.data.length > 0) {
-                    List<List> dataList = buildList(MonitoringOption.Networks, snapshot);
+                    List<List> dataList = networksListBuilder(snapshot);
                     return ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),

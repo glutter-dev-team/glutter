@@ -72,7 +72,7 @@ class _SensorsTabState extends State<SensorsTab> {
                   return progressIndicatorContainer();
                 case ConnectionState.done:
                   if (snapshot.data != null && snapshot.data.length > 0) {
-                    List<List> dataList = buildList(MonitoringOption.Sensors, snapshot);
+                    List<List> dataList = sensorsListBuilder(snapshot);
                     return ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),

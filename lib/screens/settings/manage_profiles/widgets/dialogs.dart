@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/shared/database_service.dart';
 
+/// Alert dialog that asks for confirmation before deleting a glutter profile.
 class ConfirmDeleteProfileDialog extends StatelessWidget {
   ConfirmDeleteProfileDialog(this.context, this.profile);
 

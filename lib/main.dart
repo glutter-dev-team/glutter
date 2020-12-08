@@ -11,10 +11,10 @@ import 'screens/monitoring/monitoring_screen.dart';
 import 'utils/routes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(GlutterApp());
 }
 
-class MyApp extends StatelessWidget {
+class GlutterApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

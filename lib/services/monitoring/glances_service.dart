@@ -1,117 +1,152 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:http/http.dart';
-import 'package:glutter/models/monitoring/profile.dart';
 import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/monitoring/memory.dart';
 import 'package:glutter/models/monitoring/network.dart';
+import 'package:glutter/models/monitoring/pluginsList.dart';
 import 'package:glutter/models/monitoring/sensor.dart';
+import 'package:glutter/models/monitoring/system.dart';
+import 'package:glutter/models/shared/profile.dart';
+import 'package:http/http.dart';
 
 /// Provides services to interact with the glances-Restful API.
 class GlancesService {
+  Profile server;
 
-    Profile server;
+  /// Constructor for GlancesService-Objects.
+  GlancesService(Profile server) {
+    this.server = server;
+  }
 
-    /// Constructor for GlancesService-Objects.
-    GlancesService(Profile server) {
-        this.server = server;
+  /// Returns the CPU-Object of the current Server.
+  Future<CPU> getCpu() async {
+    Response rawResponse;
+    CPU cpu;
+
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/cpu");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get CPU.");
     }
 
-    /// Returns the CPU-Object of the current Server.
-    Future<CPU> getCpu() async {
-        Response rawResponse;
-        CPU cpu;
+    cpu = CPU.fromJson(jsonDecode(rawResponse.body));
+    cpu.timeStamp = DateTime.now();
+    cpu.profileId = server.id;
 
-        try {
-            rawResponse = await get(server.getFullServerAddress() + "/cpu");
-        } catch(_) {
-            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get CPU.");
-        }
+    return cpu;
+  }
 
-        cpu = CPU.fromJson(jsonDecode(rawResponse.body));
-        cpu.timeStamp = DateTime.now();
-        cpu.profileId = server.id;
+  /// Returns the Memory-Object of the current Server.
+  Future<Memory> getMemory() async {
+    Response rawResponse;
+    Memory memory;
 
-        return cpu;
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/mem");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Memory.");
     }
 
-    /// Returns the Memory-Object of the current Server.
-    Future<Memory> getMemory() async {
-        Response rawResponse;
-        Memory memory;
+    memory = Memory.fromJson(jsonDecode(rawResponse.body));
 
-        try {
-            rawResponse = await get(server.getFullServerAddress() + "/mem");
-        } catch (_) {
-            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Memory.");
-        }
+    return memory;
+  }
 
-        memory = Memory.fromJson(jsonDecode(rawResponse.body));
+  /// Returns list of Network-Objects from Glances for the current server.
+  Future<List<Network>> getNetworks() async {
+    Response rawResponse;
 
-        return memory;
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/network");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Networks.");
+    }
+    var networkObjectsJson = jsonDecode(rawResponse.body);
+
+    List<Network> networkObjects = new List<Network>();
+
+    networkObjectsJson.forEach((networkJson) => networkObjects.add(Network.fromJson(networkJson)));
+
+    return networkObjects;
+  }
+
+  /// Returns list of Sensor-Objects from Glances for the current server.
+  Future<List<Sensor>> getSensors() async {
+    Response rawResponse;
+
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/sensors");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Sensors.");
+    }
+    var sensorObjectsJson = jsonDecode(rawResponse.body);
+
+    List<Sensor> sensorObjects = new List<Sensor>();
+
+    sensorObjectsJson.forEach((sensorJson) => sensorObjects.add(Sensor.fromJson(sensorJson)));
+
+    return sensorObjects;
+  }
+
+  /// Checks whether the connection to the glances-APi can be established and the required plugins are installed.
+  Future<bool> connectionTest() async {
+    Response rawResponse;
+
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
+    } catch (_) {
+      throw HttpException(
+          "Failed to load data from Server(" + server.getFullServerAddress() + ") to get pluginslist while testing connection.");
     }
 
-    /// Returns list of Network-Objects from Glances for the current server.
-    Future<List<Network>> getNetworks() async {
-        Response rawResponse;
+    List<dynamic> pluginsList = jsonDecode(rawResponse.body);
+    bool containsRequiredPlugins = false;
 
-        try {
-            rawResponse = await get(server.getFullServerAddress() + "/network");
-        } catch (_) {
-            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Networks.");
-        }
-        var networkObjectsJson = jsonDecode(rawResponse.body);
+    var filteredPluginsList =
+        pluginsList.where((element) => element == 'network' || element == 'cpu' || element == 'mem' || element == 'sensors');
 
-        List<Network> networkObjects = new List<Network>();
+    // All required plugins installed?
+    containsRequiredPlugins = filteredPluginsList.length == 4;
 
-        networkObjectsJson.forEach((networkJson) => networkObjects.add(Network.fromJson(networkJson)));
-
-        return networkObjects;
+    // If Response-Code is OK and required plugins are installed, return true.
+    if (rawResponse.statusCode == 200 && containsRequiredPlugins) {
+      return true;
     }
 
-    /// Returns list of Sensor-Objects from Glances for the current server.
-    Future<List<Sensor>> getSensors() async {
-        Response rawResponse;
+    // Otherwise return false.
+    return false;
+  }
 
-        try {
-            rawResponse = await get(server.getFullServerAddress() + "/sensors");
-        } catch (_) {
-            throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Sensors.");
-        }
-        var sensorObjectsJson = jsonDecode(rawResponse.body);
+  /// Returns the PluginsList-Object of the current Server.
+  Future<PluginsList> getPluginsList() async {
+    Response rawResponse;
+    PluginsList pluginsList;
 
-        List<Sensor> sensorObjects = new List<Sensor>();
-
-        sensorObjectsJson.forEach((sensorJson) => sensorObjects.add(Sensor.fromJson(sensorJson)));
-
-        return sensorObjects;
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Plugins-List.");
     }
 
-    /// Checks whether the connection to the glances-APi can be established and the required plugins are installed.
-    Future<bool> connectionTest() async {
-         Response rawResponse;
+    pluginsList = PluginsList.fromJson(jsonDecode(rawResponse.body));
 
-         try {
-             rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
-         } catch (_) {
-             throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get pluginslist while testing connection.");
-         }
+    return pluginsList;
+  }
 
-         List<dynamic> pluginsList = jsonDecode(rawResponse.body);
-         bool containsRequiredPlugins = false;
+  /// Returns the System-Object of the current Server.
+  Future<System> getSystem() async {
+    Response rawResponse;
+    System system;
 
-         var filteredPluginsList = pluginsList.where((element) => element == 'network' || element == 'cpu' || element == 'mem' || element == 'sensors');
-
-         // All required plugins installed?
-         containsRequiredPlugins = filteredPluginsList.length == 4;
-
-         // If Response-Code is OK and required plugins are installed, return true.
-        if(rawResponse.statusCode == 200 && containsRequiredPlugins) {
-            return true;
-        }
-
-        // Otherwise return false.
-        return false;
+    try {
+      rawResponse = await get(server.getFullServerAddress() + "/system");
+    } catch (_) {
+      throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get System info.");
     }
+
+    system = System.fromJson(jsonDecode(rawResponse.body));
+
+    return system;
+  }
 }

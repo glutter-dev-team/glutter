@@ -130,7 +130,9 @@ class ServerAddressTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Server address',
           hintText: 'e.g. example.com or 123.45.678.9',
-        ));
+        // TODO: InputFormatter mit RegEx, die Leerzeichen ausschliesst
+        )
+    );
   }
 }
 
@@ -191,6 +193,7 @@ class SshUsernameTextField extends StatelessWidget {
           labelText: 'SSH username',
           hintText: 'username',
         )
+      // TODO: InputFormatter mit RegEx, die Leerzeichen ausschliesst
     );
   }
 }

@@ -90,9 +90,9 @@ class _SensorsTabState extends State<SensorsTab> {
                                 ),
                                 ListTile(
                                   title: Text(
-                                    entityProps[3]["value"],
+                                    entityProps[3]["value"], // sensor type
                                   ),
-                                  subtitle: Text(entityProps[1]["value"] + entityProps[2]["value"]),
+                                  subtitle: Text(entityProps[1]["value"] + entityProps[2]["value"]), // sensor value + unit
                                 )
                               ],
                             ),

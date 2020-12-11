@@ -23,7 +23,6 @@ class _SettingsState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -45,7 +44,6 @@ class _SettingsState extends State<SettingsScreen> {
                   Row(children: <Widget>[
                     Expanded(
                         child: SizedBox(
-                      //height: 75,
                       child: ListTile(
                         title: Text("Manage profiles"),
                         subtitle: Text("A profile specifies a server that you want to monitor and control."),
@@ -76,7 +74,7 @@ class _SettingsState extends State<SettingsScreen> {
                                       height: 75.0,
                                       child: Image(image: AssetImage('assets/images/glutter_app_icon_dark_xxxhdpi.png')),
                                     ),
-                                    applicationVersion: '0.0.1',
+                                    applicationVersion: '1.0.0',
                                     applicationLegalese: 'Copyright © 2020 Hendrik Laudemann, Moritz Jökel. All rights reserved.',
                                     children: [
                                       SizedBox(height: 20),
@@ -100,10 +98,16 @@ class _SettingsState extends State<SettingsScreen> {
                                         ),
                                         TextSpan(text: ' to learn more.'),
                                       ]))
-                                    ]);
+                                    ]
+                                );
                               },
                             ),
-                          ]))),
-                ]))));
+                          ])
+                      )
+                  ),
+                ])
+            )
+        )
+    );
   }
 }

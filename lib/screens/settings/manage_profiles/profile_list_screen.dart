@@ -27,14 +27,12 @@ class _ProfileListState extends State<ProfileListScreen> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-    // monitor network fetch
     await Future.delayed(Duration(milliseconds: 500));
 
     this.setState(() {
       this.profilesFuture = DatabaseService.db.getProfiles();
     });
 
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 
@@ -100,8 +98,10 @@ class _ProfileListState extends State<ProfileListScreen> {
                     ),
                   ],
               )),
-            ])),
-        )),
+            ])
+          ),
+        )
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           Navigator.push(

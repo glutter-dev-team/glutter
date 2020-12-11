@@ -1,8 +1,17 @@
 /// Represents the Memory-Values (RAM) from the Glances-API.
 class Memory {
   /// Constructor for Memory-Object.
-  Memory(int total, int available, double usagePercent, int used, int free,
-      int active, int inactive, int buffers, int cached, int shared) {
+  Memory(
+      int total,
+      int available,
+      double usagePercent,
+      int used,
+      int free,
+      int active,
+      int inactive,
+      int buffers,
+      int cached,
+      int shared) {
     this.total = total;
     this.available = available;
     this.usagePercent = usagePercent;

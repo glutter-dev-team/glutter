@@ -112,7 +112,8 @@ class ProfileCaptionTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Caption / Name / Title',
           hintText: 'e.g. My NAS @ Home',
-        ));
+        )
+    );
   }
 }
 
@@ -125,15 +126,13 @@ class ServerAddressTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
         controller: serverAddressController,
-        /*inputFormatters: <TextInputFormatter>[
-                // hier muss eine RegEx hin, die Leerzeichen ausschließt
-                // https://api.flutter.dev/flutter/services/FilteringTextInputFormatter-class.html
-            ],*/
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Server address',
           hintText: 'e.g. example.com or 123.45.678.9',
-        ));
+        // TODO: InputFormatter mit RegEx, die Leerzeichen ausschliesst
+        )
+    );
   }
 }
 
@@ -153,7 +152,8 @@ class GlancesPortTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'Glances port',
           hintText: 'default: 61208',
-        ));
+        )
+    );
   }
 }
 
@@ -173,7 +173,8 @@ class SshPortTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'SSH port',
           hintText: 'default: 22',
-        ));
+        )
+    );
   }
 }
 
@@ -187,15 +188,13 @@ class SshUsernameTextField extends StatelessWidget {
     return TextField(
         autocorrect: false,
         controller: sshUsernameController,
-        /*inputFormatters: <TextInputFormatter>[
-                // hier muss eine RegEx hin, die Leerzeichen ausschließt
-                // https://api.flutter.dev/flutter/services/FilteringTextInputFormatter-class.html
-            ],*/
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'SSH username',
           hintText: 'username',
-        ));
+        )
+      // TODO: InputFormatter mit RegEx, die Leerzeichen ausschliesst
+    );
   }
 }
 
@@ -215,7 +214,8 @@ class SshPasswordTextField extends StatelessWidget {
           border: OutlineInputBorder(),
           labelText: 'SSH password',
           hintText: 'password',
-        ));
+        )
+    );
   }
 }
 
@@ -237,14 +237,14 @@ class GlancesApiVersionTextField extends StatelessWidget {
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
-                // hier muss eine RegEx hin, die nur 2 oder 3 zulässt (besser wäre allerdings eine andere Input-Methode, also kein TextField)
               ],
               autocorrect: false,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Glances API version',
                 hintText: '2 or 3',
-              )),
+              )
+          ),
         ),
       ],
     );

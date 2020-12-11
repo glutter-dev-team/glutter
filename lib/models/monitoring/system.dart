@@ -7,8 +7,7 @@ class System {
       String platform,
       String linuxDistro,
       String osVersion,
-      String hrName
-      ) {
+      String hrName) {
     this.osName = osName;
     this.hostname = hostname;
     this.platform = platform;
@@ -17,11 +16,22 @@ class System {
     this.hrName = hrName;
   }
 
+  /// Name of the OS e.g. "Linux"
   String osName;
+
+  /// Hostname
   String hostname;
+
+  /// System-Architecture e.g. "64 Bit"
   String platform;
+
+  /// Linux-Distribution e.g. "Ubuntu 20.04."
   String linuxDistro;
+
+  /// Specific OS-Version
   String osVersion;
+
+  /// Common OS-Name with distribution and architecture
   String hrName;
 
   /// For deserialization of JSON and conversion to System-Object.

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/models/monitoring/cpu.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/services/monitoring/glances_service.dart';
 import 'package:glutter/services/shared/preferences_service.dart';
@@ -72,7 +71,6 @@ class _CpuTabState extends State<CpuTab> {
                 return progressIndicatorContainer();
               case ConnectionState.done:
                 if (snapshot.data != null) {
-                  CPU cpu = snapshot.data;
                   List<List> dataList = DataListBuilder.cpuList(snapshot);
                   return Padding(
                     padding: EdgeInsets.all(10.0),
@@ -122,7 +120,6 @@ class _CpuTabState extends State<CpuTab> {
                   );
                 }
                 return SizedBox();
-
               default:
                 return internalErrorText();
             }

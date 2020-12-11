@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:glutter/models/monitoring/sensor.dart';
 import 'package:glutter/models/shared/profile.dart';
 import 'package:glutter/screens/monitoring/monitoring_data_list_builder.dart';
 import 'package:glutter/screens/monitoring/monitoring_screen.dart';
@@ -105,7 +104,6 @@ class _SensorsTabState extends State<SensorsTab> {
                     return showNoDataReceived(this.selectedProfile, "Sensors");
                   }
                   return SizedBox();
-
                 default:
                   return internalErrorText();
               }

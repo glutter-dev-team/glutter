@@ -59,7 +59,7 @@ class AppDrawer extends StatelessWidget {
                     text: 'Report an issue',
                     onTap: () => launchURL("https://github.com/glutter-dev-team/glutter/issues/new")),
                 ListTile(
-                  title: Text('v0.0.1'),
+                  title: Text('v1.0.0'),
                   onTap: () {},
                 ),
               ])))

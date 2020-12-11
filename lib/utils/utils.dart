@@ -13,7 +13,6 @@ launchURL(url) async {
 
 /// Convert a long integer (bytes) to a String with suffixes like KB, MB, GB, etc.
 String convertBytes(int bytes, int decimals) {
-  // copied from https://gist.github.com/zzpmaster/ec51afdbbfa5b2bf6ced13374ff891d9
   if (bytes <= 0) return "0 B";
   const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   var i = (log(bytes) / log(1024)).floor();

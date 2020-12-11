@@ -31,10 +31,7 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
     return GestureDetector(
-        // dismiss focus (keyboard) if users taps anywhere in a "dead space" within the app
-        // copied from https://flutterigniter.com/dismiss-keyboard-form-lose-focus/
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
 
@@ -73,7 +70,8 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                           _serverSshPasswordController.text,
                         ),
                         SizedBox(height: 90),
-                      ])),
+                      ])
+                  ),
                 ),
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -89,7 +87,9 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
                       _serverSshPasswordController.text,
                       context),
                   label: new Text('Create profile')),
-            )));
+            )
+        )
+    );
   }
 
   Future<bool> _onWillPop() async {
@@ -113,7 +113,14 @@ class _ProfileCreateState extends State<ProfileCreateScreen> {
   }
 }
 
-_createProfile(String serverAddress, String port, String sshPort, String caption, String apiVersion, String sshUsername, String sshPassword,
+_createProfile(
+    String serverAddress,
+    String port,
+    String sshPort,
+    String caption,
+    String apiVersion,
+    String sshUsername,
+    String sshPassword,
     BuildContext context) {
   Profile newProfile = new Profile(serverAddress, int.parse(port), apiVersion, caption, int.parse(sshPort), sshUsername);
   newProfile.sshPassword = sshPassword;

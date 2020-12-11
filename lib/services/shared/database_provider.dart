@@ -19,7 +19,6 @@ class DatabaseProvider {
         "id	INTEGER NOT NULL PRIMARY KEY, " +
         "profileId INTEGER NOT NULL, " +
         "commandMessage TEXT NOT NULL, " +
-        "caption TEXT NOT NULL"
-            ");";
+        "caption TEXT NOT NULL);";
   }
 }

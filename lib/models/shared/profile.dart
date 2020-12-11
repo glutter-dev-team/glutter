@@ -26,12 +26,7 @@ class Profile {
 
   /// Returns the full server-address, includes http, port and the API-Version.
   String getFullServerAddress() {
-    String fullServerAddress = "http://" +
-        this.serverAddress +
-        ":" +
-        this.port.toString() +
-        "/api/" +
-        this.glancesApiVersion;
+    String fullServerAddress = "http://" + this.serverAddress + ":" + this.port.toString() + "/api/" + this.glancesApiVersion;
 
     return fullServerAddress;
   }
@@ -43,8 +38,13 @@ class Profile {
   }
 
   /// Constructor for Profile.
-  Profile(String serverAddress, int port, String apiVersion, String caption,
-      int sshPort, String sshUsername) {
+  Profile(
+      String serverAddress,
+      int port,
+      String apiVersion,
+      String caption,
+      int sshPort,
+      String sshUsername) {
     this.serverAddress = serverAddress;
     this.port = port;
     this.caption = caption;
@@ -66,11 +66,15 @@ class Profile {
   }
 
   /// Constructor for Profiles by the Database.
-  static Profile _fromDatabase(int id, String serverAddress, int port,
-      String apiVersion, String caption, int sshPort, String sshUsername) {
-    Profile profile = new Profile(
-        serverAddress, port, apiVersion, caption, sshPort, sshUsername);
-
+  static Profile _fromDatabase(
+      int id,
+      String serverAddress,
+      int port,
+      String apiVersion,
+      String caption,
+      int sshPort,
+      String sshUsername) {
+    Profile profile = new Profile(serverAddress, port, apiVersion, caption, sshPort, sshUsername);
     profile.id = id;
 
     return profile;
@@ -89,8 +93,7 @@ class Profile {
     };
   }
 
-  bool operator ==(dynamic other) =>
-      other != null && other is Profile && this.id == other.id;
+  bool operator ==(dynamic other) => other != null && other is Profile && this.id == other.id;
 
   @override
   int get hashCode => id.hashCode;

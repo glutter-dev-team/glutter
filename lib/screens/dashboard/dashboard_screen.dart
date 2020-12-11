@@ -45,7 +45,6 @@ class _DashboardState extends State<DashboardScreen> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-    // monitor network fetch
     await Future.delayed(Duration(milliseconds: 500));
 
     this.setState(() {
@@ -55,7 +54,6 @@ class _DashboardState extends State<DashboardScreen> {
         });
     });
 
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 
@@ -70,7 +68,6 @@ class _DashboardState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -170,7 +167,6 @@ class _DashboardState extends State<DashboardScreen> {
                                     0: FlexColumnWidth(3),
                                     1: FlexColumnWidth(7),
                                   },
-                                  //border: TableBorder.all(color: Colors.black),
                                   children: [
                                     TableRow(children: [
                                       Text('Address:'),
@@ -223,9 +219,7 @@ class _DashboardState extends State<DashboardScreen> {
                     ) : SizedBox()
                   ],
                 );
-
                 return SizedBox();
-
               default:
                 return SizedBox();
             }
@@ -275,7 +269,6 @@ class _DashboardState extends State<DashboardScreen> {
                   );
                 }
                 return SizedBox();
-
               default:
                 return internalErrorText();
             }
@@ -325,7 +318,6 @@ class _DashboardState extends State<DashboardScreen> {
                   );
                 }
                 return SizedBox();
-
               default:
                 return internalErrorText();
             }
@@ -383,7 +375,6 @@ class _DashboardState extends State<DashboardScreen> {
                   }
                 }
                 return SizedBox();
-
               default:
                 return internalErrorText();
             }

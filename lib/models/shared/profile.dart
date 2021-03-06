@@ -37,6 +37,14 @@ class Profile {
     return sshAddress;
   }
 
+  String getAuthorityWithPort() {
+    return this.serverAddress + ":" + this.port.toString();
+  }
+
+  String getApiVersionPath() {
+    return "/api/" + this.glancesApiVersion;
+  }
+
   /// Constructor for Profile.
   Profile(
       String serverAddress,

@@ -12,7 +12,7 @@ class PluginsList {
 
   /// For deserialization of JSON and conversion to PluginsList-Object.
   factory PluginsList.fromJson(dynamic json) {
-    List<String> list = new List<String>();
+    List<String> list = [];
 
     json.forEach((plugin) => list.add(plugin.toString()));
     return new PluginsList(list);

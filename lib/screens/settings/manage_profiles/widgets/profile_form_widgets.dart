@@ -293,7 +293,7 @@ class _ConnectionTestState extends State<ConnectionTest> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FlatButton.icon(
+        TextButton.icon(
             onPressed: () {
               setState(() {
                 _connectionTest();

@@ -15,6 +15,7 @@ void main() {
 }
 
 class GlutterApp extends StatelessWidget {
+  static const String version = "1.0.1";
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

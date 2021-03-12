@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:glutter/main.dart';
 import 'package:glutter/screens/settings/manage_profiles/profile_list_screen.dart';
 import 'package:glutter/widgets/profile_selector.dart';
 
@@ -59,7 +60,7 @@ class AppDrawer extends StatelessWidget {
                     text: 'Report an issue',
                     onTap: () => launchURL("https://github.com/glutter-dev-team/glutter/issues/new")),
                 ListTile(
-                  title: Text('v1.0.0'),
+                  title: Text(GlutterApp.version),
                   onTap: () {},
                 ),
               ])))

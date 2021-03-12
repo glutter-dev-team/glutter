@@ -9,8 +9,8 @@ import 'package:glutter/utils/utils.dart';
 class DataListBuilder {
   /// CpuTab
   static List<List> cpuList(AsyncSnapshot snapshot) {
-    List<List> dataList = new List();
-    List<Map> cpuList = new List();
+    List<List> dataList = [];
+    List<Map> cpuList = [];
     CPU cpu = snapshot.data;
 
     var totalLoad = new Map();
@@ -120,8 +120,8 @@ class DataListBuilder {
 
   /// MemoryTab
   static List<List> memoryList(AsyncSnapshot snapshot) {
-    List<List> dataList = new List();
-    List<Map> memoryList = new List();
+    List<List> dataList = [];
+    List<Map> memoryList = [];
     Memory memory = snapshot.data;
 
     var total = new Map();
@@ -186,11 +186,11 @@ class DataListBuilder {
 
   /// NetworksTab
   static List<List> networksList(AsyncSnapshot snapshot) {
-    List<List> dataList = new List();
+    List<List> dataList = [];
 
     for (var i = 0; i < snapshot.data.length; i++) {
       Network network = snapshot.data[i];
-      List<Map> networkList = new List();
+      List<Map> networkList = [];
 
       var interfaceName = new Map();
       interfaceName["label"] = "Interface name";
@@ -257,11 +257,11 @@ class DataListBuilder {
 
   /// SensorsTab
   static List<List> sensorsList(AsyncSnapshot snapshot) {
-    List<List> dataList = new List();
+    List<List> dataList = [];
 
     for (var i = 0; i < snapshot.data.length; i++) {
       Sensor sensor = snapshot.data[i];
-      List<Map> sensorsList = new List();
+      List<Map> sensorsList = [];
 
       var label = new Map();
       label["label"] = "Label";

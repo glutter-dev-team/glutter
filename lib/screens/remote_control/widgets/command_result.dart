@@ -64,7 +64,7 @@ class CommandResultDialog extends StatelessWidget {
         ],
       ),
       actions: <Widget>[
-        new FlatButton(
+        new TextButton(
           onPressed: () => Navigator.of(context).pop(true),
           child: new Text('OK'),
         ),

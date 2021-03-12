@@ -67,7 +67,7 @@ class GlancesService {
     }
     var networkObjectsJson = jsonDecode(rawResponse.body);
 
-    List<Network> networkObjects = new List<Network>();
+    List<Network> networkObjects = [];
 
     networkObjectsJson.forEach((networkJson) => networkObjects.add(Network.fromJson(networkJson)));
 
@@ -86,7 +86,7 @@ class GlancesService {
     }
     var sensorObjectsJson = jsonDecode(rawResponse.body);
 
-    List<Sensor> sensorObjects = new List<Sensor>();
+    List<Sensor> sensorObjects = [];
 
     sensorObjectsJson.forEach((sensorJson) => sensorObjects.add(Sensor.fromJson(sensorJson)));
 

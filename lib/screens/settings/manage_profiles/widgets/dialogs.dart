@@ -15,7 +15,7 @@ class ConfirmDeleteProfileDialog extends StatelessWidget {
       title: Text("Delete profile?"),
       content: Text("Do you really want to delete this profile called '" + profile.caption + "'?"),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () {
             Navigator.pop(context);
           },
@@ -23,7 +23,7 @@ class ConfirmDeleteProfileDialog extends StatelessWidget {
             "Cancel",
           ),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () {
             DatabaseService.db.deleteProfileById(profile.id);
 

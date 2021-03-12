@@ -25,7 +25,8 @@ class GlancesService {
     CPU cpu;
 
     try {
-      rawResponse = await get(server.getFullServerAddress() + "/cpu");
+      Uri uri = new Uri.http(server.getAuthorityWithPort(), server.getApiVersionPath() + "/cpu");
+      rawResponse = await get(uri);
     } catch (_) {
       throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get CPU.");
     }
@@ -43,7 +44,8 @@ class GlancesService {
     Memory memory;
 
     try {
-      rawResponse = await get(server.getFullServerAddress() + "/mem");
+      Uri uri = new Uri.http(server.getAuthorityWithPort(), server.getApiVersionPath() + "/mem");
+      rawResponse = await get(uri);
     } catch (_) {
       throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Memory.");
     }
@@ -58,13 +60,14 @@ class GlancesService {
     Response rawResponse;
 
     try {
-      rawResponse = await get(server.getFullServerAddress() + "/network");
+      Uri uri = new Uri.http(server.getAuthorityWithPort(), server.getApiVersionPath() + "/network");
+      rawResponse = await get(uri);
     } catch (_) {
       throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Networks.");
     }
     var networkObjectsJson = jsonDecode(rawResponse.body);
 
-    List<Network> networkObjects = new List<Network>();
+    List<Network> networkObjects = [];
 
     networkObjectsJson.forEach((networkJson) => networkObjects.add(Network.fromJson(networkJson)));
 
@@ -76,13 +79,14 @@ class GlancesService {
     Response rawResponse;
 
     try {
-      rawResponse = await get(server.getFullServerAddress() + "/sensors");
+      Uri uri = new Uri.http(server.getAuthorityWithPort(), server.getApiVersionPath() + "/sensors");
+      rawResponse = await get(uri);
     } catch (_) {
       throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Sensors.");
     }
     var sensorObjectsJson = jsonDecode(rawResponse.body);
 
-    List<Sensor> sensorObjects = new List<Sensor>();
+    List<Sensor> sensorObjects = [];
 
     sensorObjectsJson.forEach((sensorJson) => sensorObjects.add(Sensor.fromJson(sensorJson)));
 
@@ -94,7 +98,8 @@ class GlancesService {
     Response rawResponse;
 
     try {
-      rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
+      Uri uri = new Uri.http(server.getAuthorityWithPort(), server.getApiVersionPath() + "/pluginslist");
+      rawResponse = await get(uri);
     } catch (_) {
       throw HttpException(
           "Failed to load data from Server(" + server.getFullServerAddress() + ") to get pluginslist while testing connection.");
@@ -124,7 +129,8 @@ class GlancesService {
     PluginsList pluginsList;
 
     try {
-      rawResponse = await get(server.getFullServerAddress() + "/pluginslist");
+      Uri uri = new Uri.http(server.getAuthorityWithPort(), server.getApiVersionPath() + "/pluginslist");
+      rawResponse = await get(uri);
     } catch (_) {
       throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get Plugins-List.");
     }
@@ -140,7 +146,8 @@ class GlancesService {
     System system;
 
     try {
-      rawResponse = await get(server.getFullServerAddress() + "/system");
+      Uri uri = new Uri.http(server.getAuthorityWithPort(), server.getApiVersionPath() + "/system");
+      rawResponse = await get(uri);
     } catch (_) {
       throw HttpException("Failed to load data from Server(" + server.getFullServerAddress() + ") to get System info.");
     }

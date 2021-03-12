@@ -9,11 +9,11 @@ class ConfirmLeaveDialog extends StatelessWidget {
       title: new Text('Are you sure?'),
       content: new Text('Do you want to leave without saving? You are going to lose your changes!'),
       actions: <Widget>[
-        new FlatButton(
+        new TextButton(
           onPressed: () => Navigator.of(context).pop(false),
           child: new Text("Cancel"),
         ),
-        new FlatButton(
+        new TextButton(
           onPressed: () => Navigator.of(context).pop(true),
           child: new Text('Discard'),
         ),

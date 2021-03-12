@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:glutter/main.dart';
 import 'package:glutter/screens/settings/manage_profiles/profile_list_screen.dart';
 import 'package:glutter/utils/utils.dart';
 import 'package:glutter/widgets/drawer.dart';
@@ -74,7 +75,7 @@ class _SettingsState extends State<SettingsScreen> {
                                       height: 75.0,
                                       child: Image(image: AssetImage('assets/images/glutter_app_icon_dark_xxxhdpi.png')),
                                     ),
-                                    applicationVersion: '1.0.0',
+                                    applicationVersion: GlutterApp.version,
                                     applicationLegalese: 'Copyright © 2020 Hendrik Laudemann, Moritz Jökel. All rights reserved.',
                                     children: [
                                       SizedBox(height: 20),

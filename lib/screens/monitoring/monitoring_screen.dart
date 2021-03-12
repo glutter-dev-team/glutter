@@ -134,7 +134,7 @@ showHelpTextDialog(BuildContext context, entityProp) {
         ),
         content: Text(entityProp["help_text"]),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.pop(context);
             },

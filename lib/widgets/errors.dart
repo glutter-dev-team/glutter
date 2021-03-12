@@ -78,7 +78,7 @@ Widget showNoProfileSelected(BuildContext context) {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0.0),
-              child: RaisedButton(
+              child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProfileCreateScreen())
